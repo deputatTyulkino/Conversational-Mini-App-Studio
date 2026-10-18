@@ -1,0 +1,17 @@
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+.docker/
+pgdata/
+
+*.log

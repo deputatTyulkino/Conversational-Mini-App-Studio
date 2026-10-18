@@ -1,0 +1,8 @@
+allowBuilds:
+  esbuild: true
+minimumReleaseAgeExclude:
+  - '@orval/angular@8.39.0'
+  - '@orval/effect@8.39.0'
+  - '@orval/mock@8.39.0'
+  - '@orval/query@8.39.0'
+  - '@orval/zod@8.39.0'

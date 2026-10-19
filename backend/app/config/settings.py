@@ -41,11 +41,11 @@ class Settings(BaseSettings):
     auth_cookie_samesite: Literal["lax", "strict", "none"] = "lax"
     auth_cookie_domain: str | None = None
 
-    yandex_client_id: str
-    yandex_client_secret: SecretStr
+    # yandex_client_id: str
+    # yandex_client_secret: SecretStr
 
-    github_client_id: str
-    github_client_secret: SecretStr
+    # github_client_id: str
+    # github_client_secret: SecretStr
 
     router_confidence_threshold: float = Field(default=0.55, ge=0.0, le=1.0)
     router_ambiguity_margin: float = Field(default=0.10, ge=0.0, le=1.0)

@@ -5,7 +5,7 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from app.domain.common import utcnow
-from app.domain.exceptions import DomainValidationError
+from app.domain.exceptions.base import DomainValidationError
 
 MAX_MESSAGE_LENGTH = 20_000
 

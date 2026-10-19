@@ -6,6 +6,9 @@ from app.domain.interfaces.entities.message import IMessage
 from app.domain.interfaces.entities.project import IProject
 from app.domain.interfaces.uow.uow_interface import IUnitOfWork
 from app.domain.logging.i_logger import ILogger
+from app.infrastructure.repositories.entities.chat import ChatRepo
+from app.infrastructure.repositories.entities.message import MessageRepo
+from app.infrastructure.repositories.entities.project import ProjectRepo
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 
@@ -24,6 +27,9 @@ class UnitOfWork(IUnitOfWork):
         if self.session is not None:
             raise RuntimeError("UnitOfWork уже активен")
         self.session = self.session_factory()
+        self.message = MessageRepo(self.session, self.logger)
+        self.chat = ChatRepo(self.session, self.logger)
+        self.project = ProjectRepo(self.session, self.logger)
         return self
 
     async def __aexit__(
@@ -39,6 +45,9 @@ class UnitOfWork(IUnitOfWork):
             if self.session:
                 await self.session.close()
             self.session = None
+            self.chat = None
+            self.message = None
+            self.project = None
 
     async def commit(self) -> None:
         if self.session is None:

@@ -1,10 +1,9 @@
-# domain/entities/project.py
 from dataclasses import dataclass, field
 from datetime import datetime
 from uuid import UUID, uuid4
 
 from app.domain.common import AggregateRoot, require_text, utcnow
-from app.domain.entities.chat import DEFAULT_CHAT_TITLE, Chat
+from app.domain.entities.chat import DEFAULT_CHAT_TITLE, ChatDomain
 from app.domain.events.project_events import (
     ProjectCreated,
     ProjectDeleted,
@@ -16,7 +15,7 @@ MAX_PROJECT_DESCRIPTION_LENGTH = 2000
 
 
 @dataclass(eq=False)
-class Project(AggregateRoot):
+class ProjectDomain(AggregateRoot):
     id: UUID
     name: str
     description: str | None = None
@@ -24,7 +23,7 @@ class Project(AggregateRoot):
     updated_at: datetime = field(default_factory=utcnow)
 
     @classmethod
-    def create(cls, name: str, description: str | None = None) -> "Project":
+    def create(cls, name: str, description: str | None = None) -> "ProjectDomain":
         project = cls(
             id=uuid4(),
             name=require_text(name, "Название проекта", MAX_PROJECT_NAME_LENGTH),
@@ -47,8 +46,8 @@ class Project(AggregateRoot):
         self.description = description
         self._touch("description")
 
-    def create_chat(self, title: str = DEFAULT_CHAT_TITLE) -> Chat:
-        return Chat.create(title=title, project_id=self.id)
+    def create_chat(self, title: str = DEFAULT_CHAT_TITLE) -> ChatDomain:
+        return ChatDomain.create(title=title, project_id=self.id)
 
     def mark_deleted(self) -> None:
         self._record(ProjectDeleted(project_id=self.id))

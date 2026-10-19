@@ -17,7 +17,7 @@ class MessageRole(StrEnum):
 
 
 @dataclass(frozen=True, slots=True)
-class Message:
+class MessageDomain:
     id: UUID
     chat_id: UUID
     role: MessageRole
@@ -43,7 +43,7 @@ class Message:
         role: MessageRole,
         content: str,
         payload: dict[str, Any] | None = None,
-    ) -> "Message":
+    ) -> "MessageDomain":
         return cls(
             id=uuid4(), chat_id=chat_id, role=role, content=content, payload=payload
         )

@@ -1,15 +1,15 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
-from app.domain.entities.message import Message
+from app.domain.entities.message import MessageDomain
 
 
 class IMessage(ABC):
     @abstractmethod
-    async def add(self, message: Message) -> None: ...
+    async def add(self, message: MessageDomain) -> UUID: ...
 
     @abstractmethod
-    async def get(self, message_id: UUID) -> Message | None: ...
+    async def get(self, message_id: UUID) -> MessageDomain | None: ...
 
     @abstractmethod
     async def list_by_chat(
@@ -18,10 +18,7 @@ class IMessage(ABC):
         *,
         limit: int | None = None,
         before_id: UUID | None = None,
-    ) -> list[Message]: ...
+    ) -> list[MessageDomain]: ...
 
     @abstractmethod
-    async def count_by_chat(self, chat_id: UUID) -> int: ...
-
-    @abstractmethod
-    async def delete(self, message: Message) -> None: ...
+    async def delete(self, message_id: UUID) -> UUID: ...

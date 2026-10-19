@@ -4,7 +4,7 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from app.domain.common import AggregateRoot, require_text, utcnow
-from app.domain.entities.message import Message, MessageRole
+from app.domain.entities.message import MessageDomain, MessageRole
 from app.domain.events.chat_events import (
     ChatCreated,
     ChatDeleted,
@@ -20,7 +20,7 @@ MAX_CHAT_TITLE_LENGTH = 255
 
 
 @dataclass(eq=False)
-class Chat(AggregateRoot):
+class ChatDomain(AggregateRoot):
     id: UUID
     title: str
     project_id: UUID | None = None
@@ -31,7 +31,7 @@ class Chat(AggregateRoot):
     @classmethod
     def create(
         cls, title: str = DEFAULT_CHAT_TITLE, project_id: UUID | None = None
-    ) -> "Chat":
+    ) -> "ChatDomain":
         chat = cls(
             id=uuid4(),
             title=require_text(title, "Название чата", MAX_CHAT_TITLE_LENGTH),
@@ -74,8 +74,8 @@ class Chat(AggregateRoot):
         role: MessageRole,
         content: str,
         payload: dict[str, Any] | None = None,
-    ) -> Message:
-        message = Message.create(
+    ) -> MessageDomain:
+        message = MessageDomain.create(
             chat_id=self.id, role=role, content=content, payload=payload
         )
         self.updated_at = message.created_at

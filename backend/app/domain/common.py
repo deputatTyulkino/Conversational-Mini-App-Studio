@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
@@ -35,3 +35,6 @@ class AggregateRoot:
     def pull_events(self) -> list[DomainEvent]:
         events, self._events = self._events, []
         return events
+
+    def as_dict(self):
+        return asdict(self)

@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
-from app.domain.exceptions import DomainValidationError
+from app.domain.exceptions.base import DomainValidationError
 
 if TYPE_CHECKING:
     from app.domain.events.events import DomainEvent

@@ -1,9 +1,9 @@
 from types import TracebackType
 from typing import Self
 
-from app.domain.interfaces.entities.chat import IChat
-from app.domain.interfaces.entities.message import IMessage
-from app.domain.interfaces.entities.project import IProject
+from app.domain.interfaces.entities.chat import IChatRepo
+from app.domain.interfaces.entities.message import IMessageRepo
+from app.domain.interfaces.entities.project import IProjectRepo
 from app.domain.interfaces.uow.uow_interface import IUnitOfWork
 from app.domain.logging.i_logger import ILogger
 from app.infrastructure.repositories.entities.chat import ChatRepo
@@ -19,17 +19,35 @@ class UnitOfWork(IUnitOfWork):
         self.logger = logger
         self.session_factory = session_factory
         self.session: AsyncSession | None = None
-        self.message: IMessage | None = None
-        self.chat: IChat | None = None
-        self.project: IProject | None = None
+        self._message: IMessageRepo | None = None
+        self._chat: IChatRepo | None = None
+        self._project: IProjectRepo | None = None
+
+    @property
+    def message(self) -> IMessageRepo:
+        if self._message is None:
+            raise RuntimeError("Unit of Work не инициализирован")
+        return self._message
+
+    @property
+    def chat(self) -> IChatRepo:
+        if self._chat is None:
+            raise RuntimeError("Unit of Work не инициализирован")
+        return self._chat
+
+    @property
+    def project(self) -> IProjectRepo:
+        if self._project is None:
+            raise RuntimeError("Unit of Work не инициализирован")
+        return self._project
 
     async def __aenter__(self) -> Self:
         if self.session is not None:
             raise RuntimeError("UnitOfWork уже активен")
         self.session = self.session_factory()
-        self.message = MessageRepo(self.session, self.logger)
-        self.chat = ChatRepo(self.session, self.logger)
-        self.project = ProjectRepo(self.session, self.logger)
+        self._message = MessageRepo(self.session, self.logger)
+        self._chat = ChatRepo(self.session, self.logger)
+        self._project = ProjectRepo(self.session, self.logger)
         return self
 
     async def __aexit__(
@@ -45,9 +63,9 @@ class UnitOfWork(IUnitOfWork):
             if self.session:
                 await self.session.close()
             self.session = None
-            self.chat = None
-            self.message = None
-            self.project = None
+            self._chat = None
+            self._message = None
+            self._project = None
 
     async def commit(self) -> None:
         if self.session is None:

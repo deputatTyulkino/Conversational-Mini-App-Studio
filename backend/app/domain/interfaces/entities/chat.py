@@ -4,9 +4,9 @@ from uuid import UUID
 from app.domain.entities.chat import ChatDomain
 
 
-class IChat(ABC):
+class IChatRepo(ABC):
     @abstractmethod
-    async def add(self, chat: ChatDomain) -> UUID: ...
+    async def add(self, chat: ChatDomain) -> None: ...
 
     @abstractmethod
     async def get(self, chat_id: UUID) -> ChatDomain | None: ...

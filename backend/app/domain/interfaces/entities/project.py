@@ -4,9 +4,9 @@ from uuid import UUID
 from app.domain.entities.project import ProjectDomain
 
 
-class IProject(ABC):
+class IProjectRepo(ABC):
     @abstractmethod
-    async def add(self, project: ProjectDomain) -> UUID: ...
+    async def add(self, project: ProjectDomain) -> None: ...
 
     @abstractmethod
     async def get(self, project_id: UUID) -> ProjectDomain | None: ...

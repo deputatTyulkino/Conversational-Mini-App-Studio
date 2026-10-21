@@ -10,8 +10,8 @@ from app.application.schemas.common import (
     ProjectName,
     ReadSchema,
 )
-from app.domain.entities.chat import Chat
-from app.domain.entities.project import Project
+from app.domain.entities.chat import ChatDomain
+from app.domain.entities.project import ProjectDomain
 from pydantic import AwareDatetime, Field, computed_field
 
 
@@ -32,7 +32,7 @@ class ProjectWithChatsRead(ProjectRead):
         return max([self.updated_at, *(chat.updated_at for chat in self.chats)])
 
     @classmethod
-    def build(cls, project: Project, chats: Sequence[Chat]) -> Self:
+    def build(cls, project: ProjectDomain, chats: Sequence[ChatDomain]) -> Self:
         return cls(
             **ProjectRead.model_validate(project).model_dump(),
             chats=[ChatRead.model_validate(chat) for chat in chats],

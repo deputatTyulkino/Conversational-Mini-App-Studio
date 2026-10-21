@@ -1,14 +1,14 @@
 from uuid import UUID
 
 from app.domain.entities.chat import ChatDomain
-from app.domain.interfaces.entities.chat import IChat
+from app.domain.interfaces.entities.chat import IChatRepo
 from app.domain.logging.i_logger import ILogger
 from app.infrastructure.db.models.chats import ChatORM
 from sqlalchemy import delete, exists, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class ChatRepo(IChat):
+class ChatRepo(IChatRepo):
     def __init__(self, session: AsyncSession, logger: ILogger):
         self.session = session
         self.logger = logger
@@ -33,11 +33,10 @@ class ChatRepo(IChat):
             updated_at=chat.updated_at,
         )
 
-    async def add(self, chat: ChatDomain) -> UUID:
+    async def add(self, chat: ChatDomain) -> None:
         new_chat = self._to_orm_model(chat)
         self.session.add(new_chat)
         await self.session.flush()
-        return new_chat.id
 
     async def get(self, chat_id: UUID) -> ChatDomain | None:
         query = select(ChatORM).filter(ChatORM.id == chat_id)

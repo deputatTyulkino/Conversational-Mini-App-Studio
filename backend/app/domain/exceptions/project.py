@@ -2,7 +2,6 @@ from uuid import UUID
 
 from .base import (
     AccessDeniedError,
-    AlreadyExistsError,
     BusinessRuleViolationError,
     ConflictError,
     DomainValidationError,
@@ -19,16 +18,6 @@ class ProjectNotFoundError(NotFoundError):
             if project_id is not None
             else "Project not found",
             project_id=project_id,
-        )
-
-
-class ProjectAlreadyExistsError(AlreadyExistsError):
-    code = "project_already_exists"
-
-    def __init__(self, name: str | None = None) -> None:
-        super().__init__(
-            f"Project '{name}' already exists" if name else "Project already exists",
-            name=name,
         )
 
 

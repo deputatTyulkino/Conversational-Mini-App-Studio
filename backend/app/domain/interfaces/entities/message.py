@@ -4,7 +4,7 @@ from uuid import UUID
 from app.domain.entities.message import MessageDomain
 
 
-class IMessage(ABC):
+class IMessageRepo(ABC):
     @abstractmethod
     async def add(self, message: MessageDomain) -> UUID: ...
 

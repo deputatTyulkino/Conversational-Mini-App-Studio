@@ -1,14 +1,14 @@
 from uuid import UUID
 
 from app.domain.entities.project import ProjectDomain
-from app.domain.interfaces.entities.project import IProject
+from app.domain.interfaces.entities.project import IProjectRepo
 from app.domain.logging.i_logger import ILogger
 from app.infrastructure.db.models.projects import ProjectORM
 from sqlalchemy import delete, exists, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class ProjectRepo(IProject):
+class ProjectRepo(IProjectRepo):
     def __init__(self, session: AsyncSession, logger: ILogger):
         self.session = session
         self.logger = logger
@@ -31,11 +31,10 @@ class ProjectRepo(IProject):
             updated_at=project.updated_at,
         )
 
-    async def add(self, project: ProjectDomain) -> UUID:
+    async def add(self, project: ProjectDomain) -> None:
         new_project = self._to_orm_model(project)
         self.session.add(new_project)
         await self.session.flush()
-        return new_project.id
 
     async def get(self, project_id: UUID) -> ProjectDomain | None:
         query = select(ProjectORM).filter(ProjectORM.id == project_id)

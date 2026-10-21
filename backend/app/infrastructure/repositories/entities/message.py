@@ -1,14 +1,14 @@
 from uuid import UUID
 
 from app.domain.entities.message import MessageDomain
-from app.domain.interfaces.entities.message import IMessage
+from app.domain.interfaces.entities.message import IMessageRepo
 from app.domain.logging.i_logger import ILogger
 from app.infrastructure.db.models.messages import MessageORM
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class MessageRepo(IMessage):
+class MessageRepo(IMessageRepo):
     def __init__(self, session: AsyncSession, logger: ILogger):
         self.session = session
         self.logger = logger

@@ -11,4 +11,5 @@ class DeleteProjectService(BaseProjectServcies):
             if not exists_project:
                 raise ProjectNotFoundError(project_id)
             deleted_project_id = await uow.project.delete(project_id)
+        await uow.commit()
         return {"project_id": deleted_project_id}

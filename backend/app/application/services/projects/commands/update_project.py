@@ -17,4 +17,5 @@ class UpdateProjectService(BaseProjectServcies):
             updated_project_id = await uow.project.update(
                 ProjectDomain(project_id, **project_data.model_dump())
             )
+        await uow.commit()
         return {"project_id": updated_project_id}

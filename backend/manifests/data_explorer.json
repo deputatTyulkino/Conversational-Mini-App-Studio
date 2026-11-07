@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "id": "data_explorer",
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "Data Explorer",
+  "description": "Просмотр и анализ табличных данных: фильтры, статистика, графики",
+  "display": {
+    "icon": "table",
+    "short_description": "Откройте таблицу, посчитайте статистику или постройте график"
+  },
+  "routing": {
+    "keywords": [
+      { "term": "таблица", "weight": 1.0 },
+      { "term": "датасет", "weight": 1.5 },
+      { "term": "dataset", "weight": 1.5 },
+      { "term": "данные", "weight": 0.8 },
+      { "term": "csv", "weight": 1.5 },
+      { "term": "xlsx", "weight": 1.5 },
+      { "term": "excel", "weight": 1.0 },
+      { "term": "график", "weight": 1.2 },
+      { "term": "диаграмма", "weight": 1.0 },
+      { "term": "гистограмма", "weight": 1.5 },
+      { "term": "chart", "weight": 1.0 },
+      { "term": "столбец", "weight": 1.0 },
+      { "term": "колонка", "weight": 1.0 },
+      { "term": "среднее", "weight": 1.0 },
+      { "term": "медиана", "weight": 1.2 },
+      { "term": "корреляция", "weight": 1.5 },
+      { "term": "выброс", "weight": 1.2 },
+      { "term": "выборка", "weight": 0.8 },
+      { "term": "статистика", "weight": 1.0 },
+      { "term": "агрегация", "weight": 1.0 },
+      { "term": "фильтр", "weight": 0.7 }
+    ],
+    "phrases": [
+      { "term": "построить график", "weight": 2.5 },
+      { "term": "построить диаграмму", "weight": 2.5 },
+      { "term": "посчитать среднее", "weight": 2.5 },
+      { "term": "найти выбросы", "weight": 2.5 },
+      { "term": "отфильтровать данные", "weight": 2.5 },
+      { "term": "группировать данные", "weight": 2.0 },
+      { "term": "показать статистику", "weight": 2.0 },
+      { "term": "сравнить столбцы", "weight": 2.0 },
+      { "term": "открыть таблицу", "weight": 2.0 },
+      { "term": "загрузить csv", "weight": 2.5 }
+    ],
+    "negative": ["дедлайн", "спринт", "веха", "литература", "гипотеза"],
+    "context_signals": {
+      "attachments": ["csv", "tsv", "xlsx", "xls", "json"],
+      "sticky": true
+    },
+    "examples": [
+      { "text": "построй график продаж по месяцам", "expected": true },
+      { "text": "посчитай среднее по колонке цена", "expected": true },
+      { "text": "открой таблицу и отфильтруй строки", "expected": true },
+      { "text": "найди выбросы в датасете", "expected": true },
+      { "text": "покажи корреляцию между столбцами", "expected": true },
+      { "text": "составь таблицу задач на спринт", "expected": false },
+      { "text": "собери источники по теме", "expected": false },
+      { "text": "привет, как дела?", "expected": false }
+    ]
+  },
+  "input": {
+    "params": [
+      {
+        "name": "dataset",
+        "type": "file",
+        "required": false,
+        "accept": ["csv", "tsv", "xlsx", "xls", "json"],
+        "description": "Файл с данными для анализа"
+      },
+      {
+        "name": "chart_type",
+        "type": "enum",
+        "required": false,
+        "values": [
+          { "value": "line", "aliases": ["линия", "линейный", "line"] },
+          { "value": "bar", "aliases": ["столбчатый", "столбцы", "bar"] },
+          { "value": "scatter", "aliases": ["точечный", "рассеяние", "scatter"] },
+          { "value": "histogram", "aliases": ["гистограмма", "histogram"] }
+        ]
+      },
+      {
+        "name": "aggregation",
+        "type": "enum",
+        "required": false,
+        "values": [
+          { "value": "mean", "aliases": ["среднее", "mean", "avg"] },
+          { "value": "median", "aliases": ["медиана", "median"] },
+          { "value": "sum", "aliases": ["сумма", "sum"] },
+          { "value": "min", "aliases": ["минимум", "min"] },
+          { "value": "max", "aliases": ["максимум", "max"] },
+          { "value": "count", "aliases": ["количество", "count"] }
+        ]
+      },
+      {
+        "name": "columns",
+        "type": "string_list",
+        "required": false,
+        "description": "Названия столбцов, упомянутые в сообщении"
+      }
+    ]
+  },
+  "runtime": {
+    "entrypoint": "data_explorer.initial_view",
+    "ui_primitives": ["table", "chart", "form", "stat_card"],
+    "fixtures": "data_explorer.json",
+    "actions": [
+      { "id": "load_dataset", "title": "Загрузить датасет" },
+      { "id": "build_chart", "title": "Построить график" },
+      { "id": "describe", "title": "Показать статистику" },
+      { "id": "filter_rows", "title": "Отфильтровать строки" }
+    ]
+  }
+}

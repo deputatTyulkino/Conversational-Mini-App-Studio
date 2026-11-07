@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "id": "research_board",
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "Research Board",
+  "description": "Исследовательская доска: источники, заметки, цитаты, гипотезы и библиография",
+  "display": {
+    "icon": "book-open",
+    "short_description": "Соберите источники, заметки и сформулируйте гипотезы"
+  },
+  "routing": {
+    "keywords": [
+      { "term": "источник", "weight": 1.5 },
+      { "term": "литература", "weight": 1.5 },
+      { "term": "библиография", "weight": 1.5 },
+      { "term": "статья", "weight": 1.2 },
+      { "term": "публикация", "weight": 1.0 },
+      { "term": "исследование", "weight": 1.2 },
+      { "term": "гипотеза", "weight": 1.5 },
+      { "term": "тезис", "weight": 1.0 },
+      { "term": "заметка", "weight": 0.8 },
+      { "term": "цитата", "weight": 1.2 },
+      { "term": "аннотация", "weight": 1.2 },
+      { "term": "обзор", "weight": 0.8 },
+      { "term": "доказательство", "weight": 1.0 },
+      { "term": "paper", "weight": 1.2 },
+      { "term": "research", "weight": 1.2 },
+      { "term": "arxiv", "weight": 1.5 },
+      { "term": "doi", "weight": 1.5 }
+    ],
+    "phrases": [
+      { "term": "собрать источники", "weight": 3.0 },
+      { "term": "найти источники", "weight": 2.5 },
+      { "term": "обзор литературы", "weight": 3.0 },
+      { "term": "список литературы", "weight": 3.0 },
+      { "term": "составить библиографию", "weight": 3.0 },
+      { "term": "сформулировать гипотезу", "weight": 3.0 },
+      { "term": "добавить заметку", "weight": 2.0 },
+      { "term": "выписать цитаты", "weight": 2.5 },
+      { "term": "научная статья", "weight": 2.5 },
+      { "term": "систематизировать материалы", "weight": 2.0 }
+    ],
+    "negative": ["дедлайн", "спринт", "канбан", "csv", "датасет"],
+    "context_signals": {
+      "attachments": ["pdf", "docx", "bib", "ris"],
+      "sticky": true
+    },
+    "examples": [
+      { "text": "собери источники по векторному поиску", "expected": true },
+      { "text": "сделай обзор литературы по теме", "expected": true },
+      { "text": "сформулируй гипотезу исследования", "expected": true },
+      { "text": "оформи список литературы по ГОСТу", "expected": true },
+      { "text": "добавь заметку к этой статье", "expected": true },
+      { "text": "построй график по таблице", "expected": false },
+      { "text": "поставь задачу с дедлайном на пятницу", "expected": false },
+      { "text": "спасибо!", "expected": false }
+    ]
+  },
+  "input": {
+    "params": [
+      {
+        "name": "topic",
+        "type": "string",
+        "required": false,
+        "description": "Тема исследования"
+      },
+      {
+        "name": "source_url",
+        "type": "url",
+        "required": false
+      },
+      {
+        "name": "source_type",
+        "type": "enum",
+        "required": false,
+        "values": [
+          { "value": "article", "aliases": ["статья", "article", "paper"] },
+          { "value": "book", "aliases": ["книга", "book"] },
+          { "value": "web", "aliases": ["сайт", "страница", "web"] },
+          { "value": "preprint", "aliases": ["препринт", "preprint", "arxiv"] }
+        ]
+      },
+      {
+        "name": "citation_style",
+        "type": "enum",
+        "required": false,
+        "values": [
+          { "value": "gost", "aliases": ["гост", "gost"] },
+          { "value": "apa", "aliases": ["apa"] },
+          { "value": "ieee", "aliases": ["ieee"] }
+        ]
+      }
+    ]
+  },
+  "runtime": {
+    "entrypoint": "research_board.initial_view",
+    "ui_primitives": ["board", "card_list", "table", "form"],
+    "fixtures": "research_board.json",
+    "actions": [
+      { "id": "add_source", "title": "Добавить источник" },
+      { "id": "add_note", "title": "Добавить заметку" },
+      { "id": "formulate_hypothesis", "title": "Сформулировать гипотезу" },
+      { "id": "build_bibliography", "title": "Составить библиографию" }
+    ]
+  }
+}

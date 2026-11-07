@@ -76,7 +76,7 @@ async def validation_exception_handler(
     request: Request, exc: Exception
 ) -> JSONResponse:
     if not isinstance(exc, RequestValidationError):
-        return JSONResponse(exc)
+        raise exc
     validation_exc = exc
     errors = []
     for error in validation_exc.errors():
@@ -93,7 +93,7 @@ async def validation_exception_handler(
 
     count = len(errors)
     return _error_response(
-        status.HTTP_422_UNPROCESSABLE_ENTITY,
+        status.HTTP_422_UNPROCESSABLE_CONTENT,
         code="validation_error",
         message=f"Request validation failed ({count} error{'s' if count != 1 else ''})",
         details={"errors": errors},

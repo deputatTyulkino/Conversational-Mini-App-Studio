@@ -2,7 +2,6 @@ from collections.abc import Sequence
 from typing import ClassVar, Self
 from uuid import UUID
 
-from app.application.schemas.chat import ChatRead
 from app.application.schemas.common import (
     InputSchema,
     PatchSchema,
@@ -10,6 +9,7 @@ from app.application.schemas.common import (
     ProjectName,
     ReadSchema,
 )
+from app.application.schemas.entities.chat import ChatRead
 from app.domain.entities.chat import ChatDomain
 from app.domain.entities.project import ProjectDomain
 from pydantic import AwareDatetime, Field, computed_field

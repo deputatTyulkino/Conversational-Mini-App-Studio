@@ -47,7 +47,9 @@ class ProjectDomain(AggregateRoot):
         self._touch("description")
 
     def create_chat(self, title: str = DEFAULT_CHAT_TITLE) -> ChatDomain:
-        return ChatDomain.create(title=title, project_id=self.id)
+        chat = ChatDomain.create(title=title, project_id=self.id)
+        self.updated_at = chat.created_at
+        return chat
 
     def mark_deleted(self) -> None:
         self._record(ProjectDeleted(project_id=self.id))

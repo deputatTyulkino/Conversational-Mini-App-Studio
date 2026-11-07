@@ -4,7 +4,7 @@ from app.domain.entities.message import MessageDomain
 from app.domain.interfaces.entities.message import IMessageRepo
 from app.domain.logging.i_logger import ILogger
 from app.infrastructure.db.models.messages import MessageORM
-from sqlalchemy import delete, select
+from sqlalchemy import delete, exists, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -46,8 +46,22 @@ class MessageRepo(IMessageRepo):
             return None
         return self._to_domain_model(message)
 
+    async def update(self, message: MessageDomain) -> UUID:
+        stmt = (
+            update(MessageORM)
+            .filter(MessageORM.id == message.id)
+            .values(**message.as_dict())
+            .returning(MessageORM.id)
+        )
+        updated_message_id = (await self.session.execute(stmt)).scalar_one()
+        return updated_message_id
+
+    async def exists(self, message_id: UUID) -> bool:
+        query = select(exists(MessageORM).where(MessageORM.id == message_id))
+        return (await self.session.execute(query)).scalar_one()
+
     async def list_by_chat(
-        self, chat_id: UUID, *, limit: int | None = None, before_id: UUID | None = None
+        self, chat_id: UUID, limit: int | None = None, before_id: UUID | None = None
     ) -> list[MessageDomain]:
         filters = {}
         if limit is not None:
@@ -58,7 +72,7 @@ class MessageRepo(IMessageRepo):
                 .filter(
                     MessageORM.chat_id == chat_id, MessageORM.id == before_id, **filters
                 )
-                .order_by(MessageORM.created_at.desc())
+                .order_by(MessageORM.created_at)
             )
         else:
             query = (

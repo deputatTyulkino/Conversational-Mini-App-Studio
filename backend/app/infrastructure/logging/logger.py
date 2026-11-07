@@ -1,4 +1,3 @@
-# infrastructure/logging/structlog_logger.py
 from __future__ import annotations
 
 from typing import Any
@@ -30,5 +29,5 @@ class StructlogLogger(ILogger):
         self._logger.exception(event, **kwargs)
 
 
-def get_logger(name: str) -> ILogger:
-    return StructlogLogger(structlog.stdlib.get_logger(name))
+def get_logger() -> ILogger:
+    return StructlogLogger(structlog.stdlib.get_logger("app"))

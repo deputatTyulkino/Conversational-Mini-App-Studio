@@ -1,9 +1,8 @@
 from typing import Annotated
 from uuid import UUID
 
-from app.application.schemas.project import (
+from app.application.schemas.entities.project import (
     ProjectCreate,
-    ProjectRead,
     ProjectUpdate,
     ProjectWithChatsRead,
 )
@@ -40,12 +39,12 @@ from app.presentation.api.exceptions.project import ProjectNotFoundHTTPException
 from app.presentation.api.schemas.responses import SuccessResponse
 from fastapi import APIRouter, Depends, status
 
-router = APIRouter(prefix="/projects", tags=["projects"])
+router = APIRouter(prefix="/api/projects", tags=["projects"])
 
 
 @router.get(
     "/",
-    response_model=SuccessResponse[list[ProjectRead]],
+    response_model=SuccessResponse[list[ProjectWithChatsRead]],
     status_code=status.HTTP_200_OK,
 )
 async def get_projects(

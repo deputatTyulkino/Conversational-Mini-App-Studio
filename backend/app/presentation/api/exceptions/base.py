@@ -29,7 +29,7 @@ class ApiHTTPException(HTTPException):
 
 
 class ValidationHTTPException(ApiHTTPException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    status_code = status.HTTP_422_UNPROCESSABLE_CONTENT
     code = "validation_error"
     default_message = "Validation failed"
 

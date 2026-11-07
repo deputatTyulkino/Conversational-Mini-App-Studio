@@ -1,4 +1,4 @@
-from app.application.schemas.chat import ChatRead
+from app.application.schemas.entities.chat import ChatRead
 from app.application.services.chats.base_chat_service import BaseChatService
 
 

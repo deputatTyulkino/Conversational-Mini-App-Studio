@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "id": "project_planner",
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "Project Planner",
+  "description": "Планирование проекта: задачи, сроки, этапы, приоритеты и исполнители",
+  "display": {
+    "icon": "kanban",
+    "short_description": "Составьте план, поставьте задачи и расставьте сроки"
+  },
+  "routing": {
+    "keywords": [
+      { "term": "задача", "weight": 1.0 },
+      { "term": "дедлайн", "weight": 1.5 },
+      { "term": "срок", "weight": 1.0 },
+      { "term": "спринт", "weight": 1.5 },
+      { "term": "веха", "weight": 1.5 },
+      { "term": "milestone", "weight": 1.5 },
+      { "term": "этап", "weight": 1.0 },
+      { "term": "план", "weight": 1.0 },
+      { "term": "планирование", "weight": 1.2 },
+      { "term": "расписание", "weight": 1.0 },
+      { "term": "канбан", "weight": 1.5 },
+      { "term": "kanban", "weight": 1.5 },
+      { "term": "backlog", "weight": 1.5 },
+      { "term": "бэклог", "weight": 1.5 },
+      { "term": "roadmap", "weight": 1.5 },
+      { "term": "приоритет", "weight": 1.0 },
+      { "term": "исполнитель", "weight": 1.0 },
+      { "term": "todo", "weight": 1.0 },
+      { "term": "gantt", "weight": 1.5 }
+    ],
+    "phrases": [
+      { "term": "составить план", "weight": 2.5 },
+      { "term": "поставить задачу", "weight": 2.5 },
+      { "term": "создать задачу", "weight": 2.5 },
+      { "term": "назначить исполнителя", "weight": 2.5 },
+      { "term": "расставить приоритеты", "weight": 2.5 },
+      { "term": "перенести дедлайн", "weight": 2.5 },
+      { "term": "разбить на этапы", "weight": 2.5 },
+      { "term": "дорожная карта", "weight": 2.5 },
+      { "term": "диаграмма Ганта", "weight": 2.5 },
+      { "term": "список задач", "weight": 2.0 }
+    ],
+    "negative": ["датасет", "csv", "гипотеза", "источник", "корреляция"],
+    "context_signals": {
+      "attachments": [],
+      "sticky": true
+    },
+    "examples": [
+      { "text": "составь план проекта на месяц", "expected": true },
+      { "text": "создай задачу подготовить презентацию до пятницы", "expected": true },
+      { "text": "перенеси дедлайн по второму этапу", "expected": true },
+      { "text": "составь таблицу задач на спринт", "expected": true },
+      { "text": "расставь приоритеты в бэклоге", "expected": true },
+      { "text": "построй график по датасету", "expected": false },
+      { "text": "собери источники по векторному поиску", "expected": false },
+      { "text": "что такое корреляция?", "expected": false }
+    ]
+  },
+  "input": {
+    "params": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "Название задачи или плана"
+      },
+      {
+        "name": "due_date",
+        "type": "date",
+        "required": false,
+        "description": "Срок выполнения"
+      },
+      {
+        "name": "assignee",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "priority",
+        "type": "enum",
+        "required": false,
+        "values": [
+          { "value": "low", "aliases": ["низкий", "low"] },
+          { "value": "medium", "aliases": ["средний", "medium"] },
+          { "value": "high", "aliases": ["высокий", "срочный", "high", "urgent"] }
+        ]
+      },
+      {
+        "name": "view",
+        "type": "enum",
+        "required": false,
+        "values": [
+          { "value": "kanban", "aliases": ["канбан", "доска", "kanban"] },
+          { "value": "list", "aliases": ["список", "list"] },
+          { "value": "gantt", "aliases": ["гант", "gantt"] },
+          { "value": "calendar", "aliases": ["календарь", "calendar"] }
+        ]
+      }
+    ]
+  },
+  "runtime": {
+    "entrypoint": "project_planner.initial_view",
+    "ui_primitives": ["board", "list", "timeline", "calendar", "form"],
+    "fixtures": "project_planner.json",
+    "actions": [
+      { "id": "create_task", "title": "Создать задачу" },
+      { "id": "set_deadline", "title": "Установить дедлайн" },
+      { "id": "show_board", "title": "Показать доску" },
+      { "id": "show_gantt", "title": "Показать диаграмму Ганта" }
+    ]
+  }
+}

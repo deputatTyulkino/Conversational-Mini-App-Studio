@@ -1,7 +1,7 @@
 from typing import Annotated
 from uuid import UUID
 
-from app.application.schemas.chat import ChatCreate, ChatRead, ChatUpdate
+from app.application.schemas.entities.chat import ChatCreate, ChatRead, ChatUpdate
 from app.application.services.chats.commands.create_chat import CreateChatService
 from app.application.services.chats.commands.delete_chat import DeleteChatService
 from app.application.services.chats.commands.update_chat import UpdateChatService
@@ -31,13 +31,14 @@ from app.presentation.api.exceptions.chat import ChatNotFoundHTTPException
 from app.presentation.api.schemas.responses import SuccessResponse
 from fastapi import APIRouter, Depends, status
 
-router = APIRouter(prefix="/chats", tags=["chats"])
+router = APIRouter(prefix="/api/chats")
 
 
 @router.get(
-    "/pined_chats",
+    "/pined",
     response_model=SuccessResponse[list[ChatRead]],
     status_code=status.HTTP_200_OK,
+    tags=["chats"],
 )
 async def get_pined_chats(
     pined_chats_service: Annotated[
@@ -49,9 +50,10 @@ async def get_pined_chats(
 
 
 @router.get(
-    "/standalone_chats",
+    "/standalone",
     response_model=SuccessResponse[list[ChatRead]],
     status_code=status.HTTP_200_OK,
+    tags=["chats"],
 )
 async def get_standalone_chats(
     standalone_chats_service: Annotated[
@@ -66,6 +68,7 @@ async def get_standalone_chats(
     "/{chat_id}",
     response_model=SuccessResponse[ChatRead],
     status_code=status.HTTP_200_OK,
+    tags=["chats"],
 )
 async def get_chat(
     chat_id: UUID,
@@ -82,6 +85,7 @@ async def get_chat(
     "/",
     response_model=SuccessResponse[dict[str, UUID]],
     status_code=status.HTTP_201_CREATED,
+    tags=["chats"],
 )
 async def create_chat(
     chat_data: ChatCreate,
@@ -95,6 +99,7 @@ async def create_chat(
     "/{chat_id}",
     response_model=SuccessResponse[dict[str, UUID]],
     status_code=status.HTTP_200_OK,
+    tags=["chats"],
 )
 async def update_chat(
     chat_id: UUID,
@@ -112,6 +117,7 @@ async def update_chat(
     "/{chat_id}",
     response_model=SuccessResponse[dict[str, UUID]],
     status_code=status.HTTP_200_OK,
+    tags=["chats"],
 )
 async def delete_chat(
     chat_id: UUID,

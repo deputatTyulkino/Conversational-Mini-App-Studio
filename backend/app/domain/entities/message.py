@@ -4,7 +4,7 @@ from enum import StrEnum
 from typing import Any
 from uuid import UUID, uuid4
 
-from app.domain.common import utcnow
+from app.domain.common import AggregateRoot, utcnow
 from app.domain.exceptions.base import DomainValidationError
 
 MAX_MESSAGE_LENGTH = 20_000
@@ -16,8 +16,8 @@ class MessageRole(StrEnum):
     SYSTEM = "system"
 
 
-@dataclass(frozen=True, slots=True)
-class MessageDomain:
+@dataclass(slots=True)
+class MessageDomain(AggregateRoot):
     id: UUID
     chat_id: UUID
     role: MessageRole
@@ -47,3 +47,14 @@ class MessageDomain:
         return cls(
             id=uuid4(), chat_id=chat_id, role=role, content=content, payload=payload
         )
+
+    @classmethod
+    def update(
+        cls,
+        id: UUID,
+        chat_id: UUID,
+        role: MessageRole,
+        content: str,
+        payload: dict[str, Any] | None = None,
+    ) -> "MessageDomain":
+        return cls(id=id, chat_id=chat_id, role=role, content=content, payload=payload)

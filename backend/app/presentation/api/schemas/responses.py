@@ -9,7 +9,6 @@ class SuccessResponse(BaseModel, Generic[T]):
     """Успешный ответ с одним объектом."""
 
     data: T
-    meta: dict[str, Any] = Field(default_factory=dict)
 
 
 class PaginationMeta(BaseModel):
@@ -24,14 +23,6 @@ class PaginatedResponse(BaseModel, Generic[T]):
 
     data: list[T]
     meta: PaginationMeta
-
-
-class MessageData(BaseModel):
-    message: str
-
-
-class MessageResponse(SuccessResponse[MessageData]):
-    """Для действий без полезной нагрузки (архивация, восстановление и т.п.)."""
 
 
 class ErrorBody(BaseModel):

@@ -12,10 +12,15 @@ class IMessageRepo(ABC):
     async def get(self, message_id: UUID) -> MessageDomain | None: ...
 
     @abstractmethod
+    async def update(self, message: MessageDomain) -> UUID: ...
+
+    @abstractmethod
+    async def exists(self, message_id: UUID) -> bool: ...
+
+    @abstractmethod
     async def list_by_chat(
         self,
         chat_id: UUID,
-        *,
         limit: int | None = None,
         before_id: UUID | None = None,
     ) -> list[MessageDomain]: ...

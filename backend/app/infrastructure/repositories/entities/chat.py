@@ -65,8 +65,15 @@ class ChatRepo(IChatRepo):
         exists_chat = (await self.session.execute(query)).scalar_one()
         return exists_chat
 
-    async def list_by_project(self, project_id: UUID) -> list[ChatDomain]:
-        query = select(ChatORM).filter(ChatORM.project_id == project_id)
+    async def list_by_project(
+        self, project_id: UUID, limit: int | None = None, aside: bool = False
+    ) -> list[ChatDomain]:
+        query = (
+            select(ChatORM)
+            .filter(ChatORM.project_id == project_id)
+            .limit(limit)
+            .order_by(ChatORM.updated_at.desc() if aside else ChatORM.id)
+        )
         chats = (await self.session.scalars(query)).all()
         return [self._to_domain_model(chat) for chat in chats]
 

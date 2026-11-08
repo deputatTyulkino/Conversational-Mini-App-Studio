@@ -1,15 +1,15 @@
-import { cn } from "cn"
-import type { ComponentProps } from "react"
+import { cn } from "cn";
+import type { ComponentProps } from "react";
 
-import { buttonVariants, type ButtonVariantProps } from "./buttonVariants"
+import { buttonVariants, type ButtonVariantProps } from "./button-variants";
 
 export type ButtonProps = ComponentProps<"button"> &
   ButtonVariantProps & {
     /** Показывает спиннер, блокирует кнопку и выставляет aria-busy. */
-    loading?: boolean
+    loading?: boolean;
     /** Растягивает кнопку на всю ширину контейнера. */
-    fullWidth?: boolean
-  }
+    fullWidth?: boolean;
+  };
 
 function ButtonSpinner() {
   return (
@@ -17,7 +17,7 @@ function ButtonSpinner() {
       aria-hidden="true"
       className="size-4 shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent"
     />
-  )
+  );
 }
 
 /**
@@ -50,12 +50,12 @@ export function Button({
       className={cn(
         buttonVariants({ variant, size }),
         fullWidth && "w-full",
-        className
+        className,
       )}
       {...props}
     >
       {loading && <ButtonSpinner />}
       {children}
     </button>
-  )
+  );
 }

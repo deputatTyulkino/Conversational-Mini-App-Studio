@@ -44,11 +44,17 @@ class CreateMessageService(BaseMessageService):
                     confidence=0.0,
                     fallback_reason=RouteFallbackReason.ROUTER_ERROR,
                 )
-            assistant_message = chat.add_message(
-                role=MessageRole.ASSISTANT,
-                content="Откройте и работайте в подходящем приложении",
-                payload=decision.model_dump(),
-            )
+                assistant_message = chat.add_message(
+                    role=MessageRole.ASSISTANT,
+                    content="Не удалось подобрать приложение",
+                    payload=decision.model_dump(),
+                )
+            else:
+                assistant_message = chat.add_message(
+                    role=MessageRole.ASSISTANT,
+                    content="Откройте и работайте в подходящем приложении",
+                    payload=decision.model_dump(),
+                )
             await uow.message.add(assistant_message)
             await uow.chat.update(chat)
             await uow.commit()

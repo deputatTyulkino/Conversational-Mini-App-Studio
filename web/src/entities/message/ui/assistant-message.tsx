@@ -5,7 +5,7 @@ import { MessageEditor } from "./message-editor";
 
 type AssistantMessageProps = {
   message: Message;
-  onEdit: (messageId: string, content: string) => void;
+  onEdit?: (messageId: string, content: string) => void;
   children?: ReactNode;
 };
 
@@ -16,7 +16,7 @@ export function AssistantMessage({
 }: AssistantMessageProps) {
   const [editing, setEditing] = useState(false);
 
-  if (editing) {
+  if (editing && onEdit) {
     return (
       <MessageEditor
         initial={message.content}
@@ -35,7 +35,10 @@ export function AssistantMessage({
         {message.content}
       </p>
       {children}
-      <MessageActions text={message.content} onEdit={() => setEditing(true)} />
+      <MessageActions
+        text={message.content}
+        onEdit={onEdit && (() => setEditing(true))}
+      />
     </div>
   );
 }

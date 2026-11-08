@@ -1,20 +1,27 @@
-import { queryOptions } from "@tanstack/react-query";
-import { api } from "../../../shared/api";
-import type { Message } from "../model/types";
+import { infiniteQueryOptions, type InfiniteData } from "@tanstack/react-query";
+import type { MessagesPage } from "../model/types";
+import { messageApi } from "./message-api";
+
+export const MESSAGES_PAGE_SIZE = 50;
+
+export type MessagesData = InfiniteData<MessagesPage>;
 
 export const messageKeys = {
-  list: (chatId: string) => ["messages", chatId] as const,
+  all: ["messages"] as const,
+  list: (chatId: string) => [...messageKeys.all, chatId] as const,
 };
 
 export const messagesQuery = (chatId: string) =>
-  queryOptions({
+  infiniteQueryOptions({
     queryKey: messageKeys.list(chatId),
-    queryFn: ({ signal }) =>
-      api
-        .get<Message[]>(`/chats/${chatId}/messages`, {
-          params: { limit: 100 },
-          signal,
-        })
-        .then(({ data }) => data),
+    queryFn: ({ pageParam, signal }) =>
+      messageApi.list(
+        chatId,
+        { limit: MESSAGES_PAGE_SIZE, before_id: pageParam },
+        signal,
+      ),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) =>
+      lastPage.has_more ? (lastPage.next_cursor ?? undefined) : undefined,
     staleTime: 30_000,
   });

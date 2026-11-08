@@ -6,6 +6,7 @@ from app.application.schemas.entities.message import (
     MessageListParams,
     MessagePage,
     MessageUpdate,
+    SendMessageResponse,
 )
 from app.application.services.messages.command.create_message import (
     CreateMessageService,
@@ -54,7 +55,7 @@ async def get_messages(
 
 @router.post(
     "/",
-    response_model=SuccessResponse[dict[str, UUID]],
+    response_model=SuccessResponse[SendMessageResponse],
     status_code=status.HTTP_201_CREATED,
     tags=["messages"],
 )
@@ -72,9 +73,9 @@ async def create_message(
         raise ChatNotFoundHTTPException(str(e), code=e.code)
 
 
-@router.post(
+@router.patch(
     "/{message_id}",
-    response_model=SuccessResponse[dict[str, UUID]],
+    response_model=SuccessResponse[SendMessageResponse],
     status_code=status.HTTP_200_OK,
     tags=["messages"],
 )

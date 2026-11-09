@@ -38,7 +38,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./web
       args:
         VITE_API_URL: /api
     environment:

@@ -1,5 +1,7 @@
 export type MessageRole = "user" | "assistant";
 
+export type ClientMessageState = "sending" | "failed";
+
 export type RouteCandidate = {
   app_id: string;
   score: number;
@@ -29,6 +31,7 @@ export type Message = {
   content: string;
   payload: MessagePayload | null;
   created_at: string;
+  client_state?: ClientMessageState;
 };
 
 export type MessagesPage = {
@@ -37,11 +40,13 @@ export type MessagesPage = {
   next_cursor: string | null;
 };
 
-export type MessageId = {
-  id: string;
-};
-
 export type MessageContentPayload = {
   content: string;
   client_message_id: string;
+};
+
+export type SendMessageResult = {
+  client_message_id: string;
+  user_message: Message;
+  assistant_message: Message;
 };

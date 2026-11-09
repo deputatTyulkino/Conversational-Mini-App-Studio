@@ -1,11 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { chatKeys } from "../../../entities/chat";
 import {
-  addMessageToCache,
+  applyExchangeToCache,
   messageApi,
-  messagesQuery,
-  replaceMessageIdInCache,
-  restoreMessagesCache,
+  readOutbox,
+  updateOutbox,
+  type Message,
 } from "../../../entities/message";
 
 type SendVariables = {
@@ -14,41 +14,67 @@ type SendVariables = {
 };
 
 export function useSendMessage(chatId: string) {
-  const listKey = messagesQuery(chatId).queryKey;
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: ({ content, clientMessageId }: SendVariables) =>
       messageApi.send(chatId, { content, client_message_id: clientMessageId }),
-    onMutate: async ({ content, clientMessageId }, context) => {
-      await context.client.cancelQueries({ queryKey: listKey });
-      const previous = context.client.getQueryData(listKey);
-      addMessageToCache(context.client, chatId, {
-        id: clientMessageId,
-        chat_id: chatId,
-        role: "user",
-        content,
-        payload: null,
-        created_at: new Date().toISOString(),
+    onMutate: ({ content, clientMessageId }, context) => {
+      updateOutbox(context.client, chatId, (items) => {
+        if (items.some((item) => item.id === clientMessageId)) {
+          return items.map((item): Message =>
+            item.id === clientMessageId
+              ? { ...item, client_state: "sending" }
+              : item,
+          );
+        }
+        return [
+          ...items,
+          {
+            id: clientMessageId,
+            chat_id: chatId,
+            role: "user",
+            content,
+            payload: null,
+            created_at: new Date().toISOString(),
+            client_state: "sending",
+          },
+        ];
       });
-      return { previous };
     },
-    onError: (_, __, mutateResult, context) => {
-      if (mutateResult)
-        restoreMessagesCache(context.client, chatId, mutateResult.previous);
+    onSuccess: (result, { clientMessageId }, _, context) => {
+      applyExchangeToCache(context.client, chatId, result);
+      updateOutbox(context.client, chatId, (items) =>
+        items.filter((item) => item.id !== clientMessageId),
+      );
+      void context.client.invalidateQueries({ queryKey: chatKeys.all });
     },
-    onSuccess: ({ id }, { clientMessageId }, _, context) => {
-      if (id !== clientMessageId)
-        replaceMessageIdInCache(context.client, chatId, clientMessageId, id);
+    onError: (_, { clientMessageId }, __, context) => {
+      updateOutbox(context.client, chatId, (items) =>
+        items.map((item): Message =>
+          item.id === clientMessageId
+            ? { ...item, client_state: "failed" }
+            : item,
+        ),
+      );
     },
-    onSettled: (_, __, ___, ____, context) =>
-      Promise.all([
-        context.client.invalidateQueries({ queryKey: listKey }),
-        context.client.invalidateQueries({ queryKey: chatKeys.all }),
-      ]),
   });
 
   const send = (content: string) =>
     mutation.mutate({ content, clientMessageId: crypto.randomUUID() });
 
-  return { send, isPending: mutation.isPending };
+  const retry = (clientMessageId: string) => {
+    const item = readOutbox(queryClient, chatId).find(
+      (message) => message.id === clientMessageId,
+    );
+    if (item) mutation.mutate({ content: item.content, clientMessageId });
+  };
+
+  const discard = (clientMessageId: string) => {
+    updateOutbox(queryClient, chatId, (items) =>
+      items.filter((item) => item.id !== clientMessageId),
+    );
+  };
+
+  return { send, retry, discard, isPending: mutation.isPending };
 }

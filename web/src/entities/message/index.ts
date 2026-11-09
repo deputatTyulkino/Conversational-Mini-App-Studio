@@ -6,21 +6,24 @@ export {
   type MessagesData,
 } from "./api/message-queries";
 export {
-  addMessageToCache,
+  applyExchangeToCache,
   patchMessageInCache,
-  replaceMessageIdInCache,
   restoreMessagesCache,
+  upsertMessageInCache,
 } from "./model/message-cache";
+export { readOutbox, updateOutbox } from "./model/outbox";
+export { getRouteOutcome, type RouteOutcome } from "./model/route-outcome";
 export type {
+  ClientMessageState,
   Message,
   MessageContentPayload,
-  MessageId,
   MessagePayload,
   MessageRole,
   MessagesPage,
   RouteCandidate,
   RouteDecision,
+  SendMessageResult,
 } from "./model/types";
 export { useMessages, usePrefetchMessages } from "./model/use-messages";
-export { AssistantMessage } from "./ui/assistant-message";
-export { UserMessage } from "./ui/user-message";
+export { MessageItem } from "./ui/message-item";
+export { TypingIndicator } from "./ui/typing-indicator";

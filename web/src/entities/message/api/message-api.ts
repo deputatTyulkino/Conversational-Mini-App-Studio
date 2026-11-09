@@ -1,8 +1,8 @@
 import { api, unwrap, type ApiResponse } from "../../../shared/api";
 import type {
   MessageContentPayload,
-  MessageId,
   MessagesPage,
+  SendMessageResult,
 } from "../model/types";
 
 export type ListMessagesParams = {
@@ -21,12 +21,15 @@ export const messageApi = {
 
   send: (chatId: string, payload: MessageContentPayload) =>
     api
-      .post<ApiResponse<MessageId>>(`/chats/${chatId}/messages`, payload)
+      .post<ApiResponse<SendMessageResult>>(
+        `/chats/${chatId}/messages`,
+        payload,
+      )
       .then(unwrap),
 
   update: (chatId: string, messageId: string, payload: MessageContentPayload) =>
     api
-      .patch<ApiResponse<MessageId>>(
+      .patch<ApiResponse<SendMessageResult>>(
         `/chats/${chatId}/messages/${messageId}`,
         payload,
       )

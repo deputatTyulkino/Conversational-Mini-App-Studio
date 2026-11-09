@@ -19,6 +19,8 @@ import {
   CreateProjectDialog,
   ProjectActionsMenu,
 } from "../../../features/manage-project";
+import { ThemeToggle } from "../../../features/toggle-theme";
+import { cn } from "../../../shared/lib";
 import { ActionButton, IconButton } from "../../../shared/ui";
 
 const CHATS_PER_PROJECT = 10;
@@ -37,7 +39,11 @@ function SectionTitle({ children, action }: SectionTitleProps) {
   );
 }
 
-export function Sidebar() {
+type SidebarProps = {
+  className?: string;
+};
+
+export function Sidebar({ className }: SidebarProps) {
   const [creating, setCreating] = useState(false);
   const pinned = usePinnedChats();
   const projects = useProjects();
@@ -61,7 +67,12 @@ export function Sidebar() {
   );
 
   return (
-    <aside className="flex h-full w-72 shrink-0 flex-col overflow-y-auto border-r border-sidebar-border bg-sidebar p-3 text-sidebar-foreground">
+    <aside
+      className={cn(
+        "flex h-full shrink-0 flex-col overflow-y-auto bg-sidebar p-3 text-sidebar-foreground",
+        className,
+      )}
+    >
       <nav aria-label="Основное">
         <ActionButton icon={Plus} label="Создать" to="/" />
         <ActionButton icon={Folder} label="Проекты" to="/projects" />
@@ -114,7 +125,13 @@ export function Sidebar() {
 
       <SectionTitle>Чаты и задачи</SectionTitle>
       <nav aria-label="Чаты">{chats.data?.map(renderChat)}</nav>
-
+      <div className="mt-auto flex items-end justify-between gap-2 px-3 pt-6">
+        <p className="text-xs leading-5 text-muted-foreground">
+          Независимая платформа. Не является ChatGPT App и не интегрирована с
+          OpenAI.
+        </p>
+        <ThemeToggle />
+      </div>
       <CreateProjectDialog open={creating} onOpenChange={setCreating} />
     </aside>
   );

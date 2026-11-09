@@ -1,6 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { messagesQuery, type MessagesData } from "../api/message-queries";
-import type { Message } from "./types";
+import type { Message, SendMessageResult } from "./types";
 
 function mapMessages(
   data: MessagesData,
@@ -15,7 +15,7 @@ function mapMessages(
   };
 }
 
-export function addMessageToCache(
+export function upsertMessageInCache(
   queryClient: QueryClient,
   chatId: string,
   message: Message,
@@ -27,12 +27,29 @@ export function addMessageToCache(
         pageParams: [undefined],
       };
     }
+    const exists = old.pages.some((page) =>
+      page.items.some((item) => item.id === message.id),
+    );
+    if (exists) {
+      return mapMessages(old, (item) =>
+        item.id === message.id ? message : item,
+      );
+    }
     const [first, ...rest] = old.pages;
     return {
       ...old,
       pages: [{ ...first, items: [message, ...first.items] }, ...rest],
     };
   });
+}
+
+export function applyExchangeToCache(
+  queryClient: QueryClient,
+  chatId: string,
+  result: SendMessageResult,
+) {
+  upsertMessageInCache(queryClient, chatId, result.user_message);
+  upsertMessageInCache(queryClient, chatId, result.assistant_message);
 }
 
 export function patchMessageInCache(
@@ -49,15 +66,6 @@ export function patchMessageInCache(
         message.id === messageId ? { ...message, ...patch } : message,
       ),
   );
-}
-
-export function replaceMessageIdInCache(
-  queryClient: QueryClient,
-  chatId: string,
-  fromId: string,
-  toId: string,
-) {
-  patchMessageInCache(queryClient, chatId, fromId, { id: toId });
 }
 
 export function restoreMessagesCache(

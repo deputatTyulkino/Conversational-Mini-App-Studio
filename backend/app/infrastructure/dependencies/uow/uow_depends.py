@@ -10,4 +10,4 @@ from fastapi import Depends, Request
 def get_uow(
     request: Request, logger: Annotated[ILogger, Depends(get_logger)]
 ) -> IUnitOfWork:
-    return UnitOfWork(request.state.session_factory, logger)
+    return UnitOfWork(request.app.state.session_factory, logger)

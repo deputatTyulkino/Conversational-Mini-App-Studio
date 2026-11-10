@@ -15,4 +15,4 @@ def create_message_service(
     uow: Annotated[IUnitOfWork, Depends(get_uow)],
     logger: Annotated[ILogger, Depends(get_logger)],
 ) -> CreateMessageService:
-    return CreateMessageService(uow, logger, request.state.tool_router)
+    return CreateMessageService(uow, logger, request.app.state.tool_router)

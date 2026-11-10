@@ -28,6 +28,11 @@ class ProjectNameTooLongHTTPException(ValidationHTTPException):
     default_message = "Project name is too long"
 
 
+class ProjectDescriptionTooLongHTTPException(ValidationHTTPException):
+    code = "project_description_too_long"
+    default_message = "Project description is too long"
+
+
 class ProjectAccessDeniedHTTPException(ForbiddenHTTPException):
     code = "project_access_denied"
     default_message = "You have no access to this project"

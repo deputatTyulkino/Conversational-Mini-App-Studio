@@ -76,13 +76,13 @@ async def get_chat(
 ):
     try:
         data = await get_chat_service(chat_id)
-        return SuccessResponse(data=data)
     except ChatNotFoundError as e:
         raise ChatNotFoundHTTPException(str(e), code=e.code)
+    return SuccessResponse(data=data)
 
 
 @router.post(
-    "/",
+    "",
     response_model=SuccessResponse[dict[str, UUID]],
     status_code=status.HTTP_201_CREATED,
     tags=["chats"],
@@ -108,9 +108,9 @@ async def update_chat(
 ):
     try:
         data = await update_chat_service(chat_id, chat_data)
-        return SuccessResponse(data=data)
     except ChatNotFoundError as e:
         raise ChatNotFoundHTTPException(str(e), code=e.code)
+    return SuccessResponse(data=data)
 
 
 @router.delete(
@@ -125,6 +125,6 @@ async def delete_chat(
 ):
     try:
         data = await delete_chat_service(chat_id)
-        return SuccessResponse(data=data)
     except ChatNotFoundError as e:
         raise ChatNotFoundHTTPException(str(e), code=e.code)
+    return SuccessResponse(data=data)

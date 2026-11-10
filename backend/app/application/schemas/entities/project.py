@@ -1,5 +1,4 @@
-from collections.abc import Sequence
-from typing import ClassVar, Self
+from typing import ClassVar
 from uuid import UUID
 
 from app.application.schemas.common import (
@@ -10,8 +9,6 @@ from app.application.schemas.common import (
     ReadSchema,
 )
 from app.application.schemas.entities.chat import ChatRead
-from app.domain.entities.chat import ChatDomain
-from app.domain.entities.project import ProjectDomain
 from pydantic import AwareDatetime, Field, computed_field
 
 
@@ -23,6 +20,10 @@ class ProjectRead(ReadSchema):
     updated_at: AwareDatetime
 
 
+class ProjectIdRead(ReadSchema):
+    project_id: UUID
+
+
 class ProjectWithChatsRead(ProjectRead):
     chats: list[ChatRead] = Field(default_factory=list)
 
@@ -30,13 +31,6 @@ class ProjectWithChatsRead(ProjectRead):
     @property
     def last_activity_at(self) -> AwareDatetime:
         return max([self.updated_at, *(chat.updated_at for chat in self.chats)])
-
-    @classmethod
-    def build(cls, project: ProjectDomain, chats: Sequence[ChatDomain]) -> Self:
-        return cls(
-            **ProjectRead.model_validate(project).model_dump(),
-            chats=[ChatRead.model_validate(chat) for chat in chats],
-        )
 
 
 class ProjectCreate(InputSchema):

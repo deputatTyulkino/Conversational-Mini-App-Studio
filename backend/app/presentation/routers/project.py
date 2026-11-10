@@ -3,6 +3,7 @@ from uuid import UUID
 
 from app.application.schemas.entities.project import (
     ProjectCreate,
+    ProjectIdRead,
     ProjectUpdate,
     ProjectWithChatsRead,
 )
@@ -19,7 +20,12 @@ from app.application.services.projects.queries.get_all_project import (
     GetAllProjectService,
 )
 from app.application.services.projects.queries.get_project import GetProjectService
-from app.domain.exceptions.project import ProjectNotFoundError
+from app.domain.exceptions.project import (
+    ProjectDescriptionTooLongError,
+    ProjectNameEmptyError,
+    ProjectNameTooLongError,
+    ProjectNotFoundError,
+)
 from app.infrastructure.dependencies.entities.projects.command.create_project import (
     create_project_service,
 )
@@ -35,7 +41,12 @@ from app.infrastructure.dependencies.entities.projects.queries.get_all_project i
 from app.infrastructure.dependencies.entities.projects.queries.get_project import (
     get_project_service,
 )
-from app.presentation.api.exceptions.project import ProjectNotFoundHTTPException
+from app.presentation.api.exceptions.project import (
+    ProjectDescriptionTooLongHTTPException,
+    ProjectNameEmptyHTTPException,
+    ProjectNameTooLongHTTPException,
+    ProjectNotFoundHTTPException,
+)
 from app.presentation.api.schemas.responses import SuccessResponse
 from fastapi import APIRouter, Depends, status
 
@@ -43,7 +54,7 @@ router = APIRouter(prefix="/api/projects", tags=["projects"])
 
 
 @router.get(
-    "/",
+    "",
     response_model=SuccessResponse[list[ProjectWithChatsRead]],
     status_code=status.HTTP_200_OK,
 )
@@ -65,27 +76,34 @@ async def get_project(
 ):
     try:
         data = await project_service(project_id)
-        return SuccessResponse(data=data)
     except ProjectNotFoundError as e:
         raise ProjectNotFoundHTTPException(str(e))
+    return SuccessResponse(data=data)
 
 
 @router.post(
-    "/",
-    response_model=SuccessResponse[dict[str, UUID]],
+    "",
+    response_model=SuccessResponse[ProjectIdRead],
     status_code=status.HTTP_201_CREATED,
 )
 async def create_project(
     project_data: ProjectCreate,
     project_service: Annotated[CreateProjectService, Depends(create_project_service)],
 ):
-    data = await project_service(project_data)
+    try:
+        data = await project_service(project_data)
+    except ProjectNameEmptyError as e:
+        raise ProjectNameEmptyHTTPException(str(e), code=e.code)
+    except ProjectNameTooLongError as e:
+        raise ProjectNameTooLongHTTPException(str(e), code=e.code)
+    except ProjectDescriptionTooLongError as e:
+        raise ProjectDescriptionTooLongHTTPException(str(e), code=e.code)
     return SuccessResponse(data=data)
 
 
 @router.patch(
     "/{project_id}",
-    response_model=SuccessResponse[dict[str, UUID]],
+    response_model=SuccessResponse[ProjectIdRead],
     status_code=status.HTTP_200_OK,
 )
 async def update_project(
@@ -95,14 +113,20 @@ async def update_project(
 ):
     try:
         data = await project_service(project_id, project_data)
-        return SuccessResponse(data=data)
     except ProjectNotFoundError as e:
         raise ProjectNotFoundHTTPException(str(e))
+    except ProjectNameEmptyError as e:
+        raise ProjectNameEmptyHTTPException(str(e), code=e.code)
+    except ProjectNameTooLongError as e:
+        raise ProjectNameTooLongHTTPException(str(e), code=e.code)
+    except ProjectDescriptionTooLongError as e:
+        raise ProjectDescriptionTooLongHTTPException(str(e), code=e.code)
+    return SuccessResponse(data=data)
 
 
 @router.delete(
     "/{project_id}",
-    response_model=SuccessResponse[dict[str, UUID]],
+    response_model=SuccessResponse[ProjectIdRead],
     status_code=status.HTTP_200_OK,
 )
 async def delete_project(
@@ -111,6 +135,6 @@ async def delete_project(
 ):
     try:
         data = await project_service(project_id)
-        return SuccessResponse(data=data)
     except ProjectNotFoundError as e:
         raise ProjectNotFoundHTTPException(str(e))
+    return SuccessResponse(data=data)

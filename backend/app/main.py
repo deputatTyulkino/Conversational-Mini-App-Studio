@@ -5,7 +5,10 @@ from app.config.logging import configure_logging
 from app.config.settings import get_settings
 from app.infrastructure.db.config import engine, session_factory
 from app.presentation.api.error_handlers import register_error_handlers
-from app.presentation.api.schemas.responses import ValidationErrorResponse
+from app.presentation.api.schemas.responses import (
+    ErrorResponse,
+    ValidationErrorResponse,
+)
 from app.presentation.routers.chat import router as chats_router
 from app.presentation.routers.message import router as messages_router
 from app.presentation.routers.project import router as projects_router
@@ -26,7 +29,7 @@ app = FastAPI(
     title="Conversational-Mini-App-Studio",
     version="1.0",
     lifespan=lifespan,
-    responses={422: {"model": ValidationErrorResponse}},
+    responses={422: {"model": ValidationErrorResponse}, 404: {"model": ErrorResponse}},
 )
 register_error_handlers(app)
 

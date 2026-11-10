@@ -1,14 +1,14 @@
-import logging
 from http import HTTPStatus
 from typing import Any
 
+from app.infrastructure.logging.logger import get_logger
 from app.presentation.api.exceptions.base import ApiHTTPException
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-logger = logging.getLogger(__name__)
+logger = get_logger()
 
 _LOCATIONS = {"body", "query", "path", "header", "cookie"}
 
@@ -119,11 +119,15 @@ async def http_exception_handler(request: Request, exc: Exception) -> JSONRespon
             details,
             headers=getattr(exc, "headers", None),
         )
-    return JSONResponse(exc)
+    raise exc
 
 
 async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:
-    logger.exception("Unhandled error on %s %s", request.method, request.url.path)
+    logger.exception(
+        "http.unhandled_error",
+        method=request.method,
+        path=request.url.path,
+    )
     return _error_response(
         status.HTTP_500_INTERNAL_SERVER_ERROR,
         code="internal_server_error",

@@ -78,7 +78,9 @@ class ChatRepo(IChatRepo):
         return [self._to_domain_model(chat) for chat in chats]
 
     async def list_standalone(self) -> list[ChatDomain]:
-        query = select(ChatORM)
+        query = select(ChatORM).filter(
+            ChatORM.is_pinned.is_(False), ChatORM.project_id == None
+        )
         chats = (await self.session.scalars(query)).all()
         return [self._to_domain_model(chat) for chat in chats]
 

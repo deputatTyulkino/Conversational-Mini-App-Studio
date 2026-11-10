@@ -48,6 +48,7 @@ class UnitOfWork(IUnitOfWork):
         self._message = MessageRepo(self.session, self.logger)
         self._chat = ChatRepo(self.session, self.logger)
         self._project = ProjectRepo(self.session, self.logger)
+        self.logger.debug("uow.begin")
         return self
 
     async def __aexit__(
@@ -58,21 +59,29 @@ class UnitOfWork(IUnitOfWork):
     ) -> None:
         try:
             if exc_type is not None:
-                await self.rollback()
+                try:
+                    await self.rollback()
+                except Exception:
+                    self.logger.exception(
+                        "uow.rollback_failed", original_exc_type=exc_type.__name__
+                    )
         finally:
-            if self.session:
+            if self.session is not None:
                 await self.session.close()
             self.session = None
             self._chat = None
             self._message = None
             self._project = None
+            self.logger.debug("uow.closed")
 
     async def commit(self) -> None:
         if self.session is None:
             raise RuntimeError("UnitOfWork не инициализирован")
         await self.session.commit()
+        self.logger.debug("uow.commit")
 
     async def rollback(self) -> None:
         if self.session is None:
             raise RuntimeError("UnitOfWork не инициализирован")
         await self.session.rollback()
+        self.logger.debug("uow.rollback")

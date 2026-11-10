@@ -36,6 +36,16 @@ class ProjectNameTooLongError(DomainValidationError):
         )
 
 
+class ProjectDescriptionTooLongError(DomainValidationError):
+    code = "project_description_too_long"
+
+    def __init__(self, max_length: int) -> None:
+        super().__init__(
+            f"Project description must not exceed {max_length} characters",
+            max_length=max_length,
+        )
+
+
 class ProjectAccessDeniedError(AccessDeniedError):
     code = "project_access_denied"
     default_message = "You have no access to this project"

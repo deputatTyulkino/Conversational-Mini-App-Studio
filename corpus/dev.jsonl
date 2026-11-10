@@ -1,0 +1,351 @@
+{"id": "q0001", "text": "Какие утверждения в докладе ничем не подкреплены?", "label": "research_board", "type": "positive", "author": "team-1"}
+{"id": "q0002", "text": "Привяжи статью Иванова к тезису про сон студентов", "label": "research_board", "type": "positive", "author": "team-1"}
+{"id": "q0003", "text": "Если я уберу эту статью, какие аргументы останутся без опоры?", "label": "research_board", "type": "positive", "author": "team-1"}
+{"id": "q0004", "text": "Я пишу доклад, проверь, что у каждого тезиса есть ссылка", "label": "research_board", "type": "positive", "author": "team-1"}
+{"id": "q0005", "text": "Как оформить список литературы по ГОСТу?", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0006", "text": "Найди мне статьи про сон студентов", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0007", "text": "Сделай таблицу моих источников и посчитай, сколько из них вышло за последние 5 лет", "label": "data_explorer", "type": "adversarial", "author": "team-1"}
+{"id": "q0008", "text": "Разложи мои источники по таблице", "label": "ASK", "type": "ambiguous", "author": "team-1", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0009", "text": "У меня шесть задач по курсовой, успею ли я до 20 декабря?", "label": "project_planner", "type": "positive", "author": "team-1"}
+{"id": "q0010", "text": "Если вёрстка займёт не 2 дня, а 6, когда мы закончим?", "label": "project_planner", "type": "positive", "author": "team-1"}
+{"id": "q0011", "text": "Пока Петя не нарисует дизайн, я не могу начать фронт. Что будет, если он задержится на неделю?", "label": "project_planner", "type": "positive", "author": "team-1"}
+{"id": "q0012", "text": "В таблице с дедлайнами перенеси срок отчёта на другое число", "label": "project_planner", "type": "adversarial", "author": "team-1"}
+{"id": "q0013", "text": "Как составить план курсовой?", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0014", "text": "Напомни мне про дедлайн в пятницу", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0015", "text": "Какой день недели будет 20 декабря?", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0016", "text": "Посчитай по моей таблице, сколько часов в неделю я трачу на учёбу", "label": "data_explorer", "type": "positive", "author": "team-1"}
+{"id": "q0017", "text": "Вот таблица с задачами и датами, разберись с ней", "label": "ASK", "type": "ambiguous", "author": "team-1", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0018", "text": "Рассчитай мои баллы за семестр по ведомости", "label": "data_explorer", "type": "positive", "author": "team-1"}
+{"id": "q0019", "text": "Составь по табличке отчёт за квартал", "label": "data_explorer", "type": "positive", "author": "team-1"}
+{"id": "q0020", "text": "Оставь в таблице продаж только февраль и март и покажи сумму по регионам", "label": "data_explorer", "type": "positive", "author": "team-1"}
+{"id": "q0021", "text": "Если продажи на южном филиале вырастут на 10%, сколько получится всего?", "label": "data_explorer", "type": "positive", "author": "team-1"}
+{"id": "q0022", "text": "Вот CSV с оценками группы, покажи средний балл по каждому предмету", "label": "data_explorer", "type": "positive", "author": "team-1"}
+{"id": "q0023", "text": "Стоит ли вести учёт в экселе?", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0024", "text": "Проверь, есть ли в докладе страницы о литературе", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0025", "text": "Есть ли в этой пдфке постулаты теории относительности?", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0026", "text": "Разберись с этой схемой", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0028", "text": "Убери неактуальные источники в списке литературы", "label": "research_board", "type": "positive", "author": "team-1"}
+{"id": "q0029", "text": "Передвинь дедлайн с 2.11 на 6.11", "label": "project_planner", "type": "positive", "author": "team-1"}
+{"id": "q0030", "text": "Объясни рекурсию", "label": "NONE", "type": "unknown", "author": "team-1"}
+{"id": "q0031", "text": "Погода Екатеринбург", "label": "NONE", "type": "unknown", "author": "team-1"}
+{"id": "q0032", "text": "Принципы ООП", "label": "NONE", "type": "unknown", "author": "team-1"}
+{"id": "q0033", "text": "Объясни мне эту тему максимально простыми словами", "label": "NONE", "type": "unknown", "author": "team-1"}
+{"id": "q0034", "text": "Составь план подготовки к экзамену", "label": "NONE", "type": "adversarial", "author": "team-1"}
+{"id": "q0035", "text": "Убери неактуальные дедлайны в таблице с сроками", "label": "project_planner", "type": "positive", "author": "team-1"}
+{"id": "q0036", "text": "Сгруппируй источники в таблице по стране автора", "label": "data_explorer", "type": "positive", "author": "team-1"}
+{"id": "q0037", "text": "Добавь ко всем тезисам из книги «Как успевать всё в срок?» ссылку на источник", "label": "research_board", "type": "adversarial", "author": "team-1"}
+{"id": "q0038", "text": "Закрепи за утверждение о тайм-менеджменте статью «Как наука помогает нам делать всё в срок?»", "label": "research_board", "type": "adversarial", "author": "team-1"}
+{"id": "q0039", "text": "слушай у меня в докладе куча тезисов а откуда я их взял уже не помню, глянь че там без ссылок", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0040", "text": "блин препод сказал что половина моих аргументов без потверждения, можно как то понять какие именно", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0041", "text": "у нас 5 этапов по проекту и сдача 15го, бэкендер тормозит с работой на неделю, мы вообще успеваем?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0042", "text": "скинул ксв с тратами за месяц, сколько я на еду потратил?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0043", "text": "а если стипуху поднимут на 15% мне на сколько больше за год выйдет? табличка есть", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0044", "text": "вот табличка по курсовой, там задачи и сколько часов на каждую, глянь че там", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0045", "text": "у меня статьи и тезисы в одной таблице свалены, надо исправить до пятницы", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0046", "text": "отправь письмо руководителю кафедры", "label": "NONE", "type": "unknown", "author": "team-1"}
+{"id": "q0047", "text": "как в экселе сводную таблицу сделать", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0048", "text": "я проспал дедлайн по курсовой, напиши письмо преподу чтоб продлил", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0049", "text": "Проверь на какие утверждения во введении курсовой у меня нет ссылок", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0050", "text": "В докладе по экономике 12 тезисов и 9 источников, хочу понять, какие тезисы остались без подтверждения", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0051", "text": "Какие выводы во второй главе опираются только на один источник?", "label": "research_board", "type": "", "author": "gen-claude"}
+{"id": "q0052", "text": "Научный руководитель сказал, что в разделе про рынок труда много голословных утверждений, какие именно?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0053", "text": "Свяжи утверждение про рост цен на жильё с отчётом Росстата за 2024 год", "label": "research_board", "type": "", "author": "gen-claude"}
+{"id": "q0054", "text": "Если убрать из списка литературы статью 2009 года, какие аргументы останутся без опоры?", "label": "research_board", "type": "", "author": "gen-claude"}
+{"id": "q0055", "text": "У меня курсовая про дистанционное обучение, источников около 20, а тезисов в два раза больше", "label": "research_board", "type": "", "author": "gen-claude"}
+{"id": "q0056", "text": "отметь, какие утверждения в третьем разделе подтверждены хотя бы двумя источниками.", "label": "research_board", "type": "", "author": "gen-claude"}
+{"id": "q0057", "text": "Добавил в доклад три новые статьи, теперь хочу посмотреть к каким тезисам их можно привязать.", "label": "research_board", "type": "", "author": "gen-claude"}
+{"id": "q0058", "text": "Завтра предзащита, а я не уверен, что все цифры в обзоре литературы чем-то подкреплены.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0059", "text": "Покажи утверждения без источника в главе про методологию", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0060", "text": "В заключении я пишу, что онлайн-курсы повышают успеваемость. На что опирается это утверждение", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0061", "text": "Удали связь между тезисом о мотивации студентов и учебником по психологии, она там лишняя.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0062", "text": "Есть доклад на 15 страниц и список из 11 источников, часть которых я так и не процитировал.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0063", "text": "Проверь все ли утверждения про климатическую политику ЕС подкреплены литературой.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0064", "text": "Какие источники у меня вообще ни к чему не привязаны?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0065", "text": "Преподаватель просит, чтобы каждый тезис в реферате опирался минимум на один источник.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0066", "text": "Привяжи интервью с экспертом к утверждению о дефиците кадров в IT.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0067", "text": "Хочу посмотреть, какие аргументы в курсовой держатся на одной и той же статье.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0068", "text": "Я убрал из работы раздел с опросом, и теперь часть выводов, кажется, повисла в воздухе.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0069", "text": "До защиты четыре недели. Дизайн занимает неделю, бэкенд две, интеграция ещё неделю, и интеграцию нельзя начать без первых двух. Успеваем?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0070", "text": "Человек из команды сказал, что задержит свою часть на пять дней. Что тогда сдвинется?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0071", "text": "Посчитай, когда мы закончим, если тестирование займёт не три дня, а шесть.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0072", "text": "У нас три человека и семь задач, часть из них ждёт друг друга. Защита 10 декабря.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0073", "text": "Какие задачи нельзя задерживать, чтобы не сорвать срок сдачи?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0074", "text": "Перенеси срок готовности презентации на 5 декабря и покажи, что поменяется.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0075", "text": "Одногруппник третий раз откладывает сбор данных, а от него зависит весь анализ.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0076", "text": "Добавь зависимость: отчёт пишем только после того, как готовы все графики.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0077", "text": "Если убрать зависимость между вёрсткой и API, сколько дней мы выиграем?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0078", "text": "Сделаем ли мы проект к 15 декабря если на прототип уйдёт две недели вместо одной?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0079", "text": "Коллега может начать свою часть только через неделю, а у остальных всё готово к старту.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0080", "text": "Нужно понять, есть ли у нас запас по времени или мы уже впритык.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0081", "text": "Три этапа по две недели, а до защиты осталось пять недель.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0082", "text": "Покажи критический путь по нашему плану", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0083", "text": "Удали задачу с анимациями, мы решили её не делать, и пересчитай сроки.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0084", "text": "Сдвинь на три дня все задачи, которые идут после проверки руководителем.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0085", "text": "Работа над отчётом зависит от результатов эксперимента, а эксперимент от готового стенда. Стенд будет только через десять дней.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0086", "text": "Какая задача сейчас тормозит весь проект, если смотреть по зависимостям?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0087", "text": "Мы успеем всё к защите, если один участник заболеет на неделю?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0088", "text": "Поставь срок для задачи с документацией: не позже 1 декабря.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0089", "text": "Посчитай средний балл по каждому предмету в выгрузке за осенний семестр.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0090", "text": "В таблице расходов за три месяца покажи, сколько ушло на транспорт.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0091", "text": "Оставь только лабораторные с оценкой ниже 60 и скажи, сколько их.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0092", "text": "Сгруппируй результаты измерений по номеру опыта и посчитай среднее для каждой группы.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0093", "text": "Если цены на продукты вырастут на 12%, сколько я буду тратить в месяц?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0094", "text": "Выгрузил оценки группы из электронного журнала, там 28 студентов и 6 предметов.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0095", "text": "Сколько всего часов я потратил на подработку за октябрь и ноябрь?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0096", "text": "Сравни средние результаты первой и второй серии экспериментов.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0097", "text": "У меня таблица с расходами по категориям за полгода, хочется понять, куда уходят деньги.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0098", "text": "Покажи итог по каждому месяцу без учёта аренды.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0099", "text": "Что будет с итоговой оценкой, если за курсовую поставят не 70, а 85 баллов?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0100", "text": "Отфильтруй студентов, у которых больше двух пропусков, и выведи их средний балл.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0101", "text": "Есть CSV с результатами лабораторной по физике, 40 строк замеров.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0102", "text": "Какой предмет у меня в этом семестре с самым низким средним?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0103", "text": "Посчитай, сколько я потратил на кафе в сентябре по сравнению с октябрём.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0104", "text": "Таблица с результатами опроса, 150 ответов. Нужны итоги по возрастным группам.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0105", "text": "Если увеличить коэффициент в третьем столбце на 5%, как изменится сумма?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0106", "text": "Тут выгрузка оценок за сессию, и общий рейтинг у меня получился ниже, чем я ожидал.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0107", "text": "Разбей расходы по неделям и покажи, в какую неделю я потратил больше всего.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0108", "text": "Загрузил данные по трём сериям опытов, но пока не понимаю, что с ними делать дальше.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0109", "text": "Скинул таблицу с задачами проекта, сроками и тем, сколько часов на каждую ушло.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0110", "text": "Вот выгрузка из трекера: задачи, исполнители, даты начала и конца. Посмотри, пожалуйста.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0111", "text": "У меня в CSV план работ на семестр с длительностями, не знаю, что с ним делать.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0112", "text": "Есть таблица с этапами практики и датами сдачи, помоги с ней разобраться.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0113", "text": "Загрузил график лабораторных с датами и баллами за каждую.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0114", "text": "Тут файл с задачами команды и сроками, глянь, пожалуйста.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0115", "text": "Вот таблица по проекту: этапы, сколько дней на каждый и кто отвечает.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0116", "text": "Вот файл с этапами эксперимента, длительностью и результатами каждого этапа.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0117", "text": "Выгрузил все задачи по диплому с плановыми и фактическими датами.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0118", "text": "Загрузил таблицу со списком литературы: авторы, годы, журналы.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0119", "text": "У меня в таблице все источники к диплому и то, к каким главам они относятся. Посмотри.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0120", "text": "Вот CSV с тезисами и ссылками на статьи для доклада, разберись с ним.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0121", "text": "Собрал в одну таблицу цитаты и источники для курсовой, не знаю, что дальше.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0122", "text": "Есть файл с источниками и пометками, где я их использовал.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0123", "text": "Вот таблица с утверждениями из отчёта и цифрами, на которые они ссылаются.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0124", "text": "Здесь CSV со всеми статьями, которые я нашёл, и тем, где они упоминаются в тексте.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0125", "text": "Сделал таблицу источников для реферата, помоги с ней.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0126", "text": "У нас в команде каждый пишет свою главу со своими источниками, и всё это надо свести к защите.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0127", "text": "Вот план доклада: разделы, источники к каждому и когда я собираюсь их дописать.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0128", "text": "Скинул структуру курсовой с тезисами, ссылками и сроками по каждой главе.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0129", "text": "Объясни разницу между медианой и средним на простом примере.", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0130", "text": "Подскажи, как правильно оформить ссылку на сайт в списке литературы.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0131", "text": "Что такое нормальная форма Бойса — Кодда?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0132", "text": "Сколько страниц обычно должно быть во введении курсовой?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0133", "text": "Подскажи, как лучше структурировать доклад на десять минут.", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0134", "text": "Чем отличается магистратура от аспирантуры?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0135", "text": "Нужно написать аннотацию к своей статье, из каких частей она обычно состоит?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0136", "text": "Под конец дня уже ничего не соображаю, а надо ещё готовиться.", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0137", "text": "p-value простыми словами, что это", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0138", "text": "Переведи на английский фразу «результаты исследования подтверждают гипотезу».", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0139", "text": "Какой шрифт и интервал обычно требуют в дипломной работе?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0140", "text": "Хочу попросить научного руководителя о встрече, как это сделать вежливо?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0141", "text": "Объясни, зачем нужна нормализация таблиц в базах данных.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0142", "text": "Завтра первый раз выступаю на конференции и немного волнуюсь.", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0143", "text": "Какие есть способы запоминать большие объёмы информации?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0144", "text": "Не понимаю, чем отличается гипотеза от цели исследования.", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0145", "text": "Нужно ли указывать в отчёте по практике полное название организации?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0146", "text": "Как правильно цитировать закон в курсовой?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0147", "text": "Что такое критический путь в управлении проектами?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0148", "text": "Мне сказали, что в работе слишком много воды, и я не очень понимаю, что это значит.", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0149", "text": "Найди пять свежих статей про выгорание студентов для моего списка литературы.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0150", "text": "Напомни мне за два дня до дедлайна по отчёту о практике.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0151", "text": "Напиши письмо научному руководителю, что я не успеваю сдать главу к пятнице.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0152", "text": "Как сделать в экселе таблицу, чтобы даты сами подсвечивались перед сроком?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0153", "text": "Какие источники считаются надёжными для курсовой по экономике?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0154", "text": "Дедлайн по отчёту через неделю, а я точно забуду.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0155", "text": "Что лучше для учёта расходов — эксель или отдельное приложение?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0156", "text": "Как объяснить преподавателю, что я пропустил срок по уважительной причине?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0157", "text": "Сколько источников должно быть в курсовой третьего курса?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0158", "text": "Отправь одногруппнику таблицу с оценками.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0159", "text": "Нашёл подходящую статью для списка литературы, но она на английском, а читаю я с трудом.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0160", "text": "По ГОСТу таблицы в курсовой как оформляются?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0161", "text": "Скачай мне PDF учебника по линейной алгебре.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0162", "text": "Какой срок обычно дают на исправление замечаний после предзащиты?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0163", "text": "Руководитель не отвечает уже неделю, а срок сдачи главы в пятницу.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0164", "text": "Найди в интернете, когда в этом году заканчивается приём документов в магистратуру.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0165", "text": "Стоит ли ссылаться на Википедию в докладе", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0166", "text": "В таблице с оценками у меня ошибка, но в деканате говорят, что всё верно.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0167", "text": "Как вообще планируют время перед сессией, есть какие-то проверенные методы?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0168", "text": "Предупреди команду, что я задержу свою часть на пару дней.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0169", "text": "Помоги выбрать тему курсовой из трёх: важнее всего наличие литературы, потом интерес и сложность.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0170", "text": "Сравни два ноутбука по цене, весу и времени работы от батареи. Для меня вес важнее всего.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0171", "text": "Мне предложили три места для практики, и у каждого свои плюсы.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0172", "text": "Сделай карточки по загруженному конспекту лекций по микроэкономике, экзамен через неделю.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0173", "text": "Построй карту понятий по главе про нормализацию баз данных.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0174", "text": "Составь тест на 15 вопросов по этому учебнику, и чтобы у каждого вопроса была ссылка на страницу.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0210", "text": "Какие утверждения без источников?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0211", "text": "Свяжи утверждение про падение прочности бетона при −15 °C с источником 4, это ГОСТ 10180.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0212", "text": "В курсовой по истории у меня 14 утверждений во второй главе и 9 источников. Руководитель сказал, что половина держится непонятно на чём. Покажи, какие из них вообще ничем не подкреплены.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0213", "text": "На чём держится тезис 4?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0214", "text": "убери связь между утверждением про дозировку метформина и статьёй 2019 года, я перепутал, там про другой препарат", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0215", "text": "Что останется без подтверждения, если выкинуть источник «Обзор рынка логистики 2022»?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0216", "text": "Диплом по социологии, есть мысль, что удалёнка снижает выгорание, а из какой книги я это взял, уже не помню. Всё прочитанное занесено в список литературы, 23 позиции. Помоги понять, на что эта мысль опирается.", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0217", "text": "Есть ли утверждения, которые спорят друг с другом?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0218", "text": "Покажи утверждения на одном источнике.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0219", "text": "Удали привязку статьи про блокчейн к выводу о комиссиях, подтверждение не спрашивай, я уверен.", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0220", "text": "Готовлю заявку на грант по микропластику в Каме. В разделе «Актуальность» шесть утверждений, и мне кажется, что почти все они опираются только на наш же прошлогодний отчёт. Хочу увидеть, где источник всего один.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0221", "text": "Где мои выводы расходятся с литературой?", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0222", "text": "Привяжи утверждение 7 к интервью технолога.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0223", "text": "А если убрать ещё и монографию 2015 года, сколько утверждений повиснет?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0224", "text": "Пишу отчёт про критический путь в цепочке поставок. Три положения оттуда опираются на одну и ту же публикацию 2018 года. Покажи, где ещё в отчёте опора только на одну работу.", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0225", "text": "Источник 3 говорит, что выборка была 120 человек, а в утверждении 5 у меня 210. Есть ещё такие расхождения между утверждениями и источниками?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0226", "text": "Перед защитой практики хочу убедиться, что в отчёте нет голых утверждений. Утверждения и источники из отчёта уже занесены, источников одиннадцать.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0227", "text": "Список литературы у меня в таблице, 40 строк. Какие работы оттуда так и не пригодились ни одному тезису диссертации?", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0228", "text": "Отвяжи второй источник от утверждений в разделе про методику, он туда не относится.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0229", "text": "На доске висят три источника по римскому праву, которые я вроде бы нигде не использовала. Проверь, так ли это.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0230", "text": "Рецензент требует убрать из работы книгу «Управление сроками проекта». Какие положения второй главы после этого останутся ни на чём?", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0231", "text": "Срочно: какие утверждения из главы 3 останутся без опоры, если исключить статью про нейросети в диагностике пневмонии? Рецензент настаивает.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0232", "text": "Занеси новое утверждение: «доля возвратов выросла с 4 до 7% после смены упаковки» и привяжи к нему квартальный отчёт службы качества.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0233", "text": "два моих вывода в обзоре говорят противоположное про влияние кофеина на сон, оба со ссылками. хочу найти все такие пары", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0234", "text": "половина источников в списке кажется для галочки, покажи те на которые не опирается ни одно утверждение", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0235", "text": "Два утверждения в лабораторной по химии дают разный выход реакции: 62% и «около 80%». Оба с источниками. Найди все места, где утверждения так же не сходятся между собой.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0236", "text": "Веду блог про историю городских трамваев. Подписчики придираются, что я беру факты с потолка. Хочу видеть, под какими из моих фактов нет ни одной книги или архивного документа.", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0237", "text": "Не понимаю, почему утверждение про сезонность продаж помечено как неподтверждённое, я же привязывал к нему выгрузку из CRM. Проверь связь и верни, если слетела.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0238", "text": "Закрепи за цифрой «37% респондентов» анкету из приложения Б, а старую привязку к учебнику сними.", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0239", "text": "Успеваем к дедлайну 15 декабря?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0240", "text": "Монтаж стенда занял четыре дня вместо двух. Какие задачи из-за этого сдвинутся?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0241", "text": "В таблице с этапами диплома перенеси дедлайн второй главы на 14 апреля.", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0242", "text": "Дедлайн по гранту перенесли с 1 марта на 20 февраля. У нас в плане написание заявки, бюджет, письма поддержки и перевод на английский. Проверь, укладываемся ли теперь и что придётся ужимать.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0243", "text": "Поставь на задачу «Сбор анкет» 10 дней вместо 6.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0244", "text": "Сначала надо получить одобрение этического комитета, потом набирать пациентов, потом три месяца наблюдения и только после этого статистика. Статью нужно отправить в журнал до конца июня. Выходит или нет?", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0245", "text": "Тестирование теперь можно начинать только после код-ревью, а не параллельно с ним. Поменяй зависимость.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0246", "text": "удали задачу про закупку реактивов, их уже привезли", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0247", "text": "Сдача двадцатого, вписываемся?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0248", "text": "Сдвинь задачи третьей главы на неделю.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0249", "text": "А если макет согласуют не за три дня, а за восемь, к сроку успеем?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0250", "text": "Посчитай когда мы закончим если сбор данных растянется с двух недель до месяца", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0251", "text": "Какие задачи можно задержать без вреда для общего срока, а какие нет?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0252", "text": "Делаем ремонт в квартире своими силами: демонтаж 3 дня, электрика 5, штукатурка 7 и потом сохнет ещё 10, плитка 6. Плитку нельзя класть, пока не высохнет штукатурка. Начинаем 9 декабря, срок жёсткий: заехать надо к 1 февраля. Успеем?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0253", "text": "Удали все этапы после «Пилота» и не переспрашивай, заказчик свернул вторую фазу.", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0254", "text": "Убери зависимость вёрстки от перевода.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0255", "text": "Срок лабораторной по сопромату теперь 28 ноября.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0256", "text": "Поставщик привезёт двигатели на 9 дней позже. Что поедет вправо?", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0257", "text": "Одногруппник заболел, его часть с расчётом фермы займёт минимум на пять дней дольше. Мне нужно понять, выдерживаем ли мы ещё срок защиты 19 декабря или уже нет.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0258", "text": "Что на критическом пути по запуску сайта?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0259", "text": "Выгрузил из трекера CSV: 32 строки, колонки «начало», «длительность», «после чего». Хочу увидеть по этим данным, какая цепочка работ самая длинная и в какой день всё закончится.", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0260", "text": "Интервью с экспертами до праздников провести не получится, двое из пяти в отъезде. Перенеси эту задачу на 12 января и покажи, что после неё поедет.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0261", "text": "Запуск рассылки отменили совсем. Вычеркни её из плана и покажи, стала ли дата релиза ближе.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0262", "text": "что в подготовке конференции нельзя затягивать ни на день?", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0263", "text": "Сократи задачу «Обзор литературы» с трёх недель до двух, времени нет.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0264", "text": "Источники для обзора я соберу не раньше пятницы, а тезисы к конференции надо подать 3 декабря. Между ними ещё черновик и правки руководителя. Хватит ли времени?", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0265", "text": "Опять план показывает опоздание на шесть дней, хотя мы вчера убрали согласование с юристами. Какая цепочка задач теперь тянет срок?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0266", "text": "Вычитку книги «Большие данные и таблицы» сдвинь на две недели, редактор в отпуске.", "label": "project_planner", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0267", "text": "Добавь зависимость: защиту проекта нельзя ставить, пока не готовы и презентация, и отчёт.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0268", "text": "Расходы по категориям за октябрь?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0269", "text": "Оставь в ведомости только тех, у кого за коллоквиум меньше 40 баллов.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0270", "text": "Загрузил CSV с результатами опроса первокурсников, 312 ответов. Хочу увидеть средний балл удовлетворённости отдельно по каждому факультету и сравнить технические с гуманитарными.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0271", "text": "Много ли в моём списке литературы источников после 2020 года? Нужно точное число и отдельно по годам.", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0272", "text": "если на такси буду тратить на 15% больше, сколько выйдет за год?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0273", "text": "Сгруппируй измерения по температуре и выведи среднее сопротивление для каждой.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0274", "text": "Стипендиальная комиссия спрашивает, сколько у нас на потоке людей со средним баллом выше 4,5. У меня только общая ведомость на 96 человек.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0275", "text": "Закрытых задач больше в октябре или в ноябре?", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0276", "text": "Средний балл у 201-й и 202-й группы?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0277", "text": "Лабораторная по физике, в таблице три серии опытов: с медным, алюминиевым и стальным стержнем. Нужно среднее удлинение по каждой серии, и интересно, насколько медь отличается от стали.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0278", "text": "Список литературы к диссертации у меня в CSV, 87 позиций. Нужно разложить источники по десятилетиям и увидеть, сколько приходится на каждое: рецензент считает, что слишком много старого.", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0279", "text": "Покажи только незачёты по матанализу.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0280", "text": "Третий раз пересчитываю вручную и получаю разное. Сложи выручку по каждой торговой точке за неделю с 3 по 9 ноября.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0281", "text": "Есть таблица задач спринта с колонкой «оценка в часах». Сколько часов набегает на бэкенд, фронтенд и тестирование по отдельности?", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0282", "text": "Допустим, корм подорожает на 20%. Сколько тогда будет уходить на аквариум в месяц, если остальное не трогать?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0283", "text": "Нужна сумма по столбцу «Стоимость» отдельно для каждого поставщика, только без строк со статусом «возврат».", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0284", "text": "ссылки в библиографии, сколько из них на русском, а сколько на английском?", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0285", "text": "Сколько ответов «скорее не согласен» по каждому курсу?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0286", "text": "Выгрузка по обращениям в поддержку за ноябрь, 1 400 строк. Руководитель просит к утру цифры: сколько обращений на каждый продукт и какое среднее время ответа. Сделай, пожалуйста, побыстрее.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0287", "text": "Из выгрузки задач нужны только просроченные больше чем на 5 дней, и сколько таких у каждого отдела.", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0288", "text": "Фильтр по колонке «город»: только Пермь и Тюмень.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0289", "text": "Сделай what-if по фонду оплаты: премии отдела продаж плюс 10%.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0290", "text": "По каждой задаче из домашки по статистике у меня записаны балл и время решения. Какое среднее время на те, где балл ниже 3?", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0291", "text": "Сколько метров ушло на каждый вид пряжи?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0292", "text": "сравни средний чек в будни и выходные по данным кофейни", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0293", "text": "Дедлайны конференций на весну собраны в ведомость: название, страна, оргвзнос, дата подачи. Какой средний оргвзнос по странам?", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0294", "text": "Собрал в JSON результаты 60 прогонов модели: архитектура, размер батча, точность на валидации. Какая архитектура в среднем даёт лучшую точность и сколько прогонов у каждой?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0295", "text": "Утверждения экспертов из опроса занесены в таблицу с оценками согласия от 1 до 5, всего 18 экспертов. Какая средняя оценка у каждого утверждения?", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0296", "text": "Отфильтруй в таблице наблюдений пациентов старше 60 с давлением выше 140.", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0297", "text": "В файле «сроки_и_задачи_2026.csv» на самом деле бюджет мероприятия. Сложи суммы по статьям расходов.", "label": "data_explorer", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0298", "text": "Выгрузка задач из трекера. Займёшься?", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0299", "text": "Список литературы в CSV, разберёшься?", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0300", "text": "Диплом: есть тезисы, источники и сроки по главам. Разберёмся вместе?", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0301", "text": "Скинул CSV по подготовке выпускного: что сделать, кто закупает, сколько стоит, к какому числу. Помоги с ним разобраться.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0302", "text": "У меня таблица на 54 строки: в первой колонке тезисы из обзора, дальше автор, год и журнал статьи, откуда тезис взят. Хочу с ней поработать.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0303", "text": "По ВКР у меня выписаны основные выводы каждой главы и литература к ним, плюс список того, что ещё надо сделать до предзащиты 14 апреля. Не знаю, за что хвататься, посмотри.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0304", "text": "У нас в команде план внедрения CRM ведётся в таблице: 46 строк, для каждой работы указаны начало, длительность в днях, предшествующая работа и трудозатраты в часах. Руководитель попросил «поработать с этим до планёрки» и больше ничего не объяснил. Можешь взять?", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0305", "text": "Пишу обзор по антибиотикорезистентности. Выписывала из статей ключевые выводы в таблицу: вывод, статья, год, страна, размер выборки. Набралось под сотню строк, и руководитель сказал «приведи это в рабочий вид». Что он имел в виду, я не поняла, но давай попробуем.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0306", "text": "Готовим заявку в РНФ. С одной стороны, есть набор положений для раздела «Научный задел» и публикации, которыми мы их обосновываем. С другой — перечень работ: дописать текст, собрать смету, получить подписи, подача 1 марта. Всё это пока в заметках и в голове. Давай как-то это разложим.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0307", "text": "табличка с этапами ремонта и ценами, что с ней делать", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0308", "text": "в json лежат ссылки и тезисы для диплома посмотри пожалуйста", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0309", "text": "есть выводы по практике, литература к ним и что за чем делать до защиты. не знаю с какого конца браться", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0310", "text": "JSON из таск-менеджера по лабораторным: работа, дата сдачи, часы, балл.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0311", "text": "Для аналитической записки по рынку электросамокатов собрали в одну ведомость все цифры, которые приводим, и отчёты, откуда они взяты, с датами публикации. Нужна помощь с этой ведомостью.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0312", "text": "К совету директоров готовим обоснование нового склада: набросали аргументы, под часть из них есть отчёты консультантов, и расписали шаги до заседания 12 декабря. Хочу сесть и поработать с этим.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0313", "text": "Срочно нужна помощь с ведомостью работ по гранту: там этапы, даты и бюджет по каждому. Отчёт завтра.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0314", "text": "Вот что есть по курсовой по истории: таблица, где по строкам книги и архивные документы, а по столбцам год, тип и то, какие мои выводы на них опираются.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0315", "text": "Статья в журнал: шесть ключевых утверждений, к ним четырнадцать ссылок, а ещё эксперимент надо повторить, потом переписать обсуждение, потом отдать на вычитку, и всё это до 30 января.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0316", "text": "Собираю с друзьями настольную игру к фестивалю в мае. Всё записываем в одну таблицу: что нужно сделать (иллюстрации, правила, печать, коробки), сколько дней на каждое уйдёт и сколько денег. Она уже разрослась до 30 строк, и я в ней тону.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0317", "text": "Веду блог о сортах томатов и перед каждой статьёй собираю факты: урожайность, вес плода, устойчивость к фитофторе. Записываю в таблицу сам факт, число, откуда взял (каталог, форум, свой огород) и год. Записей уже больше двухсот. Хочется наконец навести в этом порядок.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0318", "text": "Курсовая по социологии религии. Я записал для себя, что хочу доказать в каждой из трёх глав и какие книги и интервью для этого есть. Ещё записал этапы: дособрать интервью, расшифровать, написать вторую главу, показать руководителю. Сдавать в конце мая. Ощущение, что всё разваливается. Помоги привести в чувство.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0319", "text": "Мне опять прислали список задач на квартал в CSV, с дедлайнами и оценками в человеко-днях, и опять без единого пояснения, что с ним делать. Давай хоть ты посмотришь.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0320", "text": "Рецензент вернул статью с пометкой «разберитесь со своей доказательной базой». У меня она вся в CSV: положение, на какую публикацию ссылаюсь, год, квартиль журнала. Открой её, пожалуйста, вместе подумаем.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0321", "text": "Через три недели конференция, а у меня только список тезисов доклада, стопка статей под них и перечень того, что ещё не сделано. Выручай, я уже не соображаю.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0322", "text": "Задачи, сроки, часы — всё в одном CSV. Поможешь?", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0323", "text": "Тезисы и источники свёл в одну таблицу. Что дальше?", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0324", "text": "Выводы, книги под них и план по неделям — с чем тут можно помочь?", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0325", "text": "По курсовому проекту у меня таблица: разделы пояснительной записки, сколько дней планирую на каждый и сколько страниц должно получиться. Что-то с ней не так, но не пойму что.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
+{"id": "q0326", "text": "В аспирантской таблице по диссертации 120 публикаций: авторы, год, метод и отдельным столбцом отметка, какое положение из автореферата каждая подкрепляет. Не знаю, как к ней подступиться.", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0327", "text": "Отчёт по НИР: накидал перечень технических выводов и протоколы испытаний, на которые они ссылаются. Отдельно расписал, какие испытания ещё предстоят и сколько дней займёт каждое. Возьмёшься?", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "project_planner"]}
+{"id": "q0328", "text": "Как перестать засыпать на первой паре?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0329", "text": "Критический путь и резерв времени — в чём разница?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0330", "text": "Привет, ты вообще что умеешь?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0331", "text": "Перескажи презентацию про сроки и этапы нашего проекта, 40 слайдов читать некогда.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0332", "text": "Сессия через две недели, а я ни одного билета не открыл. В голове каша, сажусь учить и через десять минут уже листаю ленту. Есть способ заставить себя?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0333", "text": "Напомни в четверг про дедлайн по лабораторной.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0334", "text": "Trello или Яндекс Трекер для задач команды из пяти человек?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0335", "text": "чем отличается бакалавриат от специалитета", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0336", "text": "Найди 5–7 свежих статей про влияние удалёнки на выгорание, мне нужны источники для второй главы.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0337", "text": "Стоит ли вообще ставить зависимости между задачами, если проект маленький, на двоих и на месяц?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0338", "text": "Объясни простыми словами, что такое энтропия.", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0339", "text": "Проверь на ошибки доклад «Источники римского права».", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0340", "text": "Начальник просит выйти в субботу третий раз за месяц. Отказывать неудобно, соглашаться не хочу. Как сказать нет, чтобы не испортить отношения?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0341", "text": "Напиши и отправь руководителю письмо, что задача по макету задерживается на неделю из-за поставщика.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0342", "text": "Не могу выбрать тему курсовой. По первой, про цифровой рубль, источников много, но тема заезженная. По второй, про исламский банкинг в России, литературы почти нет, зато интересно. Что бы ты взял?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0343", "text": "Правда ли, что кофе обезвоживает?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0344", "text": "Где-то читал, что 80% стартапов закрываются в первый год. В моём списке литературы этого точно нет. Откуда вообще эта цифра?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0345", "text": "Объясни, чем среднее отличается от медианы и когда по группам лучше считать одно, а когда другое.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0346", "text": "Ты запоминаешь, что я писал вчера?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0347", "text": "Сделай карточки для запоминания по конспекту лекции о сетевом планировании: критический путь, резервы, ранние и поздние сроки.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0348", "text": "скачай csv с курсом доллара за 2025 год с сайта центробанка", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0349", "text": "Переезжаю в общежитие в сентябре, комната на троих. Что взять с собой, чтобы не таскать лишнее, и о чём лучше сразу договориться с соседями?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0350", "text": "Думаю, что купить для учёбы: планшет с клавиатурой или лёгкий ноутбук, бюджет до 60 тысяч. В основном таблицы и код.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0351", "text": "Подбери литературу по теплопроводности композитов.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0352", "text": "Можно ли с тобой говорить по-английски?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0353", "text": "сколько источников обычно нужно на одно утверждение в курсовой чтобы не придрались", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0354", "text": "В отчёте по практике есть раздел с выводами, он написан коряво. Файл в Word, страницы 12–14. Перепиши его нормальным научным языком, смысл не трогай.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0355", "text": "Волнуюсь перед собеседованием на стажировку в банк. Обычно начинаю тараторить и забываю, что хотел сказать.", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0356", "text": "Запусти Excel, мне надо поправить пару ячеек в бюджете.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0357", "text": "магистратура в своём вузе или в Питере, сроки подачи почти одинаковые, не знаю куда податься", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0358", "text": "Что приготовить на ужин из гречки и яиц?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0359", "text": "Есть утверждение, что билингвы позже сталкиваются с деменцией. Мне нужен первоисточник: кто это исследовал и где опубликовано. У себя я ничего такого не нашла, поищи.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0360", "text": "Как правильно оценивать длительность задач, если раньше ничего похожего не делал? Слышал про метод трёх оценок, но не понял, зачем там пессимистичная.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0361", "text": "Почему небо на закате красное, а днём голубое?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0362", "text": "На фото страница из ведомости с оценками, прочитай, что там написано в третьем столбце.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0363", "text": "Поищи в интернете, сколько в среднем длится согласование перепланировки в Екатеринбурге. Мне для плана ремонта, хочу понимать, на что закладываться.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0364", "text": "Одногруппник списывает у меня каждую контрольную, и мне это надоело. Ругаться не хочется, мы в одной компании. Как себя повести?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0365", "text": "Для дипломного анализа данных лучше взять Python или R?", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0366", "text": "Чем подкрепить тезис, что рост минимальной зарплаты не увеличивает безработицу? Пока под него нет ни одной работы, посоветуй, что почитать.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0367", "text": "В чём разница между интегралом и производной, если совсем на пальцах?", "label": "NONE", "type": "unknown", "author": "gen-claude"}
+{"id": "q0368", "text": "Где у меня тезисы без ссылок?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0369", "text": "К защите 19 декабря успеваем?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0370", "text": "Пишу диплом про бережливое производство на мебельной фабрике. В третьей главе я заявляю, что простои сократились на 18%, и никак не вспомню, откуда это взял: то ли из отчёта службы качества, то ли из интервью с мастером цеха. Оба есть в моём списке литературы. Помоги понять, на что эта цифра опирается.", "label": "research_board", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0371", "text": "Типография сказала, что печать займёт не три дня, а десять. Что у меня теперь поедет в подготовке конференции?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0372", "text": "Запиши, что вывод про рост заболеваемости корью опирается на бюллетень Роспотребнадзора за 2024 год.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0373", "text": "Делаем командой мобильное приложение для столовой к хакатону 6 декабря. Дизайн экранов займёт пять дней, бэкенд восемь, фронт шесть, причём фронт нельзя начинать без готового дизайна, а тестировать можно, только когда всё собрано. Сегодня 10 ноября. Вписываемся или надо что-то резать?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0374", "text": "Что в курсовой держится на одной-единственной книге?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0375", "text": "Где в плане переезда совсем нет запаса по времени?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0376", "text": "Рецензент пишет, что у меня две главы спорят между собой: в одной рынок растёт, в другой падает. Покажи все места, где мои же выводы друг другу противоречат.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0377", "text": "Сбор анкет идёт медленнее, чем думали: ставь на него три недели вместо двух.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0378", "text": "Если выкинуть из списка литературы монографию 2011 года, что в работе останется голословным?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0379", "text": "Дедлайн по отчёту перенесли на 5 марта.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0380", "text": "какие книги из списка литературы так ни к чему и не пригодились", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0381", "text": "Монтаж видео можно начинать только после того, как запишем озвучку. Сейчас они у меня стоят параллельно, поправь.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0382", "text": "Готовим аналитическую записку для дирекции по открытию второго склада. В ней одиннадцать доводов, под них собрали отчёты консультантов, статистику по перевозкам и два интервью. Перед отправкой хочу увидеть, какие доводы пока ничем не подкреплены, чтобы не краснеть на совещании.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0383", "text": "выступление на семинаре отменили убери его из плана", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0384", "text": "Статья про микрозаймы к выводу о долговой нагрузке студентов не относится, я ошибся, когда их соединял. Убери эту ссылку.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0385", "text": "Перенеси закупку оборудования на январь, деньги по гранту придут только после праздников.", "label": "project_planner", "type": "positive", "author": "gen-claude"}
+{"id": "q0386", "text": "В обзоре по остеопорозу у меня написано, что витамин D снижает риск переломов на 30%, а в метаанализе, на который я ссылаюсь, стоит 15%. Боюсь, таких расхождений с литературой у меня не одно. Хочу найти все.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0387", "text": "Заказчик опять поменял требования, и согласование макетов, на которое мы закладывали неделю, растянется минимум на три. Сдача проекта 15 февраля, дальше по цепочке вёрстка, наполнение и тесты. Мне нужно сегодня же понять, на сколько мы вылетаем за срок и что ещё можно спасти.", "label": "project_planner", "type": "positive", "author": "gen-claude"}

@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 
+from app.application.services.tool_router.tool_router_service import build_tool_router
 from app.config.logging import configure_logging
 from app.config.settings import get_settings
 from app.infrastructure.db.config import engine, session_factory
@@ -14,6 +15,7 @@ from fastapi import FastAPI
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.session_factory = session_factory
+    app.state.tool_router = build_tool_router()
     setting = get_settings()
     configure_logging(setting)
     yield

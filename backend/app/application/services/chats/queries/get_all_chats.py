@@ -2,15 +2,17 @@ from app.application.schemas.entities.chat import ChatRead
 from app.application.services.chats.base_chat_service import BaseChatService
 
 
-class GetPinedChatsService(BaseChatService):
+class GetPinnedChatsService(BaseChatService):
     async def __call__(self) -> list[ChatRead]:
         async with self.uow as uow:
-            pined_chat = await uow.chat.list_pinned()
-        return [ChatRead(**chat.as_dict()) for chat in pined_chat]
+            chats = await uow.chat.list_pinned()
+        self.logger.debug("chats.pinned_listed", count=len(chats))
+        return [ChatRead.model_validate(chat) for chat in chats]
 
 
-class GetStanaloneChatsService(BaseChatService):
+class GetStandaloneChatsService(BaseChatService):
     async def __call__(self) -> list[ChatRead]:
         async with self.uow as uow:
-            standalone_chats = await uow.chat.list_standalone()
-        return [ChatRead(**chat.as_dict()) for chat in standalone_chats]
+            chats = await uow.chat.list_standalone()
+        self.logger.debug("chats.standalone_listed", count=len(chats))
+        return [ChatRead.model_validate(chat) for chat in chats]

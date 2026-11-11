@@ -10,5 +10,7 @@ class GetChatService(BaseChatService):
         async with self.uow as uow:
             chat = await uow.chat.get(chat_id)
         if chat is None:
+            self.logger.info("chat.not_found", action="get", chat_id=str(chat_id))
             raise ChatNotFoundError(chat_id)
-        return ChatRead(**chat.as_dict())
+        self.logger.debug("chat.fetched", chat_id=str(chat_id))
+        return ChatRead.model_validate(chat)

@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Any
 from uuid import UUID, uuid4
 
-from app.domain.common import AggregateRoot, require_text, utcnow
+from app.domain.common import AggregateRoot, utcnow
 from app.domain.entities.message import MessageDomain, MessageRole
 from app.domain.events.chat_events import (
     ChatCreated,
@@ -14,9 +14,11 @@ from app.domain.events.chat_events import (
     ChatUnpinned,
     MessageAdded,
 )
+from app.domain.exceptions.chat import ChatTitleEmptyError, ChatTitleTooLongError
 
 DEFAULT_CHAT_TITLE = "Новый чат"
 MAX_CHAT_TITLE_LENGTH = 255
+CHAT_FIELD_NAME = "Название чата"
 
 
 @dataclass(eq=False)
@@ -28,23 +30,33 @@ class ChatDomain(AggregateRoot):
     created_at: datetime = field(default_factory=utcnow)
     updated_at: datetime = field(default_factory=utcnow)
 
+    @staticmethod
+    def _normalize_title(title: str) -> str:
+        title = title.strip()
+        if not title:
+            raise ChatTitleEmptyError(f"{CHAT_FIELD_NAME} не может быть пустым")
+        if len(title) > MAX_CHAT_TITLE_LENGTH:
+            raise ChatTitleTooLongError(MAX_CHAT_TITLE_LENGTH)
+        return title
+
     @classmethod
     def create(
         cls, title: str = DEFAULT_CHAT_TITLE, project_id: UUID | None = None
     ) -> "ChatDomain":
         chat = cls(
             id=uuid4(),
-            title=require_text(title, "Название чата", MAX_CHAT_TITLE_LENGTH),
+            title=cls._normalize_title(title),
             project_id=project_id,
         )
         chat._record(ChatCreated(chat_id=chat.id, project_id=chat.project_id))
         return chat
 
     def rename(self, title: str) -> None:
-        title = require_text(title, "Название чата", MAX_CHAT_TITLE_LENGTH)
+        title = self._normalize_title(title)
         if title == self.title:
             return
         self.title = title
+        self._touch()
         self._record(ChatRenamed(chat_id=self.id, project_id=self.project_id))
 
     def pin(self) -> None:
@@ -63,6 +75,7 @@ class ChatDomain(AggregateRoot):
         if project_id == self.project_id:
             return
         previous, self.project_id = self.project_id, project_id
+        self._touch()
         self._record(
             ChatMovedToProject(
                 chat_id=self.id, project_id=project_id, previous_project_id=previous
@@ -91,3 +104,6 @@ class ChatDomain(AggregateRoot):
 
     def mark_deleted(self) -> None:
         self._record(ChatDeleted(chat_id=self.id, project_id=self.project_id))
+
+    def _touch(self) -> None:
+        self.updated_at = utcnow()

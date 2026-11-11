@@ -1,8 +1,8 @@
 from typing import Annotated
 
 from app.application.services.chats.queries.get_all_chats import (
-    GetPinedChatsService,
-    GetStanaloneChatsService,
+    GetPinnedChatsService,
+    GetStandaloneChatsService,
 )
 from app.domain.interfaces.uow.uow_interface import IUnitOfWork
 from app.domain.logging.i_logger import ILogger
@@ -14,12 +14,12 @@ from fastapi import Depends
 def get_pined_chats_service(
     uow: Annotated[IUnitOfWork, Depends(get_uow)],
     logger: Annotated[ILogger, Depends(get_logger)],
-) -> GetPinedChatsService:
-    return GetPinedChatsService(uow, logger)
+) -> GetPinnedChatsService:
+    return GetPinnedChatsService(uow, logger)
 
 
 def get_standalone_chats_service(
     uow: Annotated[IUnitOfWork, Depends(get_uow)],
     logger: Annotated[ILogger, Depends(get_logger)],
-) -> GetStanaloneChatsService:
-    return GetStanaloneChatsService(uow, logger)
+) -> GetStandaloneChatsService:
+    return GetStandaloneChatsService(uow, logger)

@@ -19,6 +19,10 @@ class ChatRead(ReadSchema):
     updated_at: AwareDatetime
 
 
+class ChatIdRead(ReadSchema):
+    chat_id: UUID
+
+
 class ChatCreate(InputSchema):
     title: ChatTitle | None = None
     project_id: UUID | None = None

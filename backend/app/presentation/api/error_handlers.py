@@ -1,6 +1,15 @@
 from http import HTTPStatus
 from typing import Any
 
+from app.domain.exceptions.base import (
+    AccessDeniedError,
+    AlreadyExistsError,
+    BusinessRuleViolationError,
+    ConflictError,
+    DomainError,
+    DomainValidationError,
+    NotFoundError,
+)
 from app.infrastructure.logging.logger import get_logger
 from app.presentation.api.exceptions.base import ApiHTTPException
 from fastapi import FastAPI, HTTPException, Request, status
@@ -24,6 +33,32 @@ _FRIENDLY_MESSAGES = {
     "string_too_long": "Value is too long",
     "extra_forbidden": "Unexpected field",
 }
+
+_DOMAIN_STATUS: dict[type[DomainError], int] = {
+    DomainError: status.HTTP_400_BAD_REQUEST,
+    NotFoundError: status.HTTP_404_NOT_FOUND,
+    AlreadyExistsError: status.HTTP_409_CONFLICT,
+    ConflictError: status.HTTP_409_CONFLICT,
+    AccessDeniedError: status.HTTP_403_FORBIDDEN,
+    DomainValidationError: status.HTTP_422_UNPROCESSABLE_CONTENT,
+    BusinessRuleViolationError: status.HTTP_400_BAD_REQUEST,
+}
+
+
+def _make_domain_handler(status_code: int):
+    async def handler(request: Request, exc: Exception) -> JSONResponse:
+        if not isinstance(exc, DomainError):
+            raise exc
+        logger.info(
+            "request.rejected",
+            method=request.method,
+            path=request.url.path,
+            status=status_code,
+            code=exc.code,
+        )
+        return _error_response(status_code, exc.code, exc.message, exc.details)
+
+    return handler
 
 
 def _error_response(
@@ -137,5 +172,7 @@ async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONR
 
 def register_error_handlers(app: FastAPI) -> None:
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
+    for exc_type, status_code in _DOMAIN_STATUS.items():
+        app.add_exception_handler(exc_type, _make_domain_handler(status_code))
     app.add_exception_handler(HTTPException, http_exception_handler)
     app.add_exception_handler(Exception, unhandled_exception_handler)

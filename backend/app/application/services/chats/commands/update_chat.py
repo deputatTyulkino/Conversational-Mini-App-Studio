@@ -1,29 +1,44 @@
 from uuid import UUID
 
-from app.application.schemas.entities.chat import ChatUpdate
+from app.application.schemas.entities.chat import ChatIdRead, ChatUpdate
 from app.application.services.chats.base_chat_service import BaseChatService
 from app.domain.exceptions.chat import ChatNotFoundError
 from app.domain.exceptions.project import ProjectNotFoundError
 
 
 class UpdateChatService(BaseChatService):
-    async def __call__(self, chat_id: UUID, chat_data: ChatUpdate) -> dict[str, UUID]:
+    async def __call__(self, chat_id: UUID, chat_data: ChatUpdate) -> ChatIdRead:
         async with self.uow as uow:
             chat = await uow.chat.get(chat_id)
             if chat is None:
+                self.logger.info(
+                    "chat.not_found", action="update", chat_id=str(chat_id)
+                )
                 raise ChatNotFoundError(chat_id)
-            if chat_data.title is not None:
-                chat.rename(chat_data.title)
-            if chat_data.is_pinned is not None:
-                if chat_data.is_pinned:
+            changes = chat_data.model_dump(exclude_unset=True)
+            if "title" in changes:
+                chat.rename(changes["title"])
+            if "is_pinned" in changes:
+                if changes["is_pinned"]:
                     chat.pin()
                 else:
                     chat.unpin()
-            if chat_data.project_id is not None:
-                exists_project = await uow.project.exists(chat_data.project_id)
-                if not exists_project:
-                    raise ProjectNotFoundError(chat_data.project_id)
-                chat.move_to_project(chat_data.project_id)
-            updated_chat_id = await uow.chat.update(chat)
+            if "project_id" in changes:
+                target_project_id = changes["project_id"]
+                if target_project_id is not None:
+                    exists_project = await uow.project.exists(target_project_id)
+                    if not exists_project:
+                        self.logger.info(
+                            "project.not_found",
+                            action="move_chat",
+                            chat_id=str(chat_id),
+                            project_id=str(target_project_id),
+                        )
+                        raise ProjectNotFoundError(target_project_id)
+                chat.move_to_project(target_project_id)
+            await uow.chat.update(chat)
             await uow.commit()
-        return {"chat_id": updated_chat_id}
+        self.logger.info(
+            "chat.updated", chat_id=str(chat_id), requested_fields=sorted(changes)
+        )
+        return ChatIdRead(chat_id=chat_id)

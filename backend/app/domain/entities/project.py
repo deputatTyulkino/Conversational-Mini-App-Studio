@@ -73,6 +73,7 @@ class ProjectDomain(AggregateRoot):
         self._touch("description")
 
     def create_chat(self, title: str = DEFAULT_CHAT_TITLE) -> ChatDomain:
+        title = ChatDomain._normalize_title(title)
         chat = ChatDomain.create(title=title, project_id=self.id)
         self.chats.append(chat)
         self.updated_at = chat.created_at

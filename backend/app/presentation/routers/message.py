@@ -17,8 +17,6 @@ from app.application.services.messages.command.update_message import (
 from app.application.services.messages.queries.get_all_messages import (
     GetAllMessagesService,
 )
-from app.domain.exceptions.chat import ChatNotFoundError
-from app.domain.exceptions.message import MessageNotFoundError
 from app.infrastructure.dependencies.entities.messages.command.create_message import (
     create_message_service,
 )
@@ -28,10 +26,8 @@ from app.infrastructure.dependencies.entities.messages.command.update_mesage imp
 from app.infrastructure.dependencies.entities.messages.queries.get_messages import (
     get_messages_service,
 )
-from app.presentation.api.exceptions.chat import ChatNotFoundHTTPException
-from app.presentation.api.exceptions.message import MessageNotFoundHTTPException
 from app.presentation.api.schemas.responses import SuccessResponse
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, File, Query, UploadFile, status
 
 router = APIRouter(prefix="/{chat_id}/messages")
 
@@ -65,12 +61,10 @@ async def create_message(
     create_message_service: Annotated[
         CreateMessageService, Depends(create_message_service)
     ],
+    files: Annotated[list[UploadFile], File()],
 ):
-    try:
-        data = await create_message_service(chat_id, message_data)
-        return SuccessResponse(data=data)
-    except ChatNotFoundError as e:
-        raise ChatNotFoundHTTPException(str(e), code=e.code)
+    data = await create_message_service(chat_id, message_data, files)
+    return SuccessResponse(data=data)
 
 
 @router.patch(
@@ -86,11 +80,7 @@ async def update_message(
     update_message_service: Annotated[
         UpdateMessageService, Depends(update_message_service)
     ],
+    files: Annotated[list[UploadFile], File()],
 ):
-    try:
-        data = await update_message_service(chat_id, message_id, message_data)
-        return SuccessResponse(data=data)
-    except ChatNotFoundError as e:
-        raise ChatNotFoundHTTPException(str(e), code=e.code)
-    except MessageNotFoundError as e:
-        raise MessageNotFoundHTTPException(str(e), code=e.code)
+    data = await update_message_service(chat_id, message_id, message_data)
+    return SuccessResponse(data=data)

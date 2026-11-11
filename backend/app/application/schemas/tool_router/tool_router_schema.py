@@ -1,8 +1,12 @@
 from enum import StrEnum
 from typing import Annotated, Any, Literal, Self
+from uuid import UUID
 
 from app.application.schemas.common import ReadSchema
+from app.domain.value_objects.file import StoredFile
 from pydantic import (
+    BaseModel,
+    ConfigDict,
     Field,
     StringConstraints,
     model_validator,
@@ -10,6 +14,20 @@ from pydantic import (
 
 AppId = Annotated[str, StringConstraints(pattern=r"^[a-z][a-z0-9_]{1,63}$")]
 Score = Annotated[float, Field(ge=0.0, le=1.0)]
+
+
+class RouterInput(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    chat_id: UUID = Field(description="Чат, в который пришло сообщение")
+    project_id: UUID | None = Field(description="Проект чата, None для отдельного чата")
+    text: str = Field(
+        description="Текст сообщения пользователя, уже очищенный от пробелов"
+    )
+    attachments: list[StoredFile] = Field(
+        default_factory=list,
+        description="Файлы сообщения, уже сохранённые в хранилище",
+    )
 
 
 class RouteStatus(StrEnum):

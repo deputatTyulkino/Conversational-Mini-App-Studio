@@ -10,6 +10,11 @@ from app.domain.exceptions.base import (
     DomainValidationError,
     NotFoundError,
 )
+from app.domain.exceptions.file import (
+    FileContentTypeNotAllowedError,
+    FileExtensionNotAllowedError,
+    FileTooLargeError,
+)
 from app.infrastructure.logging.logger import get_logger
 from app.presentation.api.exceptions.base import ApiHTTPException
 from fastapi import FastAPI, HTTPException, Request, status
@@ -42,6 +47,9 @@ _DOMAIN_STATUS: dict[type[DomainError], int] = {
     AccessDeniedError: status.HTTP_403_FORBIDDEN,
     DomainValidationError: status.HTTP_422_UNPROCESSABLE_CONTENT,
     BusinessRuleViolationError: status.HTTP_400_BAD_REQUEST,
+    FileTooLargeError: 413,
+    FileExtensionNotAllowedError: 415,
+    FileContentTypeNotAllowedError: 415,
 }
 
 

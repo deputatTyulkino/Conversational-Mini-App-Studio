@@ -5,7 +5,7 @@ from typing import Literal, Self
 from pydantic import Field, PostgresDsn, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-BASE_DIR = Path(__file__).resolve().parents[2]
+BASE_DIR = Path(__file__).resolve().parents[3]
 
 RATE_LIMIT_PATTERN = r"^\d+/(second|minute|hour|day)$"
 
@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     app_debug: bool = False
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     log_json: bool = False
+
+    upload_root: Path = BASE_DIR / "data" / "uploads"
 
     public_base_url: str = "http://localhost:5173"
     frontend_url: str = "http://localhost:5173"

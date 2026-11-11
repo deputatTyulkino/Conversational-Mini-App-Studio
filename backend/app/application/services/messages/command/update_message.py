@@ -15,16 +15,22 @@ from app.application.services.tool_router.tool_router_service import ToolRouterS
 from app.domain.entities.message import MessageDomain, MessageRole
 from app.domain.exceptions.chat import ChatNotFoundError
 from app.domain.exceptions.message import MessageNotFoundError
+from app.domain.interfaces.storage.file_storage import IFileStorage
 from app.domain.interfaces.uow.uow_interface import IUnitOfWork
 from app.domain.logging.i_logger import ILogger
 
 
 class UpdateMessageService(BaseMessageService):
     def __init__(
-        self, uow: IUnitOfWork, logger: ILogger, tool_router: ToolRouterService
+        self,
+        uow: IUnitOfWork,
+        logger: ILogger,
+        tool_router: ToolRouterService,
+        file_storage: IFileStorage,
     ):
         super().__init__(uow, logger)
         self.tool_router = tool_router
+        self.file_storage = file_storage
 
     async def __call__(
         self, chat_id: UUID, message_id: UUID, message_data: MessageUpdate

@@ -38,25 +38,25 @@
 {"id": "q0039", "text": "слушай у меня в докладе куча тезисов а откуда я их взял уже не помню, глянь че там без ссылок", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0040", "text": "блин препод сказал что половина моих аргументов без потверждения, можно как то понять какие именно", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0041", "text": "у нас 5 этапов по проекту и сдача 15го, бэкендер тормозит с работой на неделю, мы вообще успеваем?", "label": "project_planner", "type": "positive", "author": "gen-claude"}
-{"id": "q0042", "text": "скинул ксв с тратами за месяц, сколько я на еду потратил?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
+{"id": "q0042", "text": "скинул ксв с тратами за месяц, скока я на еду просадил?", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
 {"id": "q0043", "text": "а если стипуху поднимут на 15% мне на сколько больше за год выйдет? табличка есть", "label": "data_explorer", "type": "positive", "author": "gen-claude"}
 {"id": "q0044", "text": "вот табличка по курсовой, там задачи и сколько часов на каждую, глянь че там", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["project_planner", "data_explorer"]}
-{"id": "q0045", "text": "у меня статьи и тезисы в одной таблице свалены, надо исправить до пятницы", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
+{"id": "q0045", "text": "у меня статьи и тезисы в одной таблице свалены, надо с этим что то сделать до пятницы", "label": "ASK", "type": "ambiguous", "author": "gen-claude", "candidates": ["research_board", "data_explorer"]}
 {"id": "q0046", "text": "отправь письмо руководителю кафедры", "label": "NONE", "type": "unknown", "author": "team-1"}
 {"id": "q0047", "text": "как в экселе сводную таблицу сделать", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
-{"id": "q0048", "text": "я проспал дедлайн по курсовой, напиши письмо преподу чтоб продлил", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
-{"id": "q0049", "text": "Проверь на какие утверждения во введении курсовой у меня нет ссылок", "label": "research_board", "type": "positive", "author": "gen-claude"}
-{"id": "q0050", "text": "В докладе по экономике 12 тезисов и 9 источников, хочу понять, какие тезисы остались без подтверждения", "label": "research_board", "type": "positive", "author": "gen-claude"}
-{"id": "q0051", "text": "Какие выводы во второй главе опираются только на один источник?", "label": "research_board", "type": "", "author": "gen-claude"}
-{"id": "q0052", "text": "Научный руководитель сказал, что в разделе про рынок труда много голословных утверждений, какие именно?", "label": "research_board", "type": "positive", "author": "gen-claude"}
-{"id": "q0053", "text": "Свяжи утверждение про рост цен на жильё с отчётом Росстата за 2024 год", "label": "research_board", "type": "", "author": "gen-claude"}
-{"id": "q0054", "text": "Если убрать из списка литературы статью 2009 года, какие аргументы останутся без опоры?", "label": "research_board", "type": "", "author": "gen-claude"}
-{"id": "q0055", "text": "У меня курсовая про дистанционное обучение, источников около 20, а тезисов в два раза больше", "label": "research_board", "type": "", "author": "gen-claude"}
-{"id": "q0056", "text": "отметь, какие утверждения в третьем разделе подтверждены хотя бы двумя источниками.", "label": "research_board", "type": "", "author": "gen-claude"}
-{"id": "q0057", "text": "Добавил в доклад три новые статьи, теперь хочу посмотреть к каким тезисам их можно привязать.", "label": "research_board", "type": "", "author": "gen-claude"}
+{"id": "q0048", "text": "я проспал дедлайн по курсачу, напиши письмо преподу чтоб продлил", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0049", "text": "Проверь, на какие утверждения во введении курсовой у меня нет ни одной ссылки.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0050", "text": "В докладе по экономике двенадцать тезисов и девять источников. Хочу понять, какие тезисы остались без подтверждения.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0051", "text": "Какие выводы во второй главе опираются только на один источник?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0052", "text": "Научный руководитель отметил, что в разделе про рынок труда много голословных утверждений. Не понимаю, какие именно он имел в виду.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0053", "text": "Свяжи утверждение про рост цен на жильё с отчётом Росстата за 2024 год.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0054", "text": "Если убрать из списка литературы статью 2009 года, какие аргументы останутся без опоры?", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0055", "text": "У меня курсовая про дистанционное обучение, источников около двадцати, а тезисов примерно в два раза больше.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0056", "text": "Отметь, какие утверждения в третьем разделе подтверждены хотя бы двумя источниками.", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0057", "text": "Добавил в доклад три новые статьи, теперь хочу проверить, к каким тезисам их можно привязать.", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0058", "text": "Завтра предзащита, а я не уверен, что все цифры в обзоре литературы чем-то подкреплены.", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0059", "text": "Покажи утверждения без источника в главе про методологию", "label": "research_board", "type": "positive", "author": "gen-claude"}
-{"id": "q0060", "text": "В заключении я пишу, что онлайн-курсы повышают успеваемость. На что опирается это утверждение", "label": "research_board", "type": "positive", "author": "gen-claude"}
+{"id": "q0060", "text": "В заключении я пишу, что онлайн-курсы повышают успеваемость. На что это опирается в моём тексте?", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0061", "text": "Удали связь между тезисом о мотивации студентов и учебником по психологии, она там лишняя.", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0062", "text": "Есть доклад на 15 страниц и список из 11 источников, часть которых я так и не процитировал.", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0063", "text": "Проверь все ли утверждения про климатическую политику ЕС подкреплены литературой.", "label": "research_board", "type": "positive", "author": "gen-claude"}
@@ -171,6 +171,8 @@
 {"id": "q0172", "text": "Сделай карточки по загруженному конспекту лекций по микроэкономике, экзамен через неделю.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
 {"id": "q0173", "text": "Построй карту понятий по главе про нормализацию баз данных.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
 {"id": "q0174", "text": "Составь тест на 15 вопросов по этому учебнику, и чтобы у каждого вопроса была ссылка на страницу.", "label": "NONE", "type": "adversarial", "author": "gen-claude"}
+{"id": "q0195", "text": "Проверь мой доклад на ошибки и скажи где информация противоречит сама себе", "label": "research_board", "type": "adversarial", "author": "ext-05"}
+{"id": "q0200", "text": "надо проверить пару утверждений из второй главы, но я не помню, из какой это книги", "label": "research_board", "type": "adversarial", "author": "ext-06"}
 {"id": "q0210", "text": "Какие утверждения без источников?", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0211", "text": "Свяжи утверждение про падение прочности бетона при −15 °C с источником 4, это ГОСТ 10180.", "label": "research_board", "type": "positive", "author": "gen-claude"}
 {"id": "q0212", "text": "В курсовой по истории у меня 14 утверждений во второй главе и 9 источников. Руководитель сказал, что половина держится непонятно на чём. Покажи, какие из них вообще ничем не подкреплены.", "label": "research_board", "type": "positive", "author": "gen-claude"}

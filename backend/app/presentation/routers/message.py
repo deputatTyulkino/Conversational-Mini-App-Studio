@@ -27,7 +27,7 @@ from app.infrastructure.dependencies.entities.messages.queries.get_messages impo
     get_messages_service,
 )
 from app.presentation.api.schemas.responses import SuccessResponse
-from fastapi import APIRouter, Depends, File, Query, UploadFile, status
+from fastapi import APIRouter, Depends, Query, status
 
 router = APIRouter(prefix="/{chat_id}/messages")
 
@@ -38,14 +38,12 @@ router = APIRouter(prefix="/{chat_id}/messages")
     status_code=status.HTTP_200_OK,
     tags=["messages"],
 )
-async def get_messages(
+async def get_messages_endpoint(
     chat_id: UUID,
     params: Annotated[MessageListParams, Query()],
-    get_messages_service: Annotated[
-        GetAllMessagesService, Depends(get_messages_service)
-    ],
+    get_messages: Annotated[GetAllMessagesService, Depends(get_messages_service)],
 ):
-    data = await get_messages_service(chat_id, params)
+    data = await get_messages(chat_id, params)
     return SuccessResponse(data=data)
 
 
@@ -55,15 +53,12 @@ async def get_messages(
     status_code=status.HTTP_201_CREATED,
     tags=["messages"],
 )
-async def create_message(
+async def create_message_endpoint(
     chat_id: UUID,
     message_data: MessageCreate,
-    create_message_service: Annotated[
-        CreateMessageService, Depends(create_message_service)
-    ],
-    files: Annotated[list[UploadFile], File()],
+    create_message: Annotated[CreateMessageService, Depends(create_message_service)],
 ):
-    data = await create_message_service(chat_id, message_data, files)
+    data = await create_message(chat_id, message_data)
     return SuccessResponse(data=data)
 
 
@@ -73,14 +68,11 @@ async def create_message(
     status_code=status.HTTP_200_OK,
     tags=["messages"],
 )
-async def update_message(
+async def update_message_endpoint(
     chat_id: UUID,
     message_id: UUID,
     message_data: MessageUpdate,
-    update_message_service: Annotated[
-        UpdateMessageService, Depends(update_message_service)
-    ],
-    files: Annotated[list[UploadFile], File()],
+    update_message: Annotated[UpdateMessageService, Depends(update_message_service)],
 ):
-    data = await update_message_service(chat_id, message_id, message_data)
+    data = await update_message(chat_id, message_id, message_data)
     return SuccessResponse(data=data)

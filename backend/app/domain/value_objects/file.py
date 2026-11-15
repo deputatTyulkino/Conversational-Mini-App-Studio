@@ -15,7 +15,6 @@ class IncomingFile(Protocol):
 @dataclass(frozen=True, slots=True)
 class StoredFile:
     relative_path: str
-    stored_name: str
     original_name: str
     extension: str
     content_type: str | None

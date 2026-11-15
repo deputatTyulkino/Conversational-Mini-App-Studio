@@ -129,7 +129,7 @@ class ProjectRepo(IProjectRepo):
             func.row_number()
             .over(
                 partition_by=ChatORM.project_id,
-                order_by=[ChatORM.created_at.desc(), ChatORM.id],
+                order_by=[ChatORM.updated_at.desc(), ChatORM.id],
             )
             .label("rn")
         )

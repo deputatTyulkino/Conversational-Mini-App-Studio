@@ -4,11 +4,21 @@ from typing import TYPE_CHECKING, Any
 
 from app.domain.entities.message import MessageRole
 from app.infrastructure.db.config import Base
-from sqlalchemy import CheckConstraint, DateTime, Enum, ForeignKey, Index, Text, func
+from sqlalchemy import (
+    CheckConstraint,
+    DateTime,
+    Enum,
+    ForeignKey,
+    Index,
+    Text,
+    desc,
+    func,
+)
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
+    from app.infrastructure.db.models.attachments import AttachmentORM
     from app.infrastructure.db.models.chats import ChatORM
 
 
@@ -38,10 +48,17 @@ class MessageORM(Base):
     )
 
     chat: Mapped["ChatORM"] = relationship(back_populates="messages", lazy="raise")
+    attachments: Mapped[list["AttachmentORM"]] = relationship(
+        back_populates="message",
+        lazy="raise",
+        cascade="all",
+        passive_deletes=True,
+        order_by="AttachmentORM.created_at",
+    )
 
     __table_args__ = (
         CheckConstraint(
             "content <> '' OR payload IS NOT NULL", name="content_or_payload"
         ),
-        Index("ix_messages_chat_id_created_at_id", "chat_id", "created_at", "id"),
+        Index("ix_messages_chat_id_created_at_id", chat_id, desc(created_at), desc(id)),
     )

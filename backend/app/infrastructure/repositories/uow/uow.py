@@ -1,11 +1,13 @@
 from types import TracebackType
 from typing import Self
 
+from app.domain.interfaces.entities.attachment import IAttachmentRepo
 from app.domain.interfaces.entities.chat import IChatRepo
 from app.domain.interfaces.entities.message import IMessageRepo
 from app.domain.interfaces.entities.project import IProjectRepo
 from app.domain.interfaces.uow.uow_interface import IUnitOfWork
 from app.domain.logging.i_logger import ILogger
+from app.infrastructure.repositories.entities.attachment import AttachmentRepo
 from app.infrastructure.repositories.entities.chat import ChatRepo
 from app.infrastructure.repositories.entities.message import MessageRepo
 from app.infrastructure.repositories.entities.project import ProjectRepo
@@ -22,6 +24,7 @@ class UnitOfWork(IUnitOfWork):
         self._message: IMessageRepo | None = None
         self._chat: IChatRepo | None = None
         self._project: IProjectRepo | None = None
+        self._attachment: IAttachmentRepo | None = None
 
     @property
     def message(self) -> IMessageRepo:
@@ -41,6 +44,12 @@ class UnitOfWork(IUnitOfWork):
             raise RuntimeError("Unit of Work не инициализирован")
         return self._project
 
+    @property
+    def attachment(self) -> IAttachmentRepo:
+        if self._attachment is None:
+            raise RuntimeError("Unit of Work не инициализирован")
+        return self._attachment
+
     async def __aenter__(self) -> Self:
         if self.session is not None:
             raise RuntimeError("UnitOfWork уже активен")
@@ -48,6 +57,7 @@ class UnitOfWork(IUnitOfWork):
         self._message = MessageRepo(self.session, self.logger)
         self._chat = ChatRepo(self.session, self.logger)
         self._project = ProjectRepo(self.session, self.logger)
+        self._attachment = AttachmentRepo(self.session, self.logger)
         self.logger.debug("uow.begin")
         return self
 
@@ -72,6 +82,7 @@ class UnitOfWork(IUnitOfWork):
             self._chat = None
             self._message = None
             self._project = None
+            self._attachment = None
             self.logger.debug("uow.closed")
 
     async def commit(self) -> None:

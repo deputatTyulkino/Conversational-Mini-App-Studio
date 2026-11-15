@@ -70,3 +70,8 @@ class StoredFileNotFoundError(NotFoundError):
 class InvalidStoragePathError(DomainError):
     code = "invalid_storage_path"
     default_message = "Invalid storage path"
+
+
+class FileDeleteError(DomainError):
+    code = "file_delete_failed"
+    default_message = "Failed to delete file"

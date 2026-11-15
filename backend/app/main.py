@@ -9,6 +9,7 @@ from app.presentation.api.schemas.responses import (
     ErrorResponse,
     ValidationErrorResponse,
 )
+from app.presentation.routers.attachment import router as attachment_router
 from app.presentation.routers.chat import router as chats_router
 from app.presentation.routers.message import router as messages_router
 from app.presentation.routers.project import router as projects_router
@@ -36,6 +37,7 @@ register_error_handlers(app)
 chats_router.include_router(messages_router)
 app.include_router(projects_router)
 app.include_router(chats_router)
+app.include_router(attachment_router)
 
 
 @app.get("/health")

@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 from typing import TYPE_CHECKING
 
+from app.domain.entities.chat import DEFAULT_CHAT_TITLE
 from app.infrastructure.db.config import Base
 from sqlalchemy import (
     UUID,
@@ -17,6 +18,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
+    from .attachments import AttachmentORM
     from .messages import MessageORM
     from .projects import ProjectORM
 
@@ -32,7 +34,7 @@ class ChatORM(Base):
         nullable=True,
     )
     title: Mapped[str] = mapped_column(
-        String(255), nullable=False, server_default=text("'Новый чат'")
+        String(255), nullable=False, server_default=text(DEFAULT_CHAT_TITLE)
     )
     is_pinned: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=text("false")
@@ -53,7 +55,14 @@ class ChatORM(Base):
         cascade="all, delete-orphan",
         passive_deletes=True,
         lazy="raise",
-        order_by="MessageModel.created_at",
+        order_by="MessageORM.created_at",
+    )
+    attachments: Mapped[list["AttachmentORM"]] = relationship(
+        back_populates="chat",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="raise",
+        order_by="AttachmentORM.created_at",
     )
 
     __table_args__ = (

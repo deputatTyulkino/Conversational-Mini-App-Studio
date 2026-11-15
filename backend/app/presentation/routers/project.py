@@ -46,10 +46,10 @@ router = APIRouter(prefix="/api/projects", tags=["projects"])
     response_model=SuccessResponse[list[ProjectWithChatsRead]],
     status_code=status.HTTP_200_OK,
 )
-async def get_projects(
-    projects_service: Annotated[GetAllProjectService, Depends(get_all_project_service)],
+async def get_all_projects_endpoint(
+    get_all_projects: Annotated[GetAllProjectService, Depends(get_all_project_service)],
 ):
-    data = await projects_service()
+    data = await get_all_projects()
     return SuccessResponse(data=data)
 
 
@@ -58,11 +58,11 @@ async def get_projects(
     response_model=SuccessResponse[ProjectWithChatsRead],
     status_code=status.HTTP_200_OK,
 )
-async def get_project(
+async def get_project_endpoint(
     project_id: UUID,
-    project_service: Annotated[GetProjectService, Depends(get_project_service)],
+    get_project: Annotated[GetProjectService, Depends(get_project_service)],
 ):
-    data = await project_service(project_id)
+    data = await get_project(project_id)
     return SuccessResponse(data=data)
 
 
@@ -71,11 +71,11 @@ async def get_project(
     response_model=SuccessResponse[ProjectIdRead],
     status_code=status.HTTP_201_CREATED,
 )
-async def create_project(
+async def create_project_endpoint(
     project_data: ProjectCreate,
-    project_service: Annotated[CreateProjectService, Depends(create_project_service)],
+    create_project: Annotated[CreateProjectService, Depends(create_project_service)],
 ):
-    data = await project_service(project_data)
+    data = await create_project(project_data)
     return SuccessResponse(data=data)
 
 
@@ -84,12 +84,12 @@ async def create_project(
     response_model=SuccessResponse[ProjectIdRead],
     status_code=status.HTTP_200_OK,
 )
-async def update_project(
+async def update_project_endpoint(
     project_id: UUID,
     project_data: ProjectUpdate,
-    project_service: Annotated[UpdateProjectService, Depends(update_project_service)],
+    update_project: Annotated[UpdateProjectService, Depends(update_project_service)],
 ):
-    data = await project_service(project_id, project_data)
+    data = await update_project(project_id, project_data)
     return SuccessResponse(data=data)
 
 
@@ -98,9 +98,9 @@ async def update_project(
     response_model=SuccessResponse[ProjectIdRead],
     status_code=status.HTTP_200_OK,
 )
-async def delete_project(
+async def delete_project_endpoint(
     project_id: UUID,
-    project_service: Annotated[DeleteProjectService, Depends(delete_project_service)],
+    delete_project: Annotated[DeleteProjectService, Depends(delete_project_service)],
 ):
-    data = await project_service(project_id)
+    data = await delete_project(project_id)
     return SuccessResponse(data=data)

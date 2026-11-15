@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from types import TracebackType
 from typing import Self
 
+from app.domain.interfaces.entities.attachment import IAttachmentRepo
 from app.domain.interfaces.entities.chat import IChatRepo
 from app.domain.interfaces.entities.message import IMessageRepo
 from app.domain.interfaces.entities.project import IProjectRepo
@@ -22,6 +23,10 @@ class IUnitOfWork(ABC):
     @property
     @abstractmethod
     def project(self) -> IProjectRepo: ...
+
+    @property
+    @abstractmethod
+    def attachment(self) -> IAttachmentRepo: ...
 
     async def __aenter__(self) -> Self: ...
 

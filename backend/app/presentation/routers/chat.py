@@ -43,12 +43,10 @@ router = APIRouter(prefix="/api/chats")
     status_code=status.HTTP_200_OK,
     tags=["chats"],
 )
-async def get_pined_chats(
-    pined_chats_service: Annotated[
-        GetPinnedChatsService, Depends(get_pined_chats_service)
-    ],
+async def get_pined_chats_endpoint(
+    get_pined_chats: Annotated[GetPinnedChatsService, Depends(get_pined_chats_service)],
 ):
-    data = await pined_chats_service()
+    data = await get_pined_chats()
     return SuccessResponse(data=data)
 
 
@@ -58,12 +56,12 @@ async def get_pined_chats(
     status_code=status.HTTP_200_OK,
     tags=["chats"],
 )
-async def get_standalone_chats(
-    standalone_chats_service: Annotated[
+async def get_standalone_chats_endpoint(
+    get_standalone_chats: Annotated[
         GetStandaloneChatsService, Depends(get_standalone_chats_service)
     ],
 ):
-    data = await standalone_chats_service()
+    data = await get_standalone_chats()
     return SuccessResponse(data=data)
 
 
@@ -73,11 +71,11 @@ async def get_standalone_chats(
     status_code=status.HTTP_200_OK,
     tags=["chats"],
 )
-async def get_chat(
+async def get_chat_endpoint(
     chat_id: UUID,
-    get_chat_service: Annotated[GetChatService, Depends(get_chat_service)],
+    get_chat: Annotated[GetChatService, Depends(get_chat_service)],
 ):
-    data = await get_chat_service(chat_id)
+    data = await get_chat(chat_id)
     return SuccessResponse(data=data)
 
 
@@ -87,11 +85,11 @@ async def get_chat(
     status_code=status.HTTP_201_CREATED,
     tags=["chats"],
 )
-async def create_chat(
+async def create_chat_endpoint(
     chat_data: ChatCreate,
-    create_chat_service: Annotated[CreateChatService, Depends(create_chat_servcice)],
+    create_chat: Annotated[CreateChatService, Depends(create_chat_servcice)],
 ):
-    data = await create_chat_service(chat_data)
+    data = await create_chat(chat_data)
     return SuccessResponse(data=data)
 
 
@@ -101,12 +99,12 @@ async def create_chat(
     status_code=status.HTTP_200_OK,
     tags=["chats"],
 )
-async def update_chat(
+async def update_chat_endpoint(
     chat_id: UUID,
     chat_data: ChatUpdate,
-    update_chat_service: Annotated[UpdateChatService, Depends(update_chat_servcice)],
+    update_chat: Annotated[UpdateChatService, Depends(update_chat_servcice)],
 ):
-    data = await update_chat_service(chat_id, chat_data)
+    data = await update_chat(chat_id, chat_data)
     return SuccessResponse(data=data)
 
 
@@ -116,9 +114,9 @@ async def update_chat(
     status_code=status.HTTP_200_OK,
     tags=["chats"],
 )
-async def delete_chat(
+async def delete_chat_endpoint(
     chat_id: UUID,
-    delete_chat_service: Annotated[DeleteChatService, Depends(delete_chat_servcice)],
+    delete_chat: Annotated[DeleteChatService, Depends(delete_chat_servcice)],
 ):
-    data = await delete_chat_service(chat_id)
+    data = await delete_chat(chat_id)
     return SuccessResponse(data=data)

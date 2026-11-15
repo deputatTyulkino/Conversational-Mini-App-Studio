@@ -1,20 +1,16 @@
 from uuid import UUID
 
 from app.application.schemas.entities.message import (
-    MessageRead,
     MessageUpdate,
     SendMessageResponse,
 )
-from app.application.schemas.tool_router.tool_router_schema import (
-    RouteDecision,
-    RouteFallbackReason,
-    RouteStatus,
-)
+from app.application.schemas.tool_router.tool_router_schema import RouterInput
+from app.application.services.messages.assistant_reply import build_assistant_reply
 from app.application.services.messages.base_message_services import BaseMessageService
 from app.application.services.tool_router.tool_router_service import ToolRouterService
-from app.domain.entities.message import MessageDomain, MessageRole
+from app.domain.exceptions.attachment import AttachmentNotAvailableError
 from app.domain.exceptions.chat import ChatNotFoundError
-from app.domain.exceptions.message import MessageNotFoundError
+from app.domain.exceptions.message import MessageChatMismatchError, MessageNotFoundError
 from app.domain.interfaces.storage.file_storage import IFileStorage
 from app.domain.interfaces.uow.uow_interface import IUnitOfWork
 from app.domain.logging.i_logger import ILogger
@@ -35,43 +31,61 @@ class UpdateMessageService(BaseMessageService):
     async def __call__(
         self, chat_id: UUID, message_id: UUID, message_data: MessageUpdate
     ) -> SendMessageResponse:
+        requested = message_data.attachment_ids
+        requested_set = set(requested)
         async with self.uow as uow:
             chat = await uow.chat.get(chat_id)
             if chat is None:
                 raise ChatNotFoundError(chat_id)
-            exists_message = await uow.message.exists(message_id)
-            if not exists_message:
+            message = await uow.message.get(message_id)
+            if message is None:
                 raise MessageNotFoundError(message_id)
-            updated_message = MessageDomain.update(
-                chat_id=chat_id,
-                id=message_id,
-                role=MessageRole.USER,
-                content=message_data.content,
+            if message.chat_id != chat_id:
+                raise MessageChatMismatchError()
+            message.change_content(message_data.content)
+            await uow.message.update(message)
+            current = {at.id: at for at in message.attachments}
+            new_ids = [item for item in requested if item not in current]
+            removed_ids = [item for item in current if item not in requested_set]
+            attached = await uow.attachment.attach_to_message(
+                chat_id, message_id, new_ids
             )
-            updated_message_id = await uow.message.update(updated_message)
-            try:
-                decision = self.tool_router()  # вызываем tool router
-            except ValueError:
-                decision = RouteDecision(
-                    status=RouteStatus.NONE,
-                    confidence=0.0,
-                    fallback_reason=RouteFallbackReason.ROUTER_ERROR,
-                )
-                assistant_message = chat.add_message(
-                    role=MessageRole.ASSISTANT,
-                    content="Не удалось подобрать приложение",
-                    payload=decision.model_dump(),
-                )
-            else:
-                assistant_message = chat.add_message(
-                    role=MessageRole.ASSISTANT,
-                    content="Откройте и работайте в подходящем приложении",
-                    payload=decision.model_dump(),
-                )
+            missing = set(new_ids) - {at.id for at in attached}
+            if missing:
+                raise AttachmentNotAvailableError(missing)
+            for attachment in attached:
+                attachment.attach_to_message(message_id)
+            removed_paths = await uow.attachment.delete_from_message(
+                message_id, removed_ids
+            )
+            by_id = {**current, **{at.id: at for at in attached}}
+            final_attachments = [by_id[item] for item in requested]
+            message.replace_attachments(final_attachments)
+            assistant_message, decision = build_assistant_reply(
+                chat,
+                self.tool_router,
+                RouterInput(
+                    chat_id=chat_id,
+                    project_id=chat.project_id,
+                    text=message.content,
+                    attachments=[at.to_value_object() for at in final_attachments],
+                ),
+                self.logger,
+            )
             await uow.message.add(assistant_message)
+            await uow.chat.update(chat)
             await uow.commit()
-        return SendMessageResponse(
-            client_message_id=updated_message_id,
-            user_message=MessageRead(**updated_message.as_dict()),
-            assistant_message=MessageRead(**assistant_message.as_dict()),
+        await self.file_storage.delete_many(removed_paths)
+        self.logger.info(
+            "message.updated",
+            chat_id=str(chat_id),
+            message_id=str(message_id),
+            attached=len(attached),
+            removed=len(removed_paths),
+            route_status=decision.status.value,
+        )
+        return SendMessageResponse.build(
+            client_message_id=None,
+            user_message=message,
+            assistant_message=assistant_message,
         )

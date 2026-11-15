@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useId } from "react";
+import { useForm } from "react-hook-form";
 import { cn } from "../../../shared/lib";
-import { Button } from "../../../shared/ui";
+import { Button, FieldError } from "../../../shared/ui";
+import { messageSchema, type MessageFormValues } from "../model/schema";
 
 type MessageEditorProps = {
   initial: string;
@@ -15,19 +18,28 @@ export function MessageEditor({
   onCancel,
   className,
 }: MessageEditorProps) {
-  const [draft, setDraft] = useState(initial);
+  const errorId = useId();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<MessageFormValues>({
+    resolver: zodResolver(messageSchema),
+    defaultValues: { content: initial },
+    mode: "onChange",
+  });
 
-  const submit = () => {
-    const next = draft.trim();
-    if (next && next !== initial) {
-      onSave(next);
-    } else {
+  const submit = handleSubmit(({ content }) => {
+    if (content === initial.trim()) {
       onCancel();
+      return;
     }
-  };
+    onSave(content);
+  });
 
   return (
-    <div
+    <form
+      onSubmit={submit}
       className={cn(
         "w-full rounded-3xl border border-input bg-card p-3",
         className,
@@ -36,22 +48,35 @@ export function MessageEditor({
       <textarea
         autoFocus
         rows={3}
-        value={draft}
         aria-label="Изменить сообщение"
-        onChange={(event) => setDraft(event.target.value)}
+        aria-invalid={Boolean(errors.content)}
+        aria-describedby={errors.content ? errorId : undefined}
+        className="w-full resize-none bg-transparent px-2 py-1 text-[15px] leading-6 outline-none"
+        {...register("content")}
         onKeyDown={(event) => {
           if (event.key === "Escape") onCancel();
-          if (event.key === "Enter" && (event.metaKey || event.ctrlKey))
-            submit();
+          if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+            event.preventDefault();
+            void submit();
+          }
         }}
-        className="w-full resize-none bg-transparent px-2 py-1 text-[15px] leading-6 outline-none"
+      />
+      <FieldError
+        id={errorId}
+        message={
+          errors.content?.type === "too_big"
+            ? errors.content.message
+            : undefined
+        }
       />
       <div className="mt-2 flex justify-end gap-2">
-        <Button variant="ghost" onClick={onCancel}>
+        <Button type="button" variant="ghost" onClick={onCancel}>
           Отмена
         </Button>
-        <Button onClick={submit}>Сохранить</Button>
+        <Button type="submit" disabled={!isValid}>
+          Сохранить
+        </Button>
       </div>
-    </div>
+    </form>
   );
 }

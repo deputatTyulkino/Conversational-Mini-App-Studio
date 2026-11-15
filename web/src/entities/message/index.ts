@@ -11,8 +11,13 @@ export {
   restoreMessagesCache,
   upsertMessageInCache,
 } from "./model/message-cache";
-export { readOutbox, updateOutbox } from "./model/outbox";
+export { useOutboxActions, useOutboxChat } from "./model/outbox";
 export { getRouteOutcome, type RouteOutcome } from "./model/route-outcome";
+export {
+  MAX_MESSAGE_LENGTH,
+  messageSchema,
+  type MessageFormValues,
+} from "./model/schema";
 export type {
   ClientMessageState,
   Message,

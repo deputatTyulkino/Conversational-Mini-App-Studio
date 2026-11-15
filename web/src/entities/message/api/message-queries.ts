@@ -9,7 +9,6 @@ export type MessagesData = InfiniteData<MessagesPage>;
 export const messageKeys = {
   all: ["messages"] as const,
   list: (chatId: string) => [...messageKeys.all, chatId] as const,
-  outbox: (chatId: string) => ["message-outbox", chatId] as const,
 };
 
 export const messagesQuery = (chatId: string) =>

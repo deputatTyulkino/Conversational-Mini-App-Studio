@@ -1,6 +1,12 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowUp, Plus } from "lucide-react";
-import { useId, useLayoutEffect, useRef, useState } from "react";
-import { Button, IconButton } from "../../../shared/ui";
+import { useId, useLayoutEffect, useRef } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import {
+  messageSchema,
+  type MessageFormValues,
+} from "../../../entities/message";
+import { Button, FieldError, IconButton } from "../../../shared/ui";
 
 type MessageInputProps = {
   onSend: (text: string) => void;
@@ -13,10 +19,22 @@ export function MessageInput({
   onAttach,
   disabled,
 }: MessageInputProps) {
-  const [value, setValue] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const id = useId();
-  const canSend = value.trim().length > 0 && !disabled;
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors, isValid },
+  } = useForm<MessageFormValues>({
+    resolver: zodResolver(messageSchema),
+    defaultValues: { content: "" },
+    mode: "onChange",
+  });
+  const value = useWatch({ control, name: "content" });
+  const { ref, ...field } = register("content");
+  const canSend = isValid && !disabled;
 
   useLayoutEffect(() => {
     const element = textareaRef.current;
@@ -25,24 +43,32 @@ export function MessageInput({
     element.style.height = `${Math.min(element.scrollHeight, 240)}px`;
   }, [value]);
 
-  const submit = () => {
-    if (!canSend) return;
-    onSend(value.trim());
-    setValue("");
-  };
+  const submit = handleSubmit(({ content }) => {
+    if (disabled) return;
+    onSend(content);
+    reset();
+  });
 
   return (
-    <div className="flex flex-col gap-1.5 rounded-[1.375rem] border border-input bg-card p-3 focus-within:border-ring">
+    <form
+      onSubmit={submit}
+      className="flex flex-col gap-1.5 rounded-[1.375rem] border border-input bg-card p-3 focus-within:border-ring"
+    >
       <label htmlFor={id} className="sr-only">
         Сообщение
       </label>
       <textarea
         id={id}
-        ref={textareaRef}
         rows={2}
-        value={value}
         placeholder="Напишите запрос…"
-        onChange={(event) => setValue(event.target.value)}
+        aria-invalid={Boolean(errors.content)}
+        aria-describedby={errors.content ? `${id}-error` : undefined}
+        className="min-h-14 w-full resize-none bg-transparent px-1.5 py-1 text-[15px] leading-6 outline-none placeholder:text-muted-foreground"
+        {...field}
+        ref={(element) => {
+          ref(element);
+          textareaRef.current = element;
+        }}
         onKeyDown={(event) => {
           if (
             event.key === "Enter" &&
@@ -50,10 +76,17 @@ export function MessageInput({
             !event.nativeEvent.isComposing
           ) {
             event.preventDefault();
-            submit();
+            void submit();
           }
         }}
-        className="min-h-14 w-full resize-none bg-transparent px-1.5 py-1 text-[15px] leading-6 outline-none placeholder:text-muted-foreground"
+      />
+      <FieldError
+        id={`${id}-error`}
+        message={
+          errors.content?.type === "too_big"
+            ? errors.content.message
+            : undefined
+        }
       />
       <div className="flex items-center justify-between">
         <IconButton
@@ -63,15 +96,15 @@ export function MessageInput({
           className="rounded-full border border-input"
         />
         <Button
+          type="submit"
           size="icon"
           aria-label="Отправить"
           disabled={!canSend}
-          onClick={submit}
           className="size-11 rounded-full"
         >
           <ArrowUp aria-hidden />
         </Button>
       </div>
-    </div>
+    </form>
   );
 }

@@ -7,6 +7,7 @@ export * from "./card";
 export { Checkbox } from "./checkbox";
 export * from "./dialog";
 export * from "./dropdown-menu";
+export { FieldError } from "./field-error";
 export { IconButton } from "./icon-button";
 export { Input } from "./input";
 export { Label } from "./label";

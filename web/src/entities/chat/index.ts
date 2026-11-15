@@ -6,6 +6,11 @@ export {
   pinnedChatsQuery,
 } from "./api/chat-queries";
 export { isPinnedChat, isRegularChat } from "./model/predicates";
+export {
+  NO_PROJECT,
+  editChatSchema,
+  type EditChatFormValues,
+} from "./model/schema";
 export type {
   Chat,
   ChatId,

@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { ChatListItem } from "../../../entities/chat";
 import { useProject } from "../../../entities/project";
 import { ChatActionsMenu } from "../../../features/manage-chat";
@@ -8,7 +8,6 @@ import { Button } from "../../../shared/ui";
 
 export function ProjectPage() {
   const { projectId = "" } = useParams<{ projectId: string }>();
-  const navigate = useNavigate();
   const { data: project, isPending, isError } = useProject(projectId);
 
   if (isPending) {
@@ -35,10 +34,7 @@ export function ProjectPage() {
             <p className="mt-2 text-muted-foreground">{project.description}</p>
           )}
         </div>
-        <ProjectActionsMenu
-          project={project}
-          onDeleted={() => navigate("/projects")}
-        />
+        <ProjectActionsMenu project={project} />
       </header>
 
       <section aria-label="Чаты проекта">

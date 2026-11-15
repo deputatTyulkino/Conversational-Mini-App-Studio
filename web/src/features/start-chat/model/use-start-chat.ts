@@ -1,26 +1,20 @@
 import { noop, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { chatApi, chatKeys } from "../../../entities/chat";
-import {
-  applyExchangeToCache,
-  messageApi,
-  type ClientMessageState,
-} from "../../../entities/message";
+import { applyExchangeToCache, messageApi } from "../../../entities/message";
 import { projectKeys } from "../../../entities/project";
 import { makeChatTitle } from "../lib/make-chat-title";
-
-export type StartChatDraft = {
-  clientMessageId: string;
-  content: string;
-  state: ClientMessageState;
-};
+import {
+  useStartChatActions,
+  useStartChatState,
+  type StartChatDraft,
+} from "./start-chat-store";
 
 export function useStartChat(projectId: string | null) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [draft, setDraft] = useState<StartChatDraft | null>(null);
-  const createdChatId = useRef<string | null>(null);
+  const { draft, createdChatId } = useStartChatState();
+  const { setCreatedChatId, clear, fail, begin } = useStartChatActions();
 
   const invalidateLists = () =>
     Promise.all([
@@ -29,56 +23,58 @@ export function useStartChat(projectId: string | null) {
     ]);
 
   const mutation = useMutation({
-    mutationFn: async ({ content, clientMessageId }: StartChatDraft) => {
-      if (!createdChatId.current) {
-        const { id } = await chatApi.create({
-          title: makeChatTitle(content),
-          project_id: projectId,
+    mutationFn: async (variables: StartChatDraft) => {
+      let chatId = createdChatId;
+      if (!chatId) {
+        const created = await chatApi.create({
+          title: makeChatTitle(variables.content),
+          project_id: variables.projectId,
         });
-        createdChatId.current = id;
+        chatId = created.id;
+        setCreatedChatId(chatId);
       }
-      const chatId = createdChatId.current;
       const result = await messageApi.send(chatId, {
-        content,
-        client_message_id: clientMessageId,
+        content: variables.content,
+        client_message_id: variables.clientMessageId,
       });
       return { chatId, result };
     },
-    onSuccess: ({ chatId, result }) => {
-      applyExchangeToCache(queryClient, chatId, result);
+    onSuccess: ({ chatId, result }, variables, _, context) => {
+      applyExchangeToCache(context.client, chatId, result);
       void invalidateLists();
+      if (draft?.clientMessageId === variables.clientMessageId) clear();
     },
-    onError: () =>
-      setDraft((current) =>
-        current ? { ...current, state: "failed" } : current,
-      ),
+    onError: (_error, variables) => fail(variables.clientMessageId),
   });
 
   const run = (next: StartChatDraft) => {
-    setDraft(next);
+    begin(next);
     mutation.mutate(next, {
-      onSuccess: ({ chatId }) => {
-        createdChatId.current = null;
-        navigate(`/chats/${chatId}`, { replace: true });
-      },
+      onSuccess: ({ chatId }) =>
+        navigate(`/chats/${chatId}`, { replace: true }),
     });
   };
 
-  const start = (content: string) =>
-    run({ clientMessageId: crypto.randomUUID(), content, state: "sending" });
+  const start = (content: string) => {
+    clear();
+    run({
+      clientMessageId: crypto.randomUUID(),
+      projectId,
+      content,
+      state: "sending",
+    });
+  };
 
   const retry = () => {
     if (draft) run({ ...draft, state: "sending" });
   };
 
   const discard = () => {
-    const orphan = createdChatId.current;
-    createdChatId.current = null;
-    setDraft(null);
+    clear();
     mutation.reset();
-    if (orphan) {
+    if (createdChatId) {
       void chatApi
-        .remove(orphan)
+        .remove(createdChatId)
         .catch(noop)
         .finally(() => {
           void invalidateLists();
@@ -86,5 +82,10 @@ export function useStartChat(projectId: string | null) {
     }
   };
 
-  return { draft, start, retry, discard };
+  return {
+    draft: draft?.projectId === projectId ? draft : null,
+    start,
+    retry,
+    discard,
+  };
 }

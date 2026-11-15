@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useChat } from "../../../entities/chat";
 import { ChatActionsMenu } from "../../../features/manage-chat";
 import { Button } from "../../../shared/ui";
@@ -6,7 +6,6 @@ import { ChatThread } from "../../../widgets/chat-thread";
 
 export function ChatPage() {
   const { chatId = "" } = useParams<{ chatId: string }>();
-  const navigate = useNavigate();
   const { data: chat, isError } = useChat(chatId);
 
   if (isError) {
@@ -26,9 +25,7 @@ export function ChatPage() {
         <h1 className="truncate font-heading text-lg font-medium">
           {chat?.title}
         </h1>
-        {chat && (
-          <ChatActionsMenu chat={chat} onDeleted={() => navigate("/")} />
-        )}
+        {chat && <ChatActionsMenu chat={chat} />}
       </header>
       <div className="min-h-0 flex-1">
         <ChatThread key={chatId} chatId={chatId} />

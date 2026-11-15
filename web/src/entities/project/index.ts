@@ -4,6 +4,7 @@ export {
   projectQuery,
   projectsQuery,
 } from "./api/project-queries";
+export { projectSchema, type ProjectFormValues } from "./model/schema";
 export type { Project, ProjectId, ProjectPayload } from "./model/types";
 export {
   usePrefetchProject,

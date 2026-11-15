@@ -1,5 +1,5 @@
 import { Folder, Plus } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { Link } from "react-router";
 import {
   ChatListItem,
@@ -16,8 +16,8 @@ import {
 } from "../../../entities/project";
 import { ChatActionsMenu } from "../../../features/manage-chat";
 import {
-  CreateProjectDialog,
   ProjectActionsMenu,
+  useProjectDialogActions,
 } from "../../../features/manage-project";
 import { ThemeToggle } from "../../../features/toggle-theme";
 import { cn } from "../../../shared/lib";
@@ -44,7 +44,7 @@ type SidebarProps = {
 };
 
 export function Sidebar({ className }: SidebarProps) {
-  const [creating, setCreating] = useState(false);
+  const { open } = useProjectDialogActions();
   const pinned = usePinnedChats();
   const projects = useProjects();
   const chats = useChats();
@@ -93,7 +93,7 @@ export function Sidebar({ className }: SidebarProps) {
             icon={Plus}
             label="Новый проект"
             className="size-9"
-            onClick={() => setCreating(true)}
+            onClick={() => open({ type: "create" })}
           />
         }
       >
@@ -132,7 +132,6 @@ export function Sidebar({ className }: SidebarProps) {
         </p>
         <ThemeToggle />
       </div>
-      <CreateProjectDialog open={creating} onOpenChange={setCreating} />
     </aside>
   );
 }

@@ -1,14 +1,13 @@
-import { useId, useState, type SubmitEvent } from "react";
-import { Button } from "../../../shared/ui";
-import { Input } from "../../../shared/ui/input";
-import { Label } from "../../../shared/ui/label";
-import { Textarea } from "../../../shared/ui/textarea";
-import type { ProjectPayload } from "../model/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useId } from "react";
+import { useForm } from "react-hook-form";
+import { Button, FieldError, Input, Label, Textarea } from "../../../shared/ui";
+import { projectSchema, type ProjectFormValues } from "../model/schema";
 
 type ProjectFormProps = {
-  initial?: ProjectPayload;
+  initial?: ProjectFormValues;
   submitLabel: string;
-  onSubmit: (payload: ProjectPayload) => void;
+  onSubmit: (values: ProjectFormValues) => void;
   onCancel: () => void;
 };
 
@@ -18,45 +17,52 @@ export function ProjectForm({
   onSubmit,
   onCancel,
 }: ProjectFormProps) {
-  const [name, setName] = useState(initial?.name ?? "");
-  const [description, setDescription] = useState(initial?.description ?? "");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<ProjectFormValues>({
+    resolver: zodResolver(projectSchema),
+    defaultValues: initial ?? { name: "", description: "" },
+    mode: "onChange",
+  });
   const nameId = useId();
   const descriptionId = useId();
-  const canSubmit = name.trim().length > 0;
-
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!canSubmit) return;
-    onSubmit({ name: name.trim(), description: description.trim() });
-  };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <Label htmlFor={nameId}>Название</Label>
         <Input
           id={nameId}
           autoFocus
-          required
-          maxLength={120}
-          value={name}
-          onChange={(event) => setName(event.target.value)}
+          aria-invalid={Boolean(errors.name)}
+          aria-describedby={errors.name ? `${nameId}-error` : undefined}
+          {...register("name")}
         />
+        <FieldError id={`${nameId}-error`} message={errors.name?.message} />
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor={descriptionId}>Описание</Label>
         <Textarea
           id={descriptionId}
           rows={4}
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
+          aria-invalid={Boolean(errors.description)}
+          aria-describedby={
+            errors.description ? `${descriptionId}-error` : undefined
+          }
+          {...register("description")}
+        />
+        <FieldError
+          id={`${descriptionId}-error`}
+          message={errors.description?.message}
         />
       </div>
       <div className="flex justify-end gap-2">
         <Button type="button" variant="ghost" onClick={onCancel}>
           Отмена
         </Button>
-        <Button type="submit" disabled={!canSubmit}>
+        <Button type="submit" disabled={!isValid}>
           {submitLabel}
         </Button>
       </div>

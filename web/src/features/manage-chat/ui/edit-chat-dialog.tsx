@@ -1,5 +1,12 @@
-import { useId, useState, type SubmitEvent } from "react";
-import type { Chat } from "../../../entities/chat";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useId } from "react";
+import { Controller, useForm } from "react-hook-form";
+import {
+  editChatSchema,
+  NO_PROJECT,
+  type Chat,
+  type EditChatFormValues,
+} from "../../../entities/chat";
 import { useProjects } from "../../../entities/project";
 import {
   Button,
@@ -8,6 +15,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  FieldError,
   Input,
   Label,
   Select,
@@ -18,8 +26,6 @@ import {
 } from "../../../shared/ui";
 import { useUpdateChat } from "../model/use-update-chat";
 
-const NO_PROJECT = "none";
-
 type EditChatFormProps = {
   chat: Chat;
   onSubmit: (patch: { title: string; project_id: string | null }) => void;
@@ -28,60 +34,73 @@ type EditChatFormProps = {
 
 function EditChatForm({ chat, onSubmit, onCancel }: EditChatFormProps) {
   const { data: projects = [] } = useProjects();
-  const [title, setTitle] = useState(chat.title);
-  const [projectId, setProjectId] = useState(chat.project_id ?? NO_PROJECT);
   const titleId = useId();
   const projectFieldId = useId();
-  const canSubmit = title.trim().length > 0;
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<EditChatFormValues>({
+    resolver: zodResolver(editChatSchema),
+    defaultValues: {
+      title: chat.title,
+      project_id: chat.project_id ?? NO_PROJECT,
+    },
+    mode: "onChange",
+  });
 
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!canSubmit) return;
+  const submit = handleSubmit((values) =>
     onSubmit({
-      title: title.trim(),
-      project_id: projectId === NO_PROJECT ? null : projectId,
-    });
-  };
+      title: values.title,
+      project_id: values.project_id === NO_PROJECT ? null : values.project_id,
+    }),
+  );
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={submit} className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <Label htmlFor={titleId}>Название</Label>
         <Input
           id={titleId}
           autoFocus
-          required
-          maxLength={120}
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
+          aria-invalid={Boolean(errors.title)}
+          aria-describedby={errors.title ? `${titleId}-error` : undefined}
+          {...register("title")}
         />
+        <FieldError id={`${titleId}-error`} message={errors.title?.message} />
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor={projectFieldId}>Проект</Label>
-        <Select
-          value={projectId}
-          onValueChange={(value: string | null) =>
-            setProjectId(value === null ? NO_PROJECT : value)
-          }
-        >
-          <SelectTrigger id={projectFieldId} className="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={NO_PROJECT}>Без проекта</SelectItem>
-            {projects.map((project) => (
-              <SelectItem key={project.id} value={project.id}>
-                {project.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Controller
+          control={control}
+          name="project_id"
+          render={({ field }) => (
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger
+                id={projectFieldId}
+                className="w-full"
+                onBlur={field.onBlur}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={NO_PROJECT}>Без проекта</SelectItem>
+                {projects.map((project) => (
+                  <SelectItem key={project.id} value={project.id}>
+                    {project.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        />
       </div>
       <div className="flex justify-end gap-2">
         <Button type="button" variant="ghost" onClick={onCancel}>
           Отмена
         </Button>
-        <Button type="submit" disabled={!canSubmit}>
+        <Button type="submit" disabled={!isValid}>
           Сохранить
         </Button>
       </div>

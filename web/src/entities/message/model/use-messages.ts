@@ -1,7 +1,7 @@
 import { noop, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { messagesQuery, type MessagesData } from "../api/message-queries";
-import { useOutbox } from "./outbox";
+import { useOutboxChat } from "./outbox";
 import type { Message } from "./types";
 
 const byCreatedAt = (a: Message, b: Message) =>
@@ -22,7 +22,7 @@ export function useMessages(chatId: string) {
     enabled: chatId.length > 0,
     select: selectMessages,
   });
-  const outbox = useOutbox(chatId);
+  const outbox = useOutboxChat(chatId);
 
   const messages = useMemo(
     () => (query.data ? [...query.data, ...outbox] : undefined),

@@ -1,6 +1,9 @@
 import { Menu } from "lucide-react";
-import { useState } from "react";
-import { Outlet } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router";
+import { ChatDialogsHost } from "../../features/manage-chat";
+import { ProjectDialogsHost } from "../../features/manage-project";
+import { useMobileMenu, useSetMobileMenu } from "../../shared/lib/layout-store";
 import {
   IconButton,
   Sheet,
@@ -13,7 +16,13 @@ import {
 import { Sidebar } from "../../widgets/sidebar";
 
 export function ShellLayout() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const mobileMenuOpen = useMobileMenu();
+  const setMobileMenuOpen = useSetMobileMenu();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname, setMobileMenuOpen]);
 
   return (
     <div className="flex h-full bg-background text-foreground">
@@ -23,7 +32,7 @@ export function ShellLayout() {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-14 shrink-0 items-center px-2 md:hidden">
-          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger>
               <IconButton icon={Menu} label="Открыть меню" />
             </SheetTrigger>
@@ -32,15 +41,7 @@ export function ShellLayout() {
                 <SheetTitle>Меню</SheetTitle>
                 <SheetDescription>Чаты и проекты</SheetDescription>
               </SheetHeader>
-              <div
-                className="h-full"
-                onClick={(event) => {
-                  if ((event.target as HTMLElement).closest("a"))
-                    setMenuOpen(false);
-                }}
-              >
-                <Sidebar className="w-full" />
-              </div>
+              <Sidebar className="w-full" />
             </SheetContent>
           </Sheet>
         </header>
@@ -49,6 +50,9 @@ export function ShellLayout() {
           <Outlet />
         </main>
       </div>
+
+      <ProjectDialogsHost />
+      <ChatDialogsHost />
     </div>
   );
 }

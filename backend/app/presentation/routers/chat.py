@@ -34,7 +34,7 @@ from app.infrastructure.dependencies.entities.chats.queries.get_chats import (
 from app.presentation.api.schemas.responses import SuccessResponse
 from fastapi import APIRouter, Depends, status
 
-router = APIRouter(prefix="/api/chats")
+router = APIRouter(prefix="/chats")
 
 
 @router.get(

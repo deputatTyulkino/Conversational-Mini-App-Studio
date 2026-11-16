@@ -13,7 +13,7 @@ from app.presentation.routers.attachment import router as attachment_router
 from app.presentation.routers.chat import router as chats_router
 from app.presentation.routers.message import router as messages_router
 from app.presentation.routers.project import router as projects_router
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 
 
 @asynccontextmanager
@@ -31,13 +31,21 @@ app = FastAPI(
     version="1.0",
     lifespan=lifespan,
     responses={422: {"model": ValidationErrorResponse}, 404: {"model": ErrorResponse}},
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json",
 )
+
 register_error_handlers(app)
 
+api_router = APIRouter(prefix="/api")
+
 chats_router.include_router(messages_router)
-app.include_router(projects_router)
-app.include_router(chats_router)
-app.include_router(attachment_router)
+api_router.include_router(projects_router)
+api_router.include_router(chats_router)
+api_router.include_router(attachment_router)
+
+app.include_router(api_router)
 
 
 @app.get("/health")

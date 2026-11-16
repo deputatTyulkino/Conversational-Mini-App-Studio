@@ -38,7 +38,7 @@ from app.infrastructure.dependencies.entities.projects.queries.get_project impor
 from app.presentation.api.schemas.responses import SuccessResponse
 from fastapi import APIRouter, Depends, status
 
-router = APIRouter(prefix="/api/projects", tags=["projects"])
+router = APIRouter(prefix="/projects", tags=["projects"])
 
 
 @router.get(

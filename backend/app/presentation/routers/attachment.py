@@ -25,7 +25,7 @@ from app.presentation.api.schemas.responses import SuccessResponse
 from fastapi import APIRouter, Depends, File, Query, UploadFile, status
 from fastapi.responses import StreamingResponse
 
-router = APIRouter(prefix="/api/attachments", tags=["attachments"])
+router = APIRouter(prefix="/attachments", tags=["attachments"])
 
 
 @router.get("/{attachment_id}", response_model=None, status_code=status.HTTP_200_OK)

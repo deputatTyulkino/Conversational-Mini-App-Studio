@@ -14,6 +14,7 @@ from app.presentation.routers.chat import router as chats_router
 from app.presentation.routers.message import router as messages_router
 from app.presentation.routers.project import router as projects_router
 from fastapi import APIRouter, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 
 @asynccontextmanager
@@ -34,6 +35,14 @@ app = FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc",
     openapi_url="/api/openapi.json",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
 )
 
 register_error_handlers(app)

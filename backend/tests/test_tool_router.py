@@ -10,6 +10,7 @@ from app.application.schemas.tool_router.tool_router_schema import (
     RouterInput,
     RouteStatus,
 )
+from app.application.services.tool_router.rules import NONE_BONUS, rules_scorer
 from app.application.services.tool_router.tool_router_service import (
     NONE_CLASS,
     ToolRouterService,
@@ -236,3 +237,66 @@ def test_real_manifests_load() -> None:
 
     # сравниваем только названия: версии манифестов могут меняться
     assert set(load_app_versions(MANIFESTS_DIR)) == set(VERSIONS)
+
+
+# ---------- rules_scorer ----------
+
+
+def test_rules_scorer_returns_four_classes_summing_to_one() -> None:
+    result = rules_scorer("успею ли я сдать курсовую")
+    assert set(result) == set(VERSIONS) | {NONE_CLASS}
+    assert abs(sum(result.values()) - 1.0) < 1e-9
+
+
+def test_rules_scorer_empty_text_is_none() -> None:
+    # слов нет -> очки только у none (фора) -> none = 1.0
+    assert NONE_BONUS > 0
+    assert rules_scorer("")[NONE_CLASS] == 1.0
+
+
+def test_rules_scorer_stem_matches_word_forms() -> None:
+    # основа «задач» находит разные формы слова
+    for text in ["одна задача", "две задачи", "сделай задачу"]:
+        result = rules_scorer(text)
+        assert result["project_planner"] > result[NONE_CLASS]
+
+
+def test_rules_scorer_ignores_punctuation() -> None:
+    assert rules_scorer("таблица, csv!") == rules_scorer("таблица csv")
+
+
+def test_rules_scorer_stem_counts_once() -> None:
+    # повтор одного слова не добавляет очков
+    assert rules_scorer("задача задача задача") == rules_scorer("задача")
+
+
+def test_rules_scorer_phrase_from_word_start() -> None:
+    # фраза «что такое» найдена, а внутри другого слова — нет
+    assert (
+        rules_scorer("что такое дедлайн")[NONE_CLASS]
+        > rules_scorer("дедлайн")[NONE_CLASS]
+    )
+    assert rules_scorer("нечто такое") == rules_scorer("")
+
+
+def test_router_with_rules_examples() -> None:
+    router = ToolRouterService(rules_scorer, THRESHOLD, MARGIN, VERSIONS)
+
+    def ask(text: str) -> RouteDecision:
+        return router(RouterInput(chat_id=uuid4(), project_id=None, text=text))
+
+    # таблица (data_explorer) + задачи (project_planner), цели нет -> спросить
+    decision = ask("Вот таблица с задачами, разберись с ней")
+    assert decision.status is RouteStatus.AMBIGUOUS
+    top_two = {c.app_id for c in decision.candidates[:2]}
+    assert top_two == {"project_planner", "data_explorer"}
+
+    # обычный разговор -> ответить текстом
+    assert ask("привет, как дела?").status is RouteStatus.NONE
+
+
+def test_rules_scorer_ignores_quoted_titles() -> None:
+    # R9: слова из названия в «кавычках» не дают очков
+    titled = rules_scorer("вычитку книги «большие данные и таблицы» сдвинь")
+    plain = rules_scorer("вычитку книги сдвинь")
+    assert titled == plain

@@ -9,9 +9,9 @@ from app.application.schemas.tool_router.tool_router_schema import (
     RouterInput,
     RouteStatus,
 )
+from app.application.services.tool_router.constants import NONE_CLASS
+from app.application.services.tool_router.rules import rules_scorer
 from app.config.settings import get_settings
-
-NONE_CLASS = "none"
 
 # Функция оценки: получает текст, возвращает оценки четырёх классов
 Scorer = Callable[[str], dict[str, float]]
@@ -146,7 +146,7 @@ def load_app_versions(manifests_dir: Path) -> dict[str, str]:
 def build_tool_router() -> ToolRouterService:
     settings = get_settings()
     return ToolRouterService(
-        scorer=stub_scorer,
+        scorer=rules_scorer,
         threshold=settings.router_confidence_threshold,
         margin=settings.router_ambiguity_margin,
         app_versions=load_app_versions(MANIFESTS_DIR),

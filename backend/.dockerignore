@@ -14,3 +14,4 @@ test.py
 requirements-dev.txt
 Dockerfile
 .dockerignore
+data/

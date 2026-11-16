@@ -105,3 +105,4 @@ virtualenv==21.14.1
 watchfiles==1.3.0
 websockets==17.1
 wrapt==2.5.0
+scikit-learn==1.9.1

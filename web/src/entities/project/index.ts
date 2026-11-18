@@ -4,6 +4,10 @@ export {
   projectQuery,
   projectsQuery,
 } from "./api/project-queries";
+export {
+  useProjectMenuState,
+  useProjectsMenuActions,
+} from "./model/project-menu-store";
 export { projectSchema, type ProjectFormValues } from "./model/schema";
 export type { Project, ProjectId, ProjectPayload } from "./model/types";
 export {

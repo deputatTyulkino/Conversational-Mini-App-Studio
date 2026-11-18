@@ -22,8 +22,7 @@ import {
 import { ThemeToggle } from "../../../features/toggle-theme";
 import { cn } from "../../../shared/lib";
 import { ActionButton, IconButton } from "../../../shared/ui";
-
-const CHATS_PER_PROJECT = 10;
+const CHATS_PER_PROJECT = 5;
 
 type SectionTitleProps = {
   children: ReactNode;
@@ -118,7 +117,7 @@ export function Sidebar({ className }: SidebarProps) {
               )
             }
           >
-            {project.chats.slice(0).map(renderChat)}
+            {project.chats.slice(0, CHATS_PER_PROJECT).map(renderChat)}
           </ProjectItem>
         ))}
       </nav>

@@ -1,14 +1,16 @@
-import { Plus } from "lucide-react";
 import { Link, useParams } from "react-router";
 import { ChatListItem } from "../../../entities/chat";
 import { useProject } from "../../../entities/project";
 import { ChatActionsMenu } from "../../../features/manage-chat";
 import { ProjectActionsMenu } from "../../../features/manage-project";
+import { MessageInput } from "../../../features/send-message";
+import { useStartChat } from "../../../features/start-chat";
 import { Button } from "../../../shared/ui";
 
 export function ProjectPage() {
   const { projectId = "" } = useParams<{ projectId: string }>();
   const { data: project, isPending, isError } = useProject(projectId);
+  const { draft, start, retry, discard } = useStartChat(projectId);
 
   if (isPending) {
     return <p className="p-8 text-muted-foreground">Загрузка…</p>;
@@ -25,6 +27,9 @@ export function ProjectPage() {
     );
   }
 
+  const isSending = draft?.state === "sending";
+  const isFailed = draft?.state === "failed";
+
   return (
     <main className="mx-auto flex h-full w-full max-w-3xl flex-col gap-6 overflow-y-auto px-4 py-8 md:px-6">
       <header className="flex items-start justify-between gap-3">
@@ -37,16 +42,28 @@ export function ProjectPage() {
         <ProjectActionsMenu project={project} />
       </header>
 
-      <section aria-label="Чаты проекта">
-        <div className="flex items-center justify-between pb-2">
-          <h2 className="text-[13px] text-muted-foreground">Чаты</h2>
-          <Button variant="outline">
-            <Link to={`/?project=${project.id}`}>
-              <Plus aria-hidden />
-              Новый чат
-            </Link>
-          </Button>
+      {isFailed ? (
+        <div
+          role="alert"
+          className="flex flex-col gap-3 rounded-[1.375rem] border border-destructive/50 bg-card p-4"
+        >
+          <p className="line-clamp-3 text-[15px]">{draft.content}</p>
+          <p className="text-sm text-destructive">
+            Не удалось создать чат. Попробуйте ещё раз.
+          </p>
+          <div className="flex gap-2">
+            <Button onClick={retry}>Повторить</Button>
+            <Button variant="outline" onClick={discard}>
+              Отменить
+            </Button>
+          </div>
         </div>
+      ) : (
+        <MessageInput onSend={start} disabled={isSending} />
+      )}
+
+      <section aria-label="Чаты проекта">
+        <h2 className="pb-2 text-[13px] text-muted-foreground">Чаты</h2>
         {project.chats.length === 0 ? (
           <p className="text-muted-foreground">В проекте пока нет чатов.</p>
         ) : (
@@ -55,6 +72,7 @@ export function ProjectPage() {
               <li key={chat.id}>
                 <ChatListItem
                   chat={chat}
+                  showDate
                   actions={<ChatActionsMenu chat={chat} />}
                 />
               </li>

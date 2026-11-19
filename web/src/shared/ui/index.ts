@@ -12,6 +12,7 @@ export { IconButton } from "./icon-button";
 export { Input } from "./input";
 export { Label } from "./label";
 export * from "./scroll-area";
+export { SectionTitle } from "./section-title";
 export * from "./select";
 export { Separator } from "./separator";
 export * from "./sheet";

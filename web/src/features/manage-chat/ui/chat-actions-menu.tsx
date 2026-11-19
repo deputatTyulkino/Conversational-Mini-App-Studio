@@ -20,18 +20,18 @@ export function ChatActionsMenu({ chat }: ChatActionsMenuProps) {
 
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger>
-        <IconButton icon={MoreHorizontal} label="Действия с чатом" />
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        render={<IconButton icon={MoreHorizontal} label="Действия с чатом" />}
+      />
       <DropdownMenuContent align="end">
-        <DropdownMenuContent
+        <DropdownMenuItem
           onSelect={() =>
             mutate({ chat, patch: { is_pinned: !chat.is_pinned } })
           }
         >
           {chat.is_pinned ? <PinOff aria-hidden /> : <Pin aria-hidden />}
           {chat.is_pinned ? "Открепить" : "Закрепить"}
-        </DropdownMenuContent>
+        </DropdownMenuItem>
         <DropdownMenuItem onSelect={() => open({ type: "edit", chat })}>
           <Pencil aria-hidden />
           Изменить

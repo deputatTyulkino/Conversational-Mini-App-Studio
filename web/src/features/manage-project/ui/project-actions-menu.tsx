@@ -18,9 +18,11 @@ export function ProjectActionsMenu({ project }: ProjectActionsMenuProps) {
 
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger>
-        <IconButton icon={MoreHorizontal} label="Действия с проектом" />
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        render={
+          <IconButton icon={MoreHorizontal} label="Действия с проектом" />
+        }
+      />
       <DropdownMenuContent align="end">
         <DropdownMenuItem onSelect={() => open({ type: "edit", project })}>
           <Pencil aria-hidden />

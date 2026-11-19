@@ -1,5 +1,4 @@
 import { Folder, Plus } from "lucide-react";
-import { type ReactNode } from "react";
 import { Link } from "react-router";
 import {
   ChatListItem,
@@ -21,22 +20,9 @@ import {
 } from "../../../features/manage-project";
 import { ThemeToggle } from "../../../features/toggle-theme";
 import { cn } from "../../../shared/lib";
-import { ActionButton, IconButton } from "../../../shared/ui";
-const CHATS_PER_PROJECT = 5;
+import { ActionButton, IconButton, SectionTitle } from "../../../shared/ui";
 
-type SectionTitleProps = {
-  children: ReactNode;
-  action?: ReactNode;
-};
-
-function SectionTitle({ children, action }: SectionTitleProps) {
-  return (
-    <div className="flex items-center justify-between pb-1.5 pl-3 pt-5">
-      <h2 className="text-[13px] text-muted-foreground">{children}</h2>
-      {action}
-    </div>
-  );
-}
+const CHATS_PER_PROJECT = 10;
 
 type SidebarProps = {
   className?: string;
@@ -74,7 +60,19 @@ export function Sidebar({ className }: SidebarProps) {
     >
       <nav aria-label="Основное">
         <ActionButton icon={Plus} label="Создать" to="/" />
-        <ActionButton icon={Folder} label="Проекты" to="/projects" />
+        <ActionButton
+          icon={Folder}
+          label="Проекты"
+          to="/projects"
+          action={
+            <IconButton
+              icon={Plus}
+              label="Новый проект"
+              className="size-9"
+              onClick={() => open({ type: "create" })}
+            />
+          }
+        />
       </nav>
 
       {pinned.data && pinned.data.length > 0 && (
@@ -86,18 +84,7 @@ export function Sidebar({ className }: SidebarProps) {
         </>
       )}
 
-      <SectionTitle
-        action={
-          <IconButton
-            icon={Plus}
-            label="Новый проект"
-            className="size-9"
-            onClick={() => open({ type: "create" })}
-          />
-        }
-      >
-        Проекты
-      </SectionTitle>
+      <SectionTitle>Проекты</SectionTitle>
       <nav aria-label="Проекты">
         {projects.data?.map((project) => (
           <ProjectItem

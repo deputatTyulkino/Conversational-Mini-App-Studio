@@ -4,11 +4,13 @@ from typing import TYPE_CHECKING
 
 from app.infrastructure.db.config import Base
 from sqlalchemy import (
+    Boolean,
     CheckConstraint,
     DateTime,
     String,
     Text,
     func,
+    text,
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -33,7 +35,9 @@ class ProjectORM(Base):
     )
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
-
+    is_pinned: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("true")
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )

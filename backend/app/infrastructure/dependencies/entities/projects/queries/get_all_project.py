@@ -2,6 +2,7 @@ from typing import Annotated
 
 from app.application.services.projects.queries.get_all_project import (
     GetAllProjectService,
+    GetPinnedProjectsService,
 )
 from app.domain.interfaces.uow.uow_interface import IUnitOfWork
 from app.domain.logging.i_logger import ILogger
@@ -15,3 +16,10 @@ def get_all_project_service(
     logger: Annotated[ILogger, Depends(get_logger)],
 ) -> GetAllProjectService:
     return GetAllProjectService(uow, logger)
+
+
+def get_pinned_project_service(
+    uow: Annotated[IUnitOfWork, Depends(get_uow)],
+    logger: Annotated[ILogger, Depends(get_logger)],
+) -> GetPinnedProjectsService:
+    return GetPinnedProjectsService(uow, logger)

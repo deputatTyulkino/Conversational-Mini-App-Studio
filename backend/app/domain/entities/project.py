@@ -7,6 +7,8 @@ from app.domain.entities.chat import DEFAULT_CHAT_TITLE, ChatDomain
 from app.domain.events.project_events import (
     ProjectCreated,
     ProjectDeleted,
+    ProjectPinned,
+    ProjectUnpinned,
     ProjectUpdated,
 )
 from app.domain.exceptions.project import (
@@ -25,6 +27,7 @@ class ProjectDomain(AggregateRoot):
     id: UUID
     name: str
     description: str | None = None
+    is_pinned: bool = True
     created_at: datetime = field(default_factory=utcnow)
     updated_at: datetime = field(default_factory=utcnow)
     chats: list[ChatDomain] = field(default_factory=list)
@@ -71,6 +74,18 @@ class ProjectDomain(AggregateRoot):
             return
         self.description = description
         self._touch("description")
+
+    def pin(self) -> None:
+        if self.is_pinned:
+            return
+        self.is_pinned = True
+        self._record(ProjectPinned(project_id=self.id))
+
+    def unpin(self) -> None:
+        if not self.is_pinned:
+            return
+        self.is_pinned = False
+        self._record(ProjectUnpinned(project_id=self.id))
 
     def create_chat(self, title: str = DEFAULT_CHAT_TITLE) -> ChatDomain:
         title = ChatDomain._normalize_title(title)

@@ -35,6 +35,7 @@ class ProjectRepo(IProjectRepo):
             id=project.id,
             name=project.name,
             description=project.description,
+            is_pinned=project.is_pinned,
             created_at=project.created_at,
             updated_at=project.updated_at,
             chats=chats or [],
@@ -46,6 +47,7 @@ class ProjectRepo(IProjectRepo):
             id=project.id,
             name=project.name,
             description=project.description,
+            is_pinned=project.is_pinned,
             created_at=project.created_at,
             updated_at=project.updated_at,
         )
@@ -112,15 +114,16 @@ class ProjectRepo(IProjectRepo):
         query = select(exists(ProjectORM).where(ProjectORM.id == project_id))
         return (await self.session.execute(query)).scalar_one()
 
-    async def list_all(
+    async def list_pinned(
         self, limit: int = 8, chats_per_project: int = 5
     ) -> list[ProjectDomain]:
-        projects_stmt = (
+        projects_query = (
             select(ProjectORM)
+            .filter(ProjectORM.is_pinned.is_(True))
             .order_by(ProjectORM.created_at.desc(), ProjectORM.id)
             .limit(limit)
         )
-        projects = (await self.session.scalars(projects_stmt)).all()
+        projects = (await self.session.scalars(projects_query)).all()
         if not projects:
             self.logger.debug("project_repo.list_all", projects=0, chats=0)
             return []
@@ -152,3 +155,8 @@ class ProjectRepo(IProjectRepo):
             "project_repo.list_all", projects=len(projects), chats=len(chats)
         )
         return [self._to_domain_model(p, grouped[p.id]) for p in projects]
+
+    async def list_all(self) -> list[ProjectDomain]:
+        query = select(ProjectORM).order_by(ProjectORM.created_at.desc(), ProjectORM.id)
+        projects = (await self.session.scalars(query)).all()
+        return [self._to_domain_model(project) for project in projects]

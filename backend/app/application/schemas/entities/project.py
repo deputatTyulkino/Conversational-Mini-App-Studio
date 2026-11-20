@@ -16,6 +16,7 @@ class ProjectRead(ReadSchema):
     id: UUID
     name: str
     description: str | None
+    is_pinned: bool
     created_at: AwareDatetime
     updated_at: AwareDatetime
 
@@ -43,3 +44,4 @@ class ProjectUpdate(PatchSchema):
 
     name: ProjectName | None = None
     description: ProjectDescription | None = None
+    is_pinned: bool | None = None

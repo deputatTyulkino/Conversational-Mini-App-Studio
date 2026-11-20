@@ -24,6 +24,9 @@ class IProjectRepo(ABC):
     async def exists(self, project_id: UUID) -> bool: ...
 
     @abstractmethod
-    async def list_all(
+    async def list_pinned(
         self, limit: int = 8, chats_per_project: int = 5
     ) -> list[ProjectDomain]: ...
+
+    @abstractmethod
+    async def list_all(self) -> list[ProjectDomain]: ...

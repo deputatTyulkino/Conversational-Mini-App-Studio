@@ -18,6 +18,7 @@ from app.application.services.projects.commands.update_project import (
 )
 from app.application.services.projects.queries.get_all_project import (
     GetAllProjectService,
+    GetPinnedProjectsService,
 )
 from app.application.services.projects.queries.get_project import GetProjectService
 from app.infrastructure.dependencies.entities.projects.command.create_project import (
@@ -31,6 +32,7 @@ from app.infrastructure.dependencies.entities.projects.command.update_project im
 )
 from app.infrastructure.dependencies.entities.projects.queries.get_all_project import (
     get_all_project_service,
+    get_pinned_project_service,
 )
 from app.infrastructure.dependencies.entities.projects.queries.get_project import (
     get_project_service,
@@ -50,6 +52,20 @@ async def get_all_projects_endpoint(
     get_all_projects: Annotated[GetAllProjectService, Depends(get_all_project_service)],
 ):
     data = await get_all_projects()
+    return SuccessResponse(data=data)
+
+
+@router.get(
+    "/pinned",
+    response_model=SuccessResponse[list[ProjectWithChatsRead]],
+    status_code=status.HTTP_200_OK,
+)
+async def get_pinned_projects_endpoint(
+    get_pinned_projects: Annotated[
+        GetPinnedProjectsService, Depends(get_pinned_project_service)
+    ],
+):
+    data = await get_pinned_projects()
     return SuccessResponse(data=data)
 
 

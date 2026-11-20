@@ -20,7 +20,12 @@ import {
 } from "../../../features/manage-project";
 import { ThemeToggle } from "../../../features/toggle-theme";
 import { cn } from "../../../shared/lib";
-import { ActionButton, IconButton, SectionTitle } from "../../../shared/ui";
+import {
+  ActionButton,
+  IconButton,
+  Logo,
+  SectionTitle,
+} from "../../../shared/ui";
 
 const CHATS_PER_PROJECT = 10;
 
@@ -58,6 +63,9 @@ export function Sidebar({ className }: SidebarProps) {
         className,
       )}
     >
+      <Link to="/" className="mb-2 flex h-11 items-center rounded-xl px-3">
+        <Logo />
+      </Link>
       <nav aria-label="Основное">
         <ActionButton icon={Plus} label="Создать" to="/" />
         <ActionButton

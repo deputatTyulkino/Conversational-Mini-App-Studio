@@ -1,3 +1,5 @@
+export { Logo, LogoMark } from "./logo/logo";
+
 export { ActionButton } from "./action-button";
 export * from "./alert";
 export * from "./alert-dialog";

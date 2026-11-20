@@ -91,6 +91,10 @@
   --app-explorer-fg: #ffd98a;
 }
 
+.light {
+  --logo-accent: #e0b92e;
+}
+
 @theme inline {
   --font-sans: "Geist Variable", system-ui, sans-serif;
   --font-heading: "Source Serif 4 Variable", Georgia, serif;

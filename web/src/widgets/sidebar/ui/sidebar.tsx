@@ -20,6 +20,7 @@ import {
 } from "../../../features/manage-project";
 import { ThemeToggle } from "../../../features/toggle-theme";
 import { cn } from "../../../shared/lib";
+import { useSetMobileMenu } from "../../../shared/lib/layout-store";
 import {
   ActionButton,
   IconButton,
@@ -41,6 +42,7 @@ export function Sidebar({ className }: SidebarProps) {
   const prefetchChat = usePrefetchChat();
   const prefetchMessages = usePrefetchMessages();
   const prefetchProject = usePrefetchProject();
+  const openMenu = useSetMobileMenu();
 
   const handleChatHover = (chatId: string) => {
     prefetchChat(chatId);
@@ -63,15 +65,25 @@ export function Sidebar({ className }: SidebarProps) {
         className,
       )}
     >
-      <Link to="/" className="mb-2 flex h-11 items-center rounded-xl px-3">
+      <Link
+        to="/"
+        onClick={() => openMenu(false)}
+        className="mb-2 flex h-11 items-center rounded-xl px-3"
+      >
         <Logo />
       </Link>
       <nav aria-label="Основное">
-        <ActionButton icon={Plus} label="Создать" to="/" />
+        <ActionButton
+          icon={Plus}
+          label="Создать"
+          to="/"
+          onClick={() => openMenu(false)}
+        />
         <ActionButton
           icon={Folder}
           label="Проекты"
           to="/projects"
+          onClick={() => openMenu(false)}
           action={
             <IconButton
               icon={Plus}

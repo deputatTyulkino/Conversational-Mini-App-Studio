@@ -36,7 +36,7 @@ export function ActionButton({
   return (
     <div className={cn(rowStyles, className)}>
       {to ? (
-        <Link to={to} className={itemStyles}>
+        <Link to={to} onClick={onClick} className={itemStyles}>
           {content}
         </Link>
       ) : (

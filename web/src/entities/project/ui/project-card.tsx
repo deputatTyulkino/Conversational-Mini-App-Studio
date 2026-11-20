@@ -1,6 +1,7 @@
 import { Folder } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link } from "react-router";
+import { dateFormatter } from "../../../shared/lib";
 import type { Project } from "../model/types";
 
 type ProjectCardProps = {
@@ -18,10 +19,6 @@ const chatWord: Record<Intl.LDMLPluralRule, string> = {
   many: "чатов",
   other: "чата",
 };
-const dateFormat = new Intl.DateTimeFormat("ru-RU", {
-  day: "numeric",
-  month: "short",
-});
 
 export function ProjectCard({ project, actions, onHover }: ProjectCardProps) {
   const count = project.chats.length;
@@ -38,7 +35,7 @@ export function ProjectCard({ project, actions, onHover }: ProjectCardProps) {
           to={`/projects/${project.id}`}
           onMouseEnter={handleIntent}
           onFocus={handleIntent}
-          className="block truncate font-medium after:absolute after:inset-0 after:rounded-2xl"
+          className="block truncate font-medium after:absolute after:inset-0 after:rounded-2xl cursor-default"
         >
           {project.name}
         </Link>
@@ -49,7 +46,7 @@ export function ProjectCard({ project, actions, onHover }: ProjectCardProps) {
         )}
         <p className="mt-2 text-xs text-muted-foreground">
           {count} {chatWord[pluralRules.select(count)]} ·{" "}
-          {dateFormat.format(new Date(project.last_activity_at))}
+          {dateFormatter(project.last_activity_at)}
         </p>
       </div>
       {actions && <div className="relative z-10 -mr-2 -mt-1">{actions}</div>}

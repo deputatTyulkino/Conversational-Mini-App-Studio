@@ -1,3 +1,5 @@
+export { Logo, LogoMark } from "./logo/logo";
+
 export { ActionButton } from "./action-button";
 export * from "./alert";
 export * from "./alert-dialog";
@@ -12,6 +14,7 @@ export { IconButton } from "./icon-button";
 export { Input } from "./input";
 export { Label } from "./label";
 export * from "./scroll-area";
+export { SectionTitle } from "./section-title";
 export * from "./select";
 export { Separator } from "./separator";
 export * from "./sheet";

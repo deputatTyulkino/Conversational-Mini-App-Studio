@@ -34,7 +34,10 @@ export function EditProjectDialog({
           initial={{ name: project.name, description: project.description }}
           submitLabel="Сохранить"
           onSubmit={(payload) => {
-            mutate({ id: project.id, payload });
+            mutate({
+              id: project.id,
+              payload: { ...payload, is_pinned: project.is_pinned },
+            });
             onOpenChange(false);
           }}
           onCancel={() => onOpenChange(false)}

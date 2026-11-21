@@ -5,6 +5,11 @@ export const projectApi = {
   list: (signal?: AbortSignal) =>
     api.get<ApiResponse<Project[]>>("/projects", { signal }).then(unwrap),
 
+  pinned: (signal?: AbortSignal) =>
+    api
+      .get<ApiResponse<Project[]>>("/projects/pinned", { signal })
+      .then(unwrap),
+
   get: (id: string, signal?: AbortSignal) =>
     api.get<ApiResponse<Project>>(`/projects/${id}`, { signal }).then(unwrap),
 

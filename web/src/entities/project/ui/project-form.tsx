@@ -23,7 +23,10 @@ export function ProjectForm({
     formState: { errors, isValid },
   } = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
-    defaultValues: initial ?? { name: "", description: "" },
+    defaultValues: {
+      name: initial?.name ?? "",
+      description: initial?.description ?? "",
+    },
     mode: "onChange",
   });
   const nameId = useId();

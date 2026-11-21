@@ -8,11 +8,8 @@ import {
   type Chat,
 } from "../../../entities/chat";
 import { usePrefetchMessages } from "../../../entities/message";
-import {
-  ProjectItem,
-  usePrefetchProject,
-  useProjects,
-} from "../../../entities/project";
+import { ProjectItem, usePrefetchProject } from "../../../entities/project";
+import { usePinnedProjects } from "../../../entities/project/model/use-projects";
 import { ChatActionsMenu } from "../../../features/manage-chat";
 import {
   ProjectActionsMenu,
@@ -27,7 +24,6 @@ import {
   Logo,
   SectionTitle,
 } from "../../../shared/ui";
-
 const CHATS_PER_PROJECT = 10;
 
 type SidebarProps = {
@@ -37,7 +33,7 @@ type SidebarProps = {
 export function Sidebar({ className }: SidebarProps) {
   const { open } = useProjectDialogActions();
   const pinned = usePinnedChats();
-  const projects = useProjects();
+  const projects = usePinnedProjects();
   const chats = useChats();
   const prefetchChat = usePrefetchChat();
   const prefetchMessages = usePrefetchMessages();
@@ -95,39 +91,36 @@ export function Sidebar({ className }: SidebarProps) {
         />
       </nav>
 
-      {pinned.data && pinned.data.length > 0 && (
+      {((pinned.data && pinned.data.length > 0) ||
+        (projects.data && projects.data.length > 0)) && (
         <>
           <SectionTitle>Закреплённые</SectionTitle>
-          <nav aria-label="Закреплённые чаты">
-            {pinned.data.map(renderChat)}
+          <nav aria-label="Закреплённые чаты и проекты">
+            {pinned.data?.map(renderChat)}
+            {projects.data?.map((project) => (
+              <ProjectItem
+                key={project.id}
+                project={project}
+                actions={<ProjectActionsMenu project={project} />}
+                footer={
+                  project.chats.length > CHATS_PER_PROJECT && (
+                    <Link
+                      to={`/projects/${project.id}`}
+                      onMouseEnter={() => prefetchProject(project.id)}
+                      onFocus={() => prefetchProject(project.id)}
+                      className="flex h-11 items-center rounded-xl pl-6 pr-3 text-[15px] text-muted-foreground transition-colors hover:bg-sidebar-accent"
+                    >
+                      Показать все
+                    </Link>
+                  )
+                }
+              >
+                {project.chats.slice(0, CHATS_PER_PROJECT).map(renderChat)}
+              </ProjectItem>
+            ))}
           </nav>
         </>
       )}
-
-      <SectionTitle>Проекты</SectionTitle>
-      <nav aria-label="Проекты">
-        {projects.data?.map((project) => (
-          <ProjectItem
-            key={project.id}
-            project={project}
-            actions={<ProjectActionsMenu project={project} />}
-            footer={
-              project.chats.length > CHATS_PER_PROJECT && (
-                <Link
-                  to={`/projects/${project.id}`}
-                  onMouseEnter={() => prefetchProject(project.id)}
-                  onFocus={() => prefetchProject(project.id)}
-                  className="flex h-11 items-center rounded-xl pl-6 pr-3 text-[15px] text-muted-foreground transition-colors hover:bg-sidebar-accent"
-                >
-                  Показать все
-                </Link>
-              )
-            }
-          >
-            {project.chats.slice(0, CHATS_PER_PROJECT).map(renderChat)}
-          </ProjectItem>
-        ))}
-      </nav>
 
       <SectionTitle>Чаты и задачи</SectionTitle>
       <nav aria-label="Чаты">{chats.data?.map(renderChat)}</nav>

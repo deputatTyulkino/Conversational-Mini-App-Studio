@@ -4,16 +4,18 @@ import {
   projectKeys,
   projectQuery,
   projectsQuery,
-  type ProjectPayload,
+  type ProjectPayloadWithPinned,
 } from "../../../entities/project";
+import { pinnedProjectsQuery } from "../../../entities/project/api/project-queries";
 
 type UpdateVariables = {
   id: string;
-  payload: ProjectPayload;
+  payload: ProjectPayloadWithPinned;
 };
 
 export function useUpdateProject() {
   const listKey = projectsQuery().queryKey;
+  const pinnedListKey = pinnedProjectsQuery().queryKey;
 
   return useMutation({
     mutationFn: ({ id, payload }: UpdateVariables) =>
@@ -22,21 +24,35 @@ export function useUpdateProject() {
       const detailKey = projectQuery(id).queryKey;
       await context.client.cancelQueries({ queryKey: projectKeys.all });
       const previousList = context.client.getQueryData(listKey);
+      const previousPinned = context.client.getQueryData(pinnedListKey);
       const previousDetail = context.client.getQueryData(detailKey);
       const updated_at = new Date().toISOString();
+      const source =
+        previousList?.find((project) => project.id === id) ??
+        previousPinned?.find((project) => project.id === id) ??
+        previousDetail;
+      const next = source ? { ...source, ...payload, updated_at } : undefined;
       context.client.setQueryData(listKey, (old) =>
-        old?.map((project) =>
-          project.id === id ? { ...project, ...payload, updated_at } : project,
-        ),
+        old?.map((project) => (project.id === id && next ? next : project)),
       );
+      context.client.setQueryData(pinnedListKey, (old) => {
+        if (!old) return old;
+        if (!payload.is_pinned)
+          return old.filter((project) => project.id !== id);
+        if (!next) return old;
+        return old.some((project) => project.id === id)
+          ? old.map((project) => (project.id === id ? next : project))
+          : [next, ...old];
+      });
       context.client.setQueryData(detailKey, (old) =>
         old ? { ...old, ...payload, updated_at } : old,
       );
-      return { previousList, previousDetail, detailKey };
+      return { previousList, previousPinned, previousDetail, detailKey };
     },
     onError: (_, __, mutateResult, context) => {
       if (!mutateResult) return;
       context.client.setQueryData(listKey, mutateResult.previousList);
+      context.client.setQueryData(pinnedListKey, mutateResult.previousPinned);
       context.client.setQueryData(
         mutateResult.detailKey,
         mutateResult.previousDetail,

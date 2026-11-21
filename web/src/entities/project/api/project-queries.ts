@@ -4,6 +4,7 @@ import { projectApi } from "./project-api";
 export const projectKeys = {
   all: ["projects"] as const,
   lists: () => [...projectKeys.all, "list"] as const,
+  pinned: () => [...projectKeys.lists(), "pinned"] as const,
   details: () => [...projectKeys.all, "detail"] as const,
   detail: (id: string) => [...projectKeys.details(), id] as const,
 };
@@ -12,6 +13,13 @@ export const projectsQuery = () =>
   queryOptions({
     queryKey: projectKeys.lists(),
     queryFn: ({ signal }) => projectApi.list(signal),
+    staleTime: 30_000,
+  });
+
+export const pinnedProjectsQuery = () =>
+  queryOptions({
+    queryKey: projectKeys.pinned(),
+    queryFn: ({ signal }) => projectApi.pinned(signal),
     staleTime: 30_000,
   });
 

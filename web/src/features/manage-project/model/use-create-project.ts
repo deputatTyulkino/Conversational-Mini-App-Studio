@@ -6,20 +6,25 @@ import {
   type Project,
   type ProjectPayload,
 } from "../../../entities/project";
+import { pinnedProjectsQuery } from "../../../entities/project/api/project-queries";
 
 export function useCreateProject() {
   const listKey = projectsQuery().queryKey;
+  const pinnedListKey = pinnedProjectsQuery().queryKey;
 
   return useMutation({
     mutationFn: (payload: ProjectPayload) => projectApi.create(payload),
     onMutate: async (payload, context) => {
       await context.client.cancelQueries({ queryKey: projectKeys.lists() });
-      const previous = context.client.getQueryData(listKey);
+      await context.client.cancelQueries({ queryKey: projectKeys.pinned() });
+      const previousList = context.client.getQueryData(listKey);
+      const previousPinned = context.client.getQueryData(pinnedListKey);
       const tempId = crypto.randomUUID();
       const now = new Date().toISOString();
       const optimistic: Project = {
         id: tempId,
         ...payload,
+        is_pinned: true,
         chats: [],
         created_at: now,
         updated_at: now,
@@ -29,11 +34,13 @@ export function useCreateProject() {
         optimistic,
         ...(old ?? []),
       ]);
-      return { previous, tempId };
+      return { previousList, previousPinned, tempId };
     },
     onError: (_error, _, mutateResult, context) => {
-      if (mutateResult)
-        context.client.setQueryData(listKey, mutateResult.previous);
+      if (mutateResult) {
+        context.client.setQueryData(listKey, mutateResult.previousList);
+        context.client.setQueryData(pinnedListKey, mutateResult.previousPinned);
+      }
     },
     onSuccess: ({ id }, _, mutateResult, context) => {
       context.client.setQueryData(listKey, (old) =>
@@ -41,8 +48,15 @@ export function useCreateProject() {
           project.id === mutateResult?.tempId ? { ...project, id } : project,
         ),
       );
+      context.client.setQueryData(pinnedListKey, (old) =>
+        old?.map((project) =>
+          project.id === mutateResult?.tempId ? { ...project, id } : project,
+        ),
+      );
     },
-    onSettled: (_, __, ___, ____, context) =>
-      context.client.invalidateQueries({ queryKey: projectKeys.lists() }),
+    onSettled: (_, __, ___, ____, context) => {
+      context.client.invalidateQueries({ queryKey: projectKeys.lists() });
+      context.client.invalidateQueries({ queryKey: projectKeys.pinned() });
+    },
   });
 }

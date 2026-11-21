@@ -4,6 +4,7 @@ export type Project = {
   id: string;
   name: string;
   description: string;
+  is_pinned: boolean;
   chats: Chat[];
   created_at: string;
   updated_at: string;
@@ -13,6 +14,10 @@ export type Project = {
 export type ProjectPayload = {
   name: string;
   description: string;
+};
+
+export type ProjectPayloadWithPinned = ProjectPayload & {
+  is_pinned: boolean;
 };
 
 export type ProjectId = {

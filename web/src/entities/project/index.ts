@@ -9,7 +9,12 @@ export {
   useProjectsMenuActions,
 } from "./model/project-menu-store";
 export { projectSchema, type ProjectFormValues } from "./model/schema";
-export type { Project, ProjectId, ProjectPayload } from "./model/types";
+export type {
+  Project,
+  ProjectId,
+  ProjectPayload,
+  ProjectPayloadWithPinned,
+} from "./model/types";
 export {
   usePrefetchProject,
   useProject,

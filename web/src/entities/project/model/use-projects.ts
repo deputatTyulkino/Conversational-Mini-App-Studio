@@ -1,8 +1,14 @@
 import { noop, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
-import { projectQuery, projectsQuery } from "../api/project-queries";
+import {
+  pinnedProjectsQuery,
+  projectQuery,
+  projectsQuery,
+} from "../api/project-queries";
 
 export const useProjects = () => useQuery(projectsQuery());
+
+export const usePinnedProjects = () => useQuery(pinnedProjectsQuery());
 
 export const useProject = (id: string) =>
   useQuery({ ...projectQuery(id), enabled: id.length > 0 });

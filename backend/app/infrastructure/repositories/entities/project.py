@@ -84,6 +84,7 @@ class ProjectRepo(IProjectRepo):
             .values(
                 name=project.name,
                 description=project.description,
+                is_pinned=project.is_pinned,
                 updated_at=project.updated_at,
             )
             .returning(ProjectORM.id)

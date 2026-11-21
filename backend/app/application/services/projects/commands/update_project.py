@@ -22,7 +22,7 @@ class UpdateProjectService(BaseProjectServices):
             if "description" in changes:
                 project.change_description(changes["description"])
             if "is_pinned" in changes:
-                project.pin if changes["is_pinned"] else project.unpin()
+                project.pin() if changes["is_pinned"] else project.unpin()
             await uow.project.update(project)
             await uow.commit()
         self.logger.info(

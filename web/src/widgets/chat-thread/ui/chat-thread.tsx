@@ -4,8 +4,14 @@ import {
   TypingIndicator,
   useMessages,
 } from "../../../entities/message";
+import { chatScope } from "../../../features/attach-files";
+import { MessageAttachments } from "../../../features/download-attachment";
 import { useEditMessage } from "../../../features/edit-message";
-import { MessageInput, useSendMessage } from "../../../features/send-message";
+import {
+  MessageComposer,
+  useSendMessage,
+  type ComposerPayload,
+} from "../../../features/send-message";
 import { getErrorMessage } from "../../../shared/api";
 import { Button } from "../../../shared/ui";
 
@@ -82,9 +88,9 @@ export function ChatThread({ chatId }: ChatThreadProps) {
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const handleSend = (content: string) => {
+  const handleSend = (payload: ComposerPayload) => {
     resetEdit();
-    send(content);
+    send(payload);
   };
 
   return (
@@ -134,6 +140,12 @@ export function ChatThread({ chatId }: ChatThreadProps) {
               onEdit={edit}
               onRetrySend={retry}
               onDiscard={discard}
+              renderAttachments={(attachments) => (
+                <MessageAttachments
+                  attachments={attachments}
+                  className="w-80 max-w-full"
+                />
+              )}
             />
           ))}
           {busy && <TypingIndicator />}
@@ -146,7 +158,11 @@ export function ChatThread({ chatId }: ChatThreadProps) {
             {getErrorMessage(editError, "Не удалось изменить сообщение.")}
           </p>
         )}
-        <MessageInput onSend={handleSend} disabled={busy} />
+        <MessageComposer
+          scope={chatScope(chatId)}
+          onSend={handleSend}
+          disabled={busy}
+        />
       </div>
     </div>
   );

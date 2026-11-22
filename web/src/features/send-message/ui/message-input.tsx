@@ -1,23 +1,25 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowUp, Plus } from "lucide-react";
-import { useId, useLayoutEffect, useRef } from "react";
+import { ArrowUp } from "lucide-react";
+import { useId, useLayoutEffect, useRef, type ReactNode } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import {
   messageSchema,
   type MessageFormValues,
 } from "../../../entities/message";
-import { Button, FieldError, IconButton } from "../../../shared/ui";
+import { Button, FieldError } from "../../../shared/ui";
 
 type MessageInputProps = {
   onSend: (text: string) => void;
-  onAttach?: () => void;
   disabled?: boolean;
+  attachments?: ReactNode;
+  leading?: ReactNode;
 };
 
 export function MessageInput({
   onSend,
-  onAttach,
   disabled,
+  attachments,
+  leading,
 }: MessageInputProps) {
   const id = useId();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -54,6 +56,7 @@ export function MessageInput({
       onSubmit={submit}
       className="flex flex-col gap-1.5 rounded-[1.375rem] border border-input bg-card p-3 focus-within:border-ring"
     >
+      {attachments}
       <label htmlFor={id} className="sr-only">
         Сообщение
       </label>
@@ -89,12 +92,7 @@ export function MessageInput({
         }
       />
       <div className="flex items-center justify-between">
-        <IconButton
-          icon={Plus}
-          label="Прикрепить файл"
-          onClick={onAttach}
-          className="rounded-full border border-input"
-        />
+        <div>{leading}</div>
         <Button
           type="submit"
           size="icon"

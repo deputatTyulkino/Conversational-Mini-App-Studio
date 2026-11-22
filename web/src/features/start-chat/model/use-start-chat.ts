@@ -1,5 +1,6 @@
 import { noop, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import { attachmentApi, type Attachment } from "../../../entities/attachment";
 import { chatApi, chatKeys } from "../../../entities/chat";
 import { applyExchangeToCache, messageApi } from "../../../entities/message";
 import { projectKeys } from "../../../entities/project";
@@ -9,6 +10,11 @@ import {
   useStartChatState,
   type StartChatDraft,
 } from "./start-chat-store";
+
+export type StartChatPayload = {
+  content: string;
+  attachments: Attachment[];
+};
 
 export function useStartChat(projectId: string | null) {
   const queryClient = useQueryClient();
@@ -35,12 +41,15 @@ export function useStartChat(projectId: string | null) {
       }
       const result = await messageApi.send(chatId, {
         content: variables.content,
+        attachment_ids: variables.attachments.map(
+          (attachment) => attachment.id,
+        ),
         client_message_id: variables.clientMessageId,
       });
       return { chatId, result };
     },
-    onSuccess: ({ chatId, result }, variables, _, context) => {
-      applyExchangeToCache(context.client, chatId, result);
+    onSuccess: ({ chatId, result }, variables) => {
+      applyExchangeToCache(queryClient, chatId, result);
       void invalidateLists();
       if (draft?.clientMessageId === variables.clientMessageId) clear();
     },
@@ -55,12 +64,13 @@ export function useStartChat(projectId: string | null) {
     });
   };
 
-  const start = (content: string) => {
+  const start = ({ content, attachments }: StartChatPayload) => {
     clear();
     run({
       clientMessageId: crypto.randomUUID(),
       projectId,
       content,
+      attachments,
       state: "sending",
     });
   };
@@ -70,11 +80,16 @@ export function useStartChat(projectId: string | null) {
   };
 
   const discard = () => {
+    const orphan = createdChatId;
+    const files = draft?.attachments ?? [];
     clear();
     mutation.reset();
-    if (createdChatId) {
+    files.forEach((attachment) => {
+      void attachmentApi.remove(attachment.id).catch(noop);
+    });
+    if (orphan) {
       void chatApi
-        .remove(createdChatId)
+        .remove(orphan)
         .catch(noop)
         .finally(() => {
           void invalidateLists();

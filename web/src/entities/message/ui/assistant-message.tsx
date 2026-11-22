@@ -7,12 +7,14 @@ import { MessageActions } from "./message-actions";
 
 type AssistantMessageProps = {
   message: Message;
+  attachments?: ReactNode;
   onRetry?: () => void;
   children?: ReactNode;
 };
 
 export function AssistantMessage({
   message,
+  attachments,
   onRetry,
   children,
 }: AssistantMessageProps) {
@@ -20,9 +22,10 @@ export function AssistantMessage({
 
   return (
     <div className="group flex max-w-[92%] flex-col gap-3">
-      <p className="whitespace-pre-wrap wrap-break-word text-[15px] leading-7">
+      <p className="whitespace-pre-wrap wrap-break-words text-[15px] leading-7">
         {message.content}
       </p>
+      {attachments}
       {failed && (
         <div
           role="alert"

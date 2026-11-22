@@ -4,7 +4,9 @@ import {
   type Message,
 } from "../../../entities/message";
 import { useProject } from "../../../entities/project";
-import { MessageInput } from "../../../features/send-message";
+import { newChatScope } from "../../../features/attach-files";
+import { MessageAttachments } from "../../../features/download-attachment";
+import { MessageComposer } from "../../../features/send-message";
 import { useStartChat } from "../../../features/start-chat";
 
 type NewChatPanelProps = {
@@ -29,7 +31,7 @@ export function NewChatPanel({ projectId }: NewChatPanelProps) {
           </h1>
         </div>
         <div className="w-full max-w-3xl">
-          <MessageInput onSend={start} />
+          <MessageComposer scope={newChatScope(projectId)} onSend={start} />
         </div>
       </div>
     );
@@ -41,6 +43,7 @@ export function NewChatPanel({ projectId }: NewChatPanelProps) {
     role: "user",
     content: draft.content,
     payload: null,
+    attachments: draft.attachments,
     created_at: "",
     client_state: draft.state,
   };
@@ -53,12 +56,22 @@ export function NewChatPanel({ projectId }: NewChatPanelProps) {
             message={message}
             onRetrySend={() => retry()}
             onDiscard={() => discard()}
+            renderAttachments={(attachments) => (
+              <MessageAttachments
+                attachments={attachments}
+                className="w-80 max-w-full"
+              />
+            )}
           />
           {draft.state === "sending" && <TypingIndicator />}
         </div>
       </div>
       <div className="mx-auto w-full max-w-3xl px-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:px-6">
-        <MessageInput onSend={start} disabled />
+        <MessageComposer
+          scope={newChatScope(projectId)}
+          onSend={() => undefined}
+          disabled
+        />
       </div>
     </div>
   );

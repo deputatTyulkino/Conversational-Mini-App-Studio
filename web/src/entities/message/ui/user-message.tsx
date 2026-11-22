@@ -1,5 +1,5 @@
 import { AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "../../../shared/lib";
 import { Button } from "../../../shared/ui";
 import type { Message } from "../model/types";
@@ -9,6 +9,7 @@ import { MessageEditor } from "./message-editor";
 type UserMessageProps = {
   message: Message;
   editable?: boolean;
+  attachments?: ReactNode;
   onEdit?: (messageId: string, content: string) => void;
   onRetry?: (messageId: string) => void;
   onDiscard?: (messageId: string) => void;
@@ -17,6 +18,7 @@ type UserMessageProps = {
 export function UserMessage({
   message,
   editable,
+  attachments,
   onEdit,
   onRetry,
   onDiscard,
@@ -41,9 +43,10 @@ export function UserMessage({
 
   return (
     <div className="group flex max-w-[85%] flex-col items-end gap-1">
+      {attachments}
       <p
         className={cn(
-          "whitespace-pre-wrap wrap-break-word rounded-[1.25rem] rounded-br-md bg-secondary px-4 py-3 text-[15px] leading-6 text-secondary-foreground",
+          "whitespace-pre-wrap wrap-break-words rounded-[1.25rem] rounded-br-md bg-secondary px-4 py-3 text-[15px] leading-6 text-secondary-foreground",
           sending && "opacity-60",
         )}
       >

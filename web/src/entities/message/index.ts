@@ -7,6 +7,7 @@ export {
 } from "./api/message-queries";
 export {
   applyExchangeToCache,
+  findMessageInCache,
   patchMessageInCache,
   restoreMessagesCache,
   upsertMessageInCache,
@@ -21,13 +22,15 @@ export {
 export type {
   ClientMessageState,
   Message,
-  MessageContentPayload,
   MessagePayload,
   MessageRole,
+  MessagesCursor,
   MessagesPage,
   RouteCandidate,
   RouteDecision,
+  SendMessagePayload,
   SendMessageResult,
+  UpdateMessagePayload,
 } from "./model/types";
 export { useMessages, usePrefetchMessages } from "./model/use-messages";
 export { MessageItem } from "./ui/message-item";

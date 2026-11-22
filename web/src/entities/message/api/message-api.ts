@@ -1,13 +1,14 @@
 import { api, unwrap, type ApiResponse } from "../../../shared/api";
 import type {
-  MessageContentPayload,
+  MessagesCursor,
   MessagesPage,
+  SendMessagePayload,
   SendMessageResult,
+  UpdateMessagePayload,
 } from "../model/types";
 
-export type ListMessagesParams = {
+export type ListMessagesParams = Partial<MessagesCursor> & {
   limit: number;
-  before_id?: string;
 };
 
 export const messageApi = {
@@ -19,7 +20,7 @@ export const messageApi = {
       })
       .then(unwrap),
 
-  send: (chatId: string, payload: MessageContentPayload) =>
+  send: (chatId: string, payload: SendMessagePayload) =>
     api
       .post<ApiResponse<SendMessageResult>>(
         `/chats/${chatId}/messages`,
@@ -27,9 +28,9 @@ export const messageApi = {
       )
       .then(unwrap),
 
-  update: (chatId: string, messageId: string, payload: MessageContentPayload) =>
+  update: (chatId: string, messageId: string, payload: UpdateMessagePayload) =>
     api
-      .patch<ApiResponse<SendMessageResult>>(
+      .put<ApiResponse<SendMessageResult>>(
         `/chats/${chatId}/messages/${messageId}`,
         payload,
       )

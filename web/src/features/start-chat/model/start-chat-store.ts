@@ -1,11 +1,13 @@
 import { create, type StateCreator } from "zustand";
 import { useShallow } from "zustand/shallow";
+import type { Attachment } from "../../../entities/attachment";
 import type { ClientMessageState } from "../../../entities/message";
 
 export type StartChatDraft = {
   clientMessageId: string;
   projectId: string | null;
   content: string;
+  attachments: Attachment[];
   state: ClientMessageState;
 };
 

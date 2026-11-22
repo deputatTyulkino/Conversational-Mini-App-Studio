@@ -1,5 +1,6 @@
 import { Menu } from "lucide-react";
 import { Outlet } from "react-router";
+import { DownloadAttachmentDialog } from "../../features/download-attachment";
 import { ChatDialogsHost } from "../../features/manage-chat";
 import { ProjectDialogsHost } from "../../features/manage-project";
 import { useMobileMenu, useSetMobileMenu } from "../../shared/lib/layout-store";
@@ -13,6 +14,7 @@ import {
   SheetTrigger,
 } from "../../shared/ui";
 import { Sidebar } from "../../widgets/sidebar";
+
 export function ShellLayout() {
   const mobileMenuOpen = useMobileMenu();
   const setMobileMenuOpen = useSetMobileMenu();
@@ -50,6 +52,7 @@ export function ShellLayout() {
 
       <ProjectDialogsHost />
       <ChatDialogsHost />
+      <DownloadAttachmentDialog />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import type { Attachment } from "../../attachment";
+
 export type MessageRole = "user" | "assistant";
 
 export type ClientMessageState = "sending" | "failed";
@@ -31,18 +33,31 @@ export type Message = {
   content: string;
   payload: MessagePayload | null;
   created_at: string;
+  attachments: Attachment[];
   client_state?: ClientMessageState;
+};
+
+export type MessagesCursor = {
+  before_created_at: string;
+  before_id: string;
 };
 
 export type MessagesPage = {
   items: Message[];
   has_more: boolean;
-  next_cursor: string | null;
+  next_before_created_at: string | null;
+  next_before_id: string | null;
 };
 
-export type MessageContentPayload = {
+export type SendMessagePayload = {
   content: string;
+  attachment_ids: string[];
   client_message_id: string;
+};
+
+export type UpdateMessagePayload = {
+  content: string;
+  attachment_ids: string[];
 };
 
 export type SendMessageResult = {

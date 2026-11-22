@@ -1,5 +1,3 @@
-export { Logo, LogoMark } from "./logo/logo";
-
 export { ActionButton } from "./action-button";
 export * from "./alert";
 export * from "./alert-dialog";
@@ -13,6 +11,8 @@ export { FieldError } from "./field-error";
 export { IconButton } from "./icon-button";
 export { Input } from "./input";
 export { Label } from "./label";
+export { Logo, LogoMark } from "./logo/logo";
+export { ProgressBar } from "./progress-bar";
 export * from "./scroll-area";
 export { SectionTitle } from "./section-title";
 export * from "./select";

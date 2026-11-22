@@ -23,7 +23,14 @@ export function upsertMessageInCache(
   queryClient.setQueryData(messagesQuery(chatId).queryKey, (old) => {
     if (!old || old.pages.length === 0) {
       return {
-        pages: [{ items: [message], has_more: false, next_cursor: null }],
+        pages: [
+          {
+            items: [message],
+            has_more: false,
+            next_before_created_at: null,
+            next_before_id: null,
+          },
+        ],
         pageParams: [undefined],
       };
     }
@@ -79,4 +86,17 @@ export function restoreMessagesCache(
   } else {
     queryClient.removeQueries({ queryKey: key });
   }
+}
+
+export function findMessageInCache(
+  queryClient: QueryClient,
+  chatId: string,
+  messageId: string,
+): Message | undefined {
+  const data = queryClient.getQueryData(messagesQuery(chatId).queryKey);
+  for (const page of data?.pages ?? []) {
+    const found = page.items.find((item) => item.id === messageId);
+    if (found) return found;
+  }
+  return undefined;
 }

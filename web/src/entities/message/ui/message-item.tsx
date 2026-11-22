@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "../../../shared/lib";
+import type { Attachment } from "../../attachment";
 import type { Message } from "../model/types";
 import { AssistantMessage } from "./assistant-message";
 import { UserMessage } from "./user-message";
@@ -11,6 +12,7 @@ type MessageItemProps = {
   onRetrySend?: (messageId: string) => void;
   onDiscard?: (messageId: string) => void;
   onRetryRoute?: (message: Message) => void;
+  renderAttachments?: (attachments: Attachment[]) => ReactNode;
   renderExtras?: (message: Message) => ReactNode;
 };
 
@@ -21,9 +23,14 @@ export function MessageItem({
   onRetrySend,
   onDiscard,
   onRetryRoute,
+  renderAttachments,
   renderExtras,
 }: MessageItemProps) {
   const isUser = message.role === "user";
+  const attachments =
+    message.attachments.length > 0
+      ? renderAttachments?.(message.attachments)
+      : undefined;
 
   return (
     <div
@@ -33,6 +40,7 @@ export function MessageItem({
         <UserMessage
           message={message}
           editable={editable}
+          attachments={attachments}
           onEdit={onEdit}
           onRetry={onRetrySend}
           onDiscard={onDiscard}
@@ -40,6 +48,7 @@ export function MessageItem({
       ) : (
         <AssistantMessage
           message={message}
+          attachments={attachments}
           onRetry={onRetryRoute && (() => onRetryRoute(message))}
         >
           {renderExtras?.(message)}

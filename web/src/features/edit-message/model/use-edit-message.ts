@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   applyExchangeToCache,
+  findMessageInCache,
   messageApi,
   messagesQuery,
   patchMessageInCache,
@@ -17,11 +18,14 @@ export function useEditMessage(chatId: string) {
   const listKey = messagesQuery(chatId).queryKey;
 
   const mutation = useMutation({
-    mutationFn: ({ messageId, content }: EditVariables) =>
-      messageApi.update(chatId, messageId, {
+    mutationFn: ({ messageId, content }: EditVariables) => {
+      const current = findMessageInCache(queryClient, chatId, messageId);
+      if (!current) throw new Error("Сообщение не найдено");
+      return messageApi.update(chatId, messageId, {
         content,
-        client_message_id: crypto.randomUUID(),
-      }),
+        attachment_ids: current.attachments.map((attachment) => attachment.id),
+      });
+    },
     onMutate: async ({ messageId, content }) => {
       await queryClient.cancelQueries({ queryKey: listKey });
       const previous = queryClient.getQueryData(listKey);

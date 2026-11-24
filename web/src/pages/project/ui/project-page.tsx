@@ -1,9 +1,10 @@
 import { Link, useParams } from "react-router";
 import { ChatListItem } from "../../../entities/chat";
 import { useProject } from "../../../entities/project";
+import { newChatScope } from "../../../features/attach-files";
 import { ChatActionsMenu } from "../../../features/manage-chat";
 import { ProjectActionsMenu } from "../../../features/manage-project";
-import { MessageInput } from "../../../features/send-message";
+import { MessageComposer } from "../../../features/send-message";
 import { useStartChat } from "../../../features/start-chat";
 import { Button } from "../../../shared/ui";
 
@@ -59,7 +60,11 @@ export function ProjectPage() {
           </div>
         </div>
       ) : (
-        <MessageInput onSend={start} disabled={isSending} />
+        <MessageComposer
+          onSend={start}
+          disabled={isSending}
+          scope={newChatScope(projectId)}
+        />
       )}
 
       <section aria-label="Чаты проекта">

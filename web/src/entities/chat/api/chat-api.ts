@@ -17,10 +17,10 @@ export const chatApi = {
     api.get<ApiResponse<Chat>>(`/chats/${id}`, { signal }).then(unwrap),
 
   create: (payload: CreateChatPayload) =>
-    api.post<ApiResponse<ChatId>>("/chats", payload).then(unwrap),
+    api.post<ApiResponse<Chat>>("/chats", payload).then(unwrap),
 
   update: (id: string, payload: UpdateChatPayload) =>
-    api.patch<ApiResponse<ChatId>>(`/chats/${id}`, payload).then(unwrap),
+    api.patch<ApiResponse<Chat>>(`/chats/${id}`, payload).then(unwrap),
 
   remove: (id: string) =>
     api.delete<ApiResponse<ChatId>>(`/chats/${id}`).then(unwrap),

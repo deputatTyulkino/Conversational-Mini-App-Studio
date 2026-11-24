@@ -11,7 +11,8 @@ export function ProjectDialogsHost() {
   const dialog = useProjectDialogState();
   const { close } = useProjectDialogActions();
   const navigate = useNavigate();
-  const match = useMatch("/projects/:projectId");
+  const projectMatch = useMatch("/projects/:projectId");
+  const chatMatch = useMatch("/chats/:chatId");
 
   const handleOpenChange = (open: boolean) => {
     if (!open) close();
@@ -39,7 +40,13 @@ export function ProjectDialogsHost() {
       open
       onOpenChange={handleOpenChange}
       onDeleted={() => {
-        if (match?.params.projectId === dialog.project.id)
+        if (projectMatch?.params.projectId === dialog.project.id)
+          navigate("/projects");
+        else if (
+          dialog.project.chats.find(
+            (chat) => chat.id === chatMatch?.params.chatId,
+          )
+        )
           navigate("/projects");
       }}
     />

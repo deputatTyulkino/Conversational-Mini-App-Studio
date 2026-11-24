@@ -4,6 +4,7 @@ from uuid import UUID
 from app.application.schemas.entities.project import (
     ProjectCreate,
     ProjectIdRead,
+    ProjectRead,
     ProjectUpdate,
     ProjectWithChatsRead,
 )
@@ -84,7 +85,7 @@ async def get_project_endpoint(
 
 @router.post(
     "",
-    response_model=SuccessResponse[ProjectIdRead],
+    response_model=SuccessResponse[ProjectRead],
     status_code=status.HTTP_201_CREATED,
 )
 async def create_project_endpoint(
@@ -97,7 +98,7 @@ async def create_project_endpoint(
 
 @router.patch(
     "/{project_id}",
-    response_model=SuccessResponse[ProjectIdRead],
+    response_model=SuccessResponse[ProjectRead],
     status_code=status.HTTP_200_OK,
 )
 async def update_project_endpoint(

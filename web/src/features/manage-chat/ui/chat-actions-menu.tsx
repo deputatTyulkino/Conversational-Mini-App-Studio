@@ -25,20 +25,20 @@ export function ChatActionsMenu({ chat }: ChatActionsMenuProps) {
       />
       <DropdownMenuContent align="end">
         <DropdownMenuItem
-          onSelect={() =>
+          onClick={() =>
             mutate({ chat, patch: { is_pinned: !chat.is_pinned } })
           }
         >
           {chat.is_pinned ? <PinOff aria-hidden /> : <Pin aria-hidden />}
           {chat.is_pinned ? "Открепить" : "Закрепить"}
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => open({ type: "edit", chat })}>
+        <DropdownMenuItem onClick={() => open({ type: "edit", chat })}>
           <Pencil aria-hidden />
           Изменить
         </DropdownMenuItem>
         <DropdownMenuItem
           variant="destructive"
-          onSelect={() => open({ type: "delete", chat })}
+          onClick={() => open({ type: "delete", chat })}
         >
           <Trash2 aria-hidden />
           Удалить

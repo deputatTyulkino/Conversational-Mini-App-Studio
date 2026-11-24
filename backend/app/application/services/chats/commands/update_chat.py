@@ -1,13 +1,13 @@
 from uuid import UUID
 
-from app.application.schemas.entities.chat import ChatIdRead, ChatUpdate
+from app.application.schemas.entities.chat import ChatIdRead, ChatRead, ChatUpdate
 from app.application.services.chats.base_chat_service import BaseChatService
 from app.domain.exceptions.chat import ChatNotFoundError
 from app.domain.exceptions.project import ProjectNotFoundError
 
 
 class UpdateChatService(BaseChatService):
-    async def __call__(self, chat_id: UUID, chat_data: ChatUpdate) -> ChatIdRead:
+    async def __call__(self, chat_id: UUID, chat_data: ChatUpdate) -> ChatRead:
         async with self.uow as uow:
             chat = await uow.chat.get(chat_id)
             if chat is None:
@@ -41,4 +41,4 @@ class UpdateChatService(BaseChatService):
         self.logger.info(
             "chat.updated", chat_id=str(chat_id), requested_fields=sorted(changes)
         )
-        return ChatIdRead(chat_id=chat_id)
+        return ChatRead.model_validate(chat)

@@ -81,7 +81,7 @@ async def get_chat_endpoint(
 
 @router.post(
     "",
-    response_model=SuccessResponse[ChatIdRead],
+    response_model=SuccessResponse[ChatRead],
     status_code=status.HTTP_201_CREATED,
     tags=["chats"],
 )
@@ -95,7 +95,7 @@ async def create_chat_endpoint(
 
 @router.patch(
     "/{chat_id}",
-    response_model=SuccessResponse[ChatIdRead],
+    response_model=SuccessResponse[ChatRead],
     status_code=status.HTTP_200_OK,
     tags=["chats"],
 )

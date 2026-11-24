@@ -18,11 +18,6 @@ class IAttachmentRepo(ABC):
     ) -> list[AttachmentDomain]: ...
 
     @abstractmethod
-    async def attach_to_chat(
-        self, chat_id: UUID, attachment_ids: Sequence[UUID]
-    ) -> list[AttachmentDomain]: ...
-
-    @abstractmethod
     async def delete_from_message(
         self, message_id: UUID, attachment_ids: Sequence[UUID]
     ) -> list[str]: ...

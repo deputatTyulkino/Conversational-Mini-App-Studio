@@ -42,15 +42,15 @@ export function useCreateProject() {
         context.client.setQueryData(pinnedListKey, mutateResult.previousPinned);
       }
     },
-    onSuccess: ({ id }, _, mutateResult, context) => {
+    onSuccess: (data, _, mutateResult, context) => {
       context.client.setQueryData(listKey, (old) =>
         old?.map((project) =>
-          project.id === mutateResult?.tempId ? { ...project, id } : project,
+          project.id === mutateResult?.tempId ? data : project,
         ),
       );
       context.client.setQueryData(pinnedListKey, (old) =>
         old?.map((project) =>
-          project.id === mutateResult?.tempId ? { ...project, id } : project,
+          project.id === mutateResult?.tempId ? data : project,
         ),
       );
     },

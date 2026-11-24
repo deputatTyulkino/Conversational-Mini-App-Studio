@@ -14,10 +14,10 @@ export const projectApi = {
     api.get<ApiResponse<Project>>(`/projects/${id}`, { signal }).then(unwrap),
 
   create: (payload: ProjectPayload) =>
-    api.post<ApiResponse<ProjectId>>("/projects", payload).then(unwrap),
+    api.post<ApiResponse<Project>>("/projects", payload).then(unwrap),
 
   update: (id: string, payload: ProjectPayload) =>
-    api.patch<ApiResponse<ProjectId>>(`/projects/${id}`, payload).then(unwrap),
+    api.patch<ApiResponse<Project>>(`/projects/${id}`, payload).then(unwrap),
 
   remove: (id: string) =>
     api.delete<ApiResponse<ProjectId>>(`/projects/${id}`).then(unwrap),

@@ -42,10 +42,12 @@ export function DeleteChatDialog({
           <AlertDialogAction
             className={cn(
               buttonVariants({ variant: "destructive" }),
-              "dark:text-primary-foreground",
+              "bg-red-700 text-white hover:bg-red-800",
+              "dark:bg-red-700 dark:text-white dark:hover:bg-red-800",
             )}
             onClick={() => {
               mutate(chat.id);
+              onOpenChange(false);
               onDeleted?.();
             }}
           >

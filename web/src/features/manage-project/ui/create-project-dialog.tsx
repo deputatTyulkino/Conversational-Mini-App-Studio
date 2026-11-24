@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import { ProjectForm } from "../../../entities/project";
 import {
   Dialog,
@@ -17,6 +18,7 @@ export function CreateProjectDialog({
   open,
   onOpenChange,
 }: CreateProjectDialogProps) {
+  const navigate = useNavigate();
   const { mutate } = useCreateProject();
 
   return (
@@ -31,8 +33,12 @@ export function CreateProjectDialog({
         <ProjectForm
           submitLabel="Создать"
           onSubmit={(payload) => {
-            mutate(payload);
-            onOpenChange(false);
+            mutate(payload, {
+              onSuccess: (data) => {
+                onOpenChange(false);
+                navigate(`/projects/${data.id}`);
+              },
+            });
           }}
           onCancel={() => onOpenChange(false)}
         />

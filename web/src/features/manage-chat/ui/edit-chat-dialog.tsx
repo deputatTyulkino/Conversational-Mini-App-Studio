@@ -25,7 +25,6 @@ import {
   SelectValue,
 } from "../../../shared/ui";
 import { useUpdateChat } from "../model/use-update-chat";
-
 type EditChatFormProps = {
   chat: Chat;
   onSubmit: (patch: { title: string; project_id: string | null }) => void;
@@ -75,25 +74,31 @@ function EditChatForm({ chat, onSubmit, onCancel }: EditChatFormProps) {
         <Controller
           control={control}
           name="project_id"
-          render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger
-                id={projectFieldId}
-                className="w-full"
-                onBlur={field.onBlur}
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={NO_PROJECT}>Без проекта</SelectItem>
-                {projects.map((project) => (
-                  <SelectItem key={project.id} value={project.id}>
-                    {project.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
+          render={({ field }) => {
+            const selectedLabel =
+              field.value === NO_PROJECT
+                ? "Без проекта"
+                : projects.find((project) => project.id === field.value)?.name;
+            return (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger
+                  id={projectFieldId}
+                  className="w-full"
+                  onBlur={field.onBlur}
+                >
+                  <SelectValue>{selectedLabel}</SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={NO_PROJECT}>Без проекта</SelectItem>
+                  {projects.map((project) => (
+                    <SelectItem key={project.id} value={project.id}>
+                      {project.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            );
+          }}
         />
       </div>
       <div className="flex justify-end gap-2">

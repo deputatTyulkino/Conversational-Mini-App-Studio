@@ -158,6 +158,15 @@ class ProjectRepo(IProjectRepo):
         return [self._to_domain_model(p, grouped[p.id]) for p in projects]
 
     async def list_all(self) -> list[ProjectDomain]:
-        query = select(ProjectORM).order_by(ProjectORM.created_at.desc(), ProjectORM.id)
+        query = (
+            select(ProjectORM)
+            .order_by(ProjectORM.created_at.desc(), ProjectORM.id)
+            .options(selectinload(ProjectORM.chats))
+        )
         projects = (await self.session.scalars(query)).all()
-        return [self._to_domain_model(project) for project in projects]
+        return [
+            self._to_domain_model(
+                project, chats=[self._chat_to_domain(chat) for chat in project.chats]
+            )
+            for project in projects
+        ]

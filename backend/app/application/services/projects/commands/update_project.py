@@ -1,8 +1,8 @@
 from uuid import UUID
 
 from app.application.schemas.entities.project import (
-    ProjectRead,
     ProjectUpdate,
+    ProjectWithChatsRead,
 )
 from app.application.services.projects.base_project_services import BaseProjectServices
 from app.domain.exceptions.project import ProjectNotFoundError
@@ -11,7 +11,7 @@ from app.domain.exceptions.project import ProjectNotFoundError
 class UpdateProjectService(BaseProjectServices):
     async def __call__(
         self, project_id: UUID, project_data: ProjectUpdate
-    ) -> ProjectRead:
+    ) -> ProjectWithChatsRead:
         async with self.uow as uow:
             project = await uow.project.get(project_id)
             if project is None:
@@ -33,4 +33,4 @@ class UpdateProjectService(BaseProjectServices):
             project_id=str(project_id),
             requested_fields=sorted(changes),
         )
-        return ProjectRead.model_validate(project)
+        return ProjectWithChatsRead.model_validate(project)

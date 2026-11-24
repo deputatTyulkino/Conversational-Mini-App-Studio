@@ -96,7 +96,6 @@ export function Sidebar({ className }: SidebarProps) {
         <>
           <SectionTitle>Закреплённые</SectionTitle>
           <nav aria-label="Закреплённые чаты и проекты">
-            {pinned.data?.map(renderChat)}
             {projects.data?.map((project) => (
               <ProjectItem
                 key={project.id}
@@ -118,6 +117,7 @@ export function Sidebar({ className }: SidebarProps) {
                 {project.chats.slice(0, CHATS_PER_PROJECT).map(renderChat)}
               </ProjectItem>
             ))}
+            {pinned.data?.map(renderChat)}
           </nav>
         </>
       )}

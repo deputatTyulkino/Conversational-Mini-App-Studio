@@ -37,7 +37,7 @@ class CreateMessageService(BaseMessageService):
             if missing:
                 raise AttachmentNotAvailableError(missing)
             for attachment in attached:
-                attachment.attach_to_message(message.id)
+                attachment.attach_to_message(chat_id, message.id)
             message.replace_attachments(attached)
             assistant_message, decision = build_assistant_reply(
                 chat,

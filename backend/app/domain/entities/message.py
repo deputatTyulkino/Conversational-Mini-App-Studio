@@ -82,4 +82,4 @@ class MessageDomain(AggregateRoot):
         )
 
     def replace_attachments(self, attachments: list[AttachmentDomain]) -> None:
-        self.attachments = list(attachments)
+        self.attachments = attachments

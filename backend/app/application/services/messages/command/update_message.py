@@ -54,7 +54,7 @@ class UpdateMessageService(BaseMessageService):
             if missing:
                 raise AttachmentNotAvailableError(missing)
             for attachment in attached:
-                attachment.attach_to_message(message_id)
+                attachment.attach_to_message(chat_id, message_id)
             removed_paths = await uow.attachment.delete_from_message(
                 message_id, removed_ids
             )

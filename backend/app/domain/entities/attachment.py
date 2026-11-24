@@ -4,7 +4,7 @@ from uuid import UUID, uuid4
 
 from app.domain.common import AggregateRoot, utcnow
 from app.domain.events.message_events import (
-    MessageAttachmentConnectedMessage,
+    MessageAttachmentConnected,
     MessageAttachmentCreated,
 )
 from app.domain.exceptions.attachment import AttachmentNotAvailableError
@@ -14,11 +14,11 @@ from app.domain.value_objects.file import StoredFile
 @dataclass(eq=False)
 class AttachmentDomain(AggregateRoot):
     id: UUID
-    chat_id: UUID
     relative_path: str
     original_name: str
     extension: str
     size: int
+    chat_id: UUID | None = None
     message_id: UUID | None = None
     content_type: str | None = None
     created_at: datetime = field(default_factory=utcnow)
@@ -35,11 +35,11 @@ class AttachmentDomain(AggregateRoot):
     @classmethod
     def create(
         cls,
-        chat_id: UUID,
         relative_path: str,
         original_name: str,
         extension: str,
         size: int,
+        chat_id: UUID | None = None,
         content_type: str | None = None,
         message_id: UUID | None = None,
     ):
@@ -56,17 +56,20 @@ class AttachmentDomain(AggregateRoot):
         attachment._record(
             MessageAttachmentCreated(
                 attachment_id=attachment.id,
-                chat_id=attachment.chat_id,
             )
         )
         return attachment
 
-    def attach_to_message(self, message_id: UUID) -> None:
-        if self.message_id not in (None, message_id):
+    def attach_to_message(self, chat_id: UUID, message_id: UUID) -> None:
+        if self.message_id not in (None, message_id) or self.chat_id not in (
+            None,
+            chat_id,
+        ):
             raise AttachmentNotAvailableError([self.id])
+        self.chat_id = chat_id
         self.message_id = message_id
         self._record(
-            MessageAttachmentConnectedMessage(
-                attachment_id=self.id, chat_id=self.chat_id, message_id=message_id
+            MessageAttachmentConnected(
+                attachment_id=self.id, chat_id=chat_id, message_id=message_id
             )
         )

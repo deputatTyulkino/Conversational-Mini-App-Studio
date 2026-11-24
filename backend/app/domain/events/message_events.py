@@ -24,9 +24,9 @@ class MessageContentUpdated(MessageEvent): ...
 @dataclass(frozen=True, kw_only=True)
 class MessageAttachmentCreated(DomainEvent):
     attachment_id: UUID
-    chat_id: UUID
 
 
 @dataclass(frozen=True, kw_only=True)
-class MessageAttachmentConnectedMessage(MessageAttachmentCreated):
+class MessageAttachmentConnected(MessageAttachmentCreated):
     message_id: UUID
+    chat_id: UUID

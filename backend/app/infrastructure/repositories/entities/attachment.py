@@ -60,8 +60,8 @@ class AttachmentRepo(IAttachmentRepo):
             update(AttachmentORM)
             .filter(
                 AttachmentORM.id.in_(attachment_ids),
-                AttachmentORM.chat_id == chat_id,
                 AttachmentORM.message_id.is_(None),
+                (AttachmentORM.chat_id == chat_id or AttachmentORM.chat_id.is_(None)),
             )
             .values(message_id=message_id)
             .returning(AttachmentORM)

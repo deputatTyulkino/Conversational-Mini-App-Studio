@@ -53,11 +53,11 @@ async def get_attachment_endpoint(
     status_code=status.HTTP_201_CREATED,
 )
 async def create_attachment_endpoint(
-    chat_id: Annotated[UUID, Query()],
     file: Annotated[UploadFile, File()],
     create_attachment: Annotated[
         CreateAttachmentService, Depends(create_attachment_service)
     ],
+    chat_id: UUID | None = Query(None),
 ):
     data = await create_attachment(chat_id, file)
     return SuccessResponse(data=data)

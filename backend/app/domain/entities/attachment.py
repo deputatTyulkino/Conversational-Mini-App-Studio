@@ -17,6 +17,7 @@ class AttachmentDomain(AggregateRoot):
     relative_path: str
     original_name: str
     extension: str
+    stored_name: str
     size: int
     chat_id: UUID | None = None
     message_id: UUID | None = None
@@ -26,6 +27,7 @@ class AttachmentDomain(AggregateRoot):
     def to_value_object(self) -> StoredFile:
         return StoredFile(
             relative_path=self.relative_path,
+            stored_name=self.stored_name,
             original_name=self.original_name,
             extension=self.extension,
             content_type=self.content_type,
@@ -38,6 +40,7 @@ class AttachmentDomain(AggregateRoot):
         relative_path: str,
         original_name: str,
         extension: str,
+        stored_name: str,
         size: int,
         chat_id: UUID | None = None,
         content_type: str | None = None,
@@ -47,6 +50,7 @@ class AttachmentDomain(AggregateRoot):
             id=uuid4(),
             chat_id=chat_id,
             message_id=message_id,
+            stored_name=stored_name,
             relative_path=relative_path,
             original_name=original_name,
             extension=extension,

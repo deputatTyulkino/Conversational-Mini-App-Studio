@@ -41,16 +41,15 @@ export function useAttachFiles(scope: string) {
         signal: controller.signal,
         onProgress: (progress) => patchItem(scope, localId, { progress }),
       })
-      .then(({ attachment_id }) => {
-        const stillThere = items.some((item) => item.localId === localId);
-        if (!stillThere) {
-          void attachmentApi.remove(attachment_id).catch(noop);
+      .then(({ id }) => {
+        if (!controllers.has(localId)) {
+          void attachmentApi.remove(id).catch(noop);
           return;
         }
         patchItem(scope, localId, {
           status: "ready",
           progress: 100,
-          attachmentId: attachment_id,
+          attachmentId: id,
         });
       })
       .catch((error: unknown) => {
@@ -97,7 +96,13 @@ export function useAttachFiles(scope: string) {
     if (item && item.status === "error") startUpload(localId, item.file);
   };
 
-  const clear = () => clearItems(scope);
+  const clear = () => {
+    items.forEach((item) => {
+      controllers.get(item.localId)?.abort();
+      controllers.delete(item.localId);
+    });
+    clearItems(scope);
+  };
 
   const dismissRejections = () => setRejections([]);
 

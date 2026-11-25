@@ -1,5 +1,9 @@
 import { api, unwrap, type ApiResponse } from "../../../shared/api";
-import type { AttachmentId, UploadAttachmentParams } from "../model/types";
+import type {
+  Attachment,
+  AttachmentId,
+  UploadAttachmentParams,
+} from "../model/types";
 
 const TRANSFER_TIMEOUT_MS = 120_000;
 
@@ -9,7 +13,7 @@ export const attachmentApi = {
     body.append("file", file);
 
     return api
-      .post<ApiResponse<AttachmentId>>("/attachments", body, {
+      .post<ApiResponse<Attachment>>("/attachments", body, {
         signal,
         timeout: TRANSFER_TIMEOUT_MS,
         headers: { "Content-Type": "multipart/form-data" },

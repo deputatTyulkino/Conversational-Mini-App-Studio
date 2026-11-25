@@ -2,7 +2,7 @@ from typing import Annotated
 from urllib.parse import quote
 from uuid import UUID
 
-from app.application.schemas.entities.attachment import AttachmentIdRead
+from app.application.schemas.entities.attachment import AttachmentIdRead, AttachmentRead
 from app.application.services.attachments.command.create_attachment import (
     CreateAttachmentService,
 )
@@ -49,7 +49,7 @@ async def get_attachment_endpoint(
 
 @router.post(
     "",
-    response_model=SuccessResponse[AttachmentIdRead],
+    response_model=SuccessResponse[AttachmentRead],
     status_code=status.HTTP_201_CREATED,
 )
 async def create_attachment_endpoint(

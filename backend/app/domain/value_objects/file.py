@@ -16,6 +16,7 @@ class IncomingFile(Protocol):
 class StoredFile:
     relative_path: str
     original_name: str
+    stored_name: str
     extension: str
     content_type: str | None
     size: int

@@ -15,11 +15,12 @@ class CreateAttachmentService(BaseAttachmentService):
     ) -> AttachmentRead:
         param: dict[Any, Any] = {"file": file}
         if chat_id is not None:
-            param["chat_id"] = chat_id
+            param["namespace"] = chat_id
         saved_file = await self.file_storage.save(**param)
         attachment = AttachmentDomain.create(
             chat_id=chat_id,
             relative_path=saved_file.relative_path,
+            stored_name=saved_file.stored_name,
             original_name=saved_file.original_name,
             content_type=saved_file.content_type,
             extension=saved_file.extension,

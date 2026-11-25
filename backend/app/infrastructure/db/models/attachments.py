@@ -28,12 +28,13 @@ class AttachmentORM(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    chat_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("chats.id", ondelete="CASCADE"), nullable=False
+    chat_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("chats.id", ondelete="CASCADE"), nullable=True
     )
     message_id: Mapped[uuid.UUID | None] = mapped_column(
         ForeignKey("messages.id", ondelete="CASCADE"), nullable=True
     )
+    stored_name: Mapped[str]
     relative_path: Mapped[str]
     original_name: Mapped[str] = mapped_column(String(MAX_ORIGINAL_NAME_LENGTH))
     content_type: Mapped[str | None] = mapped_column(String(255), nullable=True)
@@ -45,7 +46,9 @@ class AttachmentORM(Base):
     message: Mapped["MessageORM | None"] = relationship(
         back_populates="attachments", lazy="raise"
     )
-    chat: Mapped["ChatORM"] = relationship(back_populates="attachments", lazy="raise")
+    chat: Mapped["ChatORM | None"] = relationship(
+        back_populates="attachments", lazy="raise"
+    )
 
     __table_args__ = (
         CheckConstraint("size > 0", name="size_positive"),

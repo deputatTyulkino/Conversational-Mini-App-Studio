@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     log_json: bool = False
 
-    upload_root: Path = BASE_DIR / "data" / "uploads"
+    upload_root: Path = BASE_DIR / "backend" / "data" / "uploads"
 
     public_base_url: str = "http://localhost:5173"
     frontend_url: str = "http://localhost:5173"

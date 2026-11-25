@@ -23,6 +23,7 @@ class MessageRepo(IMessageRepo):
             id=attachment.id,
             chat_id=attachment.chat_id,
             message_id=attachment.message_id,
+            stored_name=attachment.stored_name,
             relative_path=attachment.relative_path,
             original_name=attachment.original_name,
             content_type=attachment.content_type,

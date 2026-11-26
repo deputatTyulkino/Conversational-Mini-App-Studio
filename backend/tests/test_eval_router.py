@@ -58,7 +58,7 @@ def test_report_confusion_matrix_and_metrics(
     assert [row["text"] for row, _ in errors] == ["1", "2", "3", "5", "8"]
     assert lines == [
         "== пример: 4/9 = 44.4%",
-        "Матрица ошибок (строки — эталон, столбцы — предсказание)",
+        "Матрица ошибок (строки - эталон, столбцы - предсказание)",
         "Метка research_board project_planner data_explorer NONE ASK",
         "research_board 1 2 0 0 0",
         "project_planner 1 1 0 0 0",

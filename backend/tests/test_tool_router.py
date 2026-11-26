@@ -3,7 +3,6 @@ from pathlib import Path
 from uuid import uuid4
 
 import pytest
-
 from app.application.schemas.tool_router.tool_router_schema import (
     RouteDecision,
     RouteFallbackReason,

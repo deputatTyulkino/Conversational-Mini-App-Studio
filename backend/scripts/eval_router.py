@@ -17,6 +17,7 @@ import json
 import random
 import re
 from collections import Counter
+from collections.abc import Callable
 from pathlib import Path
 from uuid import uuid4
 
@@ -35,6 +36,13 @@ from app.application.services.tool_router.tool_router_service import (
 
 CORPUS_DIR = Path(__file__).resolve().parents[2] / "corpus"
 
+LABELS: tuple[str, ...] = (
+    "research_board",
+    "project_planner",
+    "data_explorer",
+    "NONE",
+    "ASK",
+)
 THRESHOLD = 0.55
 MARGIN = 0.10
 
@@ -92,25 +100,55 @@ def short_answer(decision: RouteDecision) -> str:
     return "NONE"
 
 
-def report(title: str, rows: list[dict], router: ToolRouterService) -> list:
+def predicted_label(decision: RouteDecision) -> str:
+    if decision.status is RouteStatus.MATCHED:
+        return str(decision.app_id)
+    if decision.status is RouteStatus.AMBIGUOUS:
+        return "ASK"
+    return "NONE"
+
+
+def format_ratio(correct: int, total: int) -> str:
+    if total == 0:
+        return "—"
+    return f"{correct}/{total} = {correct / total:.1%}"
+
+
+def report(
+    title: str, rows: list[dict], router: Callable[[RouterInput], RouteDecision]
+) -> list:
     errors = []
-    right_by_label: Counter = Counter()
-    total_by_label: Counter = Counter()
+    matrix = {expected: dict.fromkeys(LABELS, 0) for expected in LABELS}
+    correct_ask_pairs = 0
     for row in rows:
         decision = router(
             RouterInput(chat_id=uuid4(), project_id=None, text=row["text"])
         )
-        total_by_label[row["label"]] += 1
-        if is_correct(row, decision):
-            right_by_label[row["label"]] += 1
-        else:
+        expected = row["label"]
+        matrix[expected][predicted_label(decision)] += 1
+        if not is_correct(row, decision):
             errors.append((row, decision))
+        elif expected == "ASK":
+            correct_ask_pairs += 1
 
-    right = sum(right_by_label.values())
-    print(f"\n== {title}: {right}/{len(rows)} = {right / len(rows):.1%}")
-    for label in sorted(total_by_label):
-        r, t = right_by_label[label], total_by_label[label]
-        print(f"   {label:16} {r:3}/{t:<3} {r / t:.0%}")
+    print(f"\n== {title}: {format_ratio(len(rows) - len(errors), len(rows))}")
+    print("\nМатрица ошибок (строки - эталон, столбцы - предсказание)")
+    print(f"{'Метка':<16}" + "".join(f"{label:>16}" for label in LABELS))
+    for expected in LABELS:
+        cells = "".join(f"{matrix[expected][label]:>16}" for label in LABELS)
+        print(f"{expected:<16}{cells}")
+    matrix_total = sum(sum(counts.values()) for counts in matrix.values())
+    print(f"Сумма ячеек: {matrix_total}")
+
+    print(f"\n{'Метка':<16}{'Precision':>21}{'Recall':>21}")
+    for label in LABELS:
+        true_positives = matrix[label][label]
+        predicted = sum(counts[label] for counts in matrix.values())
+        actual = sum(matrix[label].values())
+        precision = format_ratio(true_positives, predicted)
+        recall = format_ratio(true_positives, actual)
+        print(f"{label:<16}{precision:>21}{recall:>21}")
+    print(f"Совпала пара в ASK → ASK: {correct_ask_pairs}/{matrix['ASK']['ASK']}")
     return errors
 
 
